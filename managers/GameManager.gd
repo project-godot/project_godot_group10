@@ -9,6 +9,7 @@ func _ready() -> void:
 func on_button_pressed(button: Button) -> void:
 	match button.name:
 		"ButtonPlay":
+			print('teste')
 			get_tree().change_scene_to_file("")
 			
 		"ButtonControls":
