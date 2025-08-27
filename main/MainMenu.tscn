@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://whq4xtv7pk31"]
 
-[ext_resource type="Script" uid="uid://cwbgh6gd56row" path="res://interface/main_menu.gd" id="1_g8ogf"]
-
-[sub_resource type="FontVariation" id="FontVariation_xxkca"]
+[ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_e0qxd"]
+[ext_resource type="Texture2D" uid="uid://dgomgr1hndemk" path="res://assets/images/ak-removebg-preview.png" id="2_id64e"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,7 +10,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_g8ogf")
 
 [node name="BackGroundColor" type="ColorRect" parent="."]
 layout_mode = 1
@@ -20,31 +18,36 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0.139447, 0.231082, 0.268781, 1)
 
 [node name="ContainerInfo" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -77.5
-offset_top = -40.0
-offset_right = 77.5
+offset_left = -77.0
+offset_top = -49.0
+offset_right = 78.0
+offset_bottom = -9.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 theme_override_constants/separation = 0
 alignment = 1
 
 [node name="TexInfo" type="Label" parent="ContainerInfo"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e0qxd")
+theme_override_font_sizes/font_size = 25
 text = "Feito pelo"
 
 [node name="ButtonInfo" type="Button" parent="ContainerInfo" groups=["button"]]
 modulate = Color(0, 0.592157, 1, 1)
 layout_mode = 2
 focus_mode = 0
+theme_override_fonts/font = ExtResource("1_e0qxd")
+theme_override_font_sizes/font_size = 25
 text = "Grupo 10"
 flat = true
 
@@ -64,32 +67,37 @@ grow_vertical = 2
 
 [node name="GameName" type="Label" parent="MainContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
-text = "Jogo Mui Loko
-"
+theme_override_fonts/font = ExtResource("1_e0qxd")
+theme_override_font_sizes/font_size = 90
+text = "Jogo Mui Loko"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HContainer" type="HBoxContainer" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 alignment = 1
 
 [node name="VContainer" type="VBoxContainer" parent="MainContainer/HContainer"]
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 10
+alignment = 1
 
 [node name="ButtonPlay" type="Button" parent="MainContainer/HContainer/VContainer" groups=["button"]]
 layout_mode = 2
 focus_mode = 0
-theme_override_fonts/font = SubResource("FontVariation_xxkca")
+theme_override_fonts/font = ExtResource("1_e0qxd")
+theme_override_font_sizes/font_size = 35
 text = "Jogar"
 flat = true
 
 [node name="ButtonControls" type="Button" parent="MainContainer/HContainer/VContainer" groups=["button"]]
 layout_mode = 2
 focus_mode = 0
-theme_override_fonts/font = SubResource("FontVariation_xxkca")
+theme_override_fonts/font = ExtResource("1_e0qxd")
+theme_override_font_sizes/font_size = 35
 text = "Controles
 "
 flat = true
@@ -97,6 +105,21 @@ flat = true
 [node name="ButtonQuit" type="Button" parent="MainContainer/HContainer/VContainer" groups=["button"]]
 layout_mode = 2
 focus_mode = 0
-theme_override_fonts/font = SubResource("FontVariation_xxkca")
+theme_override_fonts/font = ExtResource("1_e0qxd")
+theme_override_font_sizes/font_size = 35
 text = "Sair"
 flat = true
+
+[node name="ak" type="Sprite2D" parent="."]
+auto_translate_mode = 2
+position = Vector2(898, 107)
+rotation = 0.698132
+scale = Vector2(0.71045, 0.71045)
+texture = ExtResource("2_id64e")
+
+[node name="ak2" type="Sprite2D" parent="."]
+auto_translate_mode = 2
+position = Vector2(255, 103)
+rotation = -0.698132
+scale = Vector2(0.71, 0.71)
+texture = ExtResource("2_id64e")
