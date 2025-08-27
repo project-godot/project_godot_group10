@@ -1,16 +1,32 @@
-# Godot 4+ specific ignores
+# Godot 4 specific ignores
 .godot/
 .nomedia
 
-# Godot-specific ignores
+# Godot import files (cache)
 .import/
+
+# Export files (gerados ao exportar o jogo)
 export.cfg
+export_presets.cfg
 export_credentials.cfg
 
-# Imported translations (automatically generated from CSV files)
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Arquivos de tradução gerados automaticamente
 *.translation
 
-# Mono-specific ignores
+# Mono (somente se usar C#, pode remover se não usar)
 .mono/
 data_*/
 mono_crash.*.json
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
