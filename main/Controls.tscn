@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://rp6acgwrggiw"]
+[gd_scene load_steps=3 format=3 uid="uid://rp6acgwrggiw"]
 
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_8f2ha"]
+[ext_resource type="PackedScene" uid="uid://ceas8yhy2k6d" path="res://main/BackButton.tscn" id="2_3j33n"]
 
 [node name="Controls" type="Control"]
 layout_mode = 3
@@ -34,7 +35,7 @@ offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 0
-theme_override_constants/separation = 10
+theme_override_constants/separation = 25
 alignment = 1
 
 [node name="HContainer" type="HBoxContainer" parent="VContainer"]
@@ -92,3 +93,10 @@ theme_override_font_sizes/font_size = 60
 text = "- Controles -"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="BackButton" parent="." instance=ExtResource("2_3j33n")]
+layout_mode = 1
+anchors_preset = 1
+offset_left = -117.0
+offset_bottom = 40.0
+scene_path = "res://main/MainMenu.tscn"

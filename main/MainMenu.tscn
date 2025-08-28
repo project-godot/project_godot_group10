@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://whq4xtv7pk31"]
+[gd_scene load_steps=4 format=3 uid="uid://whq4xtv7pk31"]
 
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_e0qxd"]
-[ext_resource type="Texture2D" uid="uid://dgomgr1hndemk" path="res://assets/images/ak-removebg-preview.png" id="2_id64e"]
+[ext_resource type="Script" uid="uid://bpaatyrf5gryf" path="res://main/MainMenu.gd" id="1_xnj2o"]
+[ext_resource type="Texture2D" uid="uid://dgomgr1hndemk" path="res://assets/images/ak.png" id="2_id64e"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_xnj2o")
 
 [node name="BackGroundColor" type="ColorRect" parent="."]
 layout_mode = 1
@@ -121,7 +123,7 @@ flat = true
 
 [node name="ak2" type="Sprite2D" parent="."]
 auto_translate_mode = 2
-position = Vector2(278, 119)
+position = Vector2(278, 115)
 rotation = -0.698132
 scale = Vector2(0.71, 0.71)
 texture = ExtResource("2_id64e")
