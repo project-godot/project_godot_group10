@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://ceas8yhy2k6d"]
+
+[ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_glytj"]
+[ext_resource type="Script" uid="uid://b0dvgk783kiie" path="res://main/BackButton.gd" id="2_pw7mm"]
+
+[node name="BackButton" type="Button" groups=["button"]]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -137.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 80.0
+grow_horizontal = 0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("1_glytj")
+theme_override_font_sizes/font_size = 30
+text = "Volta"
+flat = true
+script = ExtResource("2_pw7mm")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

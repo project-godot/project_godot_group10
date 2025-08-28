@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://tvopkw2op6hj"]
+[gd_scene load_steps=3 format=3 uid="uid://tvopkw2op6hj"]
 
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_r3wop"]
+[ext_resource type="PackedScene" uid="uid://ceas8yhy2k6d" path="res://main/BackButton.tscn" id="2_jr1f4"]
 
 [node name="LevelSelect" type="Control"]
 layout_mode = 3
@@ -151,3 +152,12 @@ text = "Level 19"
 layout_mode = 2
 focus_mode = 0
 text = "Level 20"
+
+[node name="BackButton" parent="." instance=ExtResource("2_jr1f4")]
+layout_mode = 1
+anchors_preset = -1
+offset_left = -87.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 37.0
+scene_path = "res://main/MainMenu.tscn"
