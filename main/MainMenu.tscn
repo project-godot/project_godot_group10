@@ -102,6 +102,15 @@ text = "Controles
 "
 flat = true
 
+[node name="ButtonShop" type="Button" parent="MainContainer/HContainer/VContainer" groups=["button"]]
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("1_e0qxd")
+theme_override_font_sizes/font_size = 35
+text = "SHOP
+"
+flat = true
+
 [node name="ButtonQuit" type="Button" parent="MainContainer/HContainer/VContainer" groups=["button"]]
 layout_mode = 2
 focus_mode = 0
@@ -110,16 +119,9 @@ theme_override_font_sizes/font_size = 35
 text = "Sair"
 flat = true
 
-[node name="ak" type="Sprite2D" parent="."]
-auto_translate_mode = 2
-position = Vector2(898, 107)
-rotation = 0.698132
-scale = Vector2(0.71045, 0.71045)
-texture = ExtResource("2_id64e")
-
 [node name="ak2" type="Sprite2D" parent="."]
 auto_translate_mode = 2
-position = Vector2(255, 103)
+position = Vector2(278, 119)
 rotation = -0.698132
 scale = Vector2(0.71, 0.71)
 texture = ExtResource("2_id64e")
