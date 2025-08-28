@@ -1,0 +1,153 @@
+[gd_scene load_steps=2 format=3 uid="uid://tvopkw2op6hj"]
+
+[ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_r3wop"]
+
+[node name="LevelSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackGroundColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.139447, 0.231082, 0.268781, 1)
+
+[node name="LabelLevelSelect" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 60.0
+offset_right = 100.0
+offset_bottom = 127.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_r3wop")
+theme_override_font_sizes/font_size = 70
+text = "Niveis"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainerlevels" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -548.5
+offset_top = -98.0
+offset_right = 548.5
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 50
+columns = 7
+
+[node name="ButtonLevel1" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 1"
+
+[node name="ButtonLevel2" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 2"
+
+[node name="ButtonLevel3" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 3"
+
+[node name="ButtonLevel4" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 4"
+
+[node name="ButtonLevel5" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 5"
+
+[node name="ButtonLevel6" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 6"
+
+[node name="ButtonLevel7" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 7"
+
+[node name="ButtonLevel8" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 8"
+
+[node name="ButtonLevel9" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 9"
+
+[node name="ButtonLevel10" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 10"
+
+[node name="ButtonLevel11" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 11"
+
+[node name="ButtonLevel12" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 12"
+
+[node name="ButtonLevel13" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 13"
+
+[node name="ButtonLevel14" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 14"
+
+[node name="ButtonLevel15" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 15"
+
+[node name="ButtonLevel16" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 16"
+
+[node name="ButtonLevel17" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 17"
+
+[node name="ButtonLevel18" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 18"
+
+[node name="ButtonLevel19" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 19"
+
+[node name="ButtonLevel20" type="Button" parent="GridContainerlevels"]
+layout_mode = 2
+focus_mode = 0
+text = "Level 20"
