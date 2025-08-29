@@ -96,7 +96,7 @@ vertical_alignment = 1
 
 [node name="BackButton" parent="." instance=ExtResource("2_3j33n")]
 layout_mode = 1
-anchors_preset = 1
-offset_left = -117.0
-offset_bottom = 40.0
+offset_left = -102.0
+offset_right = -15.0
+offset_bottom = 57.0
 scene_path = "res://main/MainMenu.tscn"

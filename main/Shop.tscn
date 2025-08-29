@@ -38,6 +38,7 @@ vertical_alignment = 1
 
 [node name="BackButton" parent="." instance=ExtResource("1_pdlai")]
 layout_mode = 1
-offset_left = -117.0
-offset_bottom = 60.0
+offset_left = -102.0
+offset_right = -15.0
+offset_bottom = 57.0
 scene_path = "res://main/MainMenu.tscn"

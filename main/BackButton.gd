@@ -6,13 +6,15 @@ func _ready() -> void:
 	for button in get_tree().get_nodes_in_group("button"):
 		button.mouse_exited.connect(mouse_interaction.bind(button, "exited"))
 		button.mouse_entered.connect(mouse_interaction.bind(button, "entered"))
-	
+
+# função de clicar e ir para a tela anterior
 func _on_pressed():
 	if not scene_path.is_empty():
 		get_tree().change_scene_to_file(scene_path)
 	else:
 		print("Caminho da cena não definido no Inspector do botão!")
 
+# função de interação do mouse
 func mouse_interaction(button: Button, state: String) -> void:
 	match state:
 		"exited":

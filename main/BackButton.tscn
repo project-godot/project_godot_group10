@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b0dvgk783kiie" path="res://main/BackButton.gd" id="2_pw7mm"]
 
 [node name="BackButton" type="Button" groups=["button"]]
-anchors_preset = -1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -137.0
