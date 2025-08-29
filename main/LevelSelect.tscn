@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://tvopkw2op6hj"]
+[gd_scene load_steps=4 format=3 uid="uid://tvopkw2op6hj"]
 
+[ext_resource type="Script" uid="uid://r0kwag4jl4lk" path="res://main/LevelSelect.gd" id="1_23mlb"]
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_r3wop"]
 [ext_resource type="PackedScene" uid="uid://ceas8yhy2k6d" path="res://main/BackButton.tscn" id="2_jr1f4"]
 
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_23mlb")
 
 [node name="BackGroundColor" type="ColorRect" parent="."]
 layout_mode = 1
@@ -26,9 +28,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -100.0
-offset_top = 60.0
+offset_top = 70.0
 offset_right = 100.0
-offset_bottom = 127.0
+offset_bottom = 137.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("1_r3wop")
 theme_override_font_sizes/font_size = 70
@@ -43,15 +45,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -548.5
-offset_top = -98.0
-offset_right = 548.5
-offset_bottom = 98.0
+offset_left = -317.5
+offset_top = -74.0
+offset_right = 317.5
+offset_bottom = 170.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 100
-theme_override_constants/v_separation = 50
-columns = 7
+theme_override_constants/h_separation = 70
+theme_override_constants/v_separation = 40
+columns = 5
 
 [node name="ButtonLevel1" type="Button" parent="GridContainerlevels"]
 layout_mode = 2
@@ -155,9 +157,7 @@ text = "Level 20"
 
 [node name="BackButton" parent="." instance=ExtResource("2_jr1f4")]
 layout_mode = 1
-anchors_preset = -1
-offset_left = -87.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 37.0
+offset_left = -102.0
+offset_right = -15.0
+offset_bottom = 57.0
 scene_path = "res://main/MainMenu.tscn"

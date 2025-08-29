@@ -6,6 +6,7 @@ func _ready() -> void:
 		button.mouse_exited.connect(mouse_interaction.bind(button, "exited"))
 		button.mouse_entered.connect(mouse_interaction.bind(button, "entered"))
 
+# função de ir para cada botão
 func on_button_pressed(button: Button) -> void:
 	match button.name:
 		"ButtonPlay":
@@ -19,6 +20,7 @@ func on_button_pressed(button: Button) -> void:
 		"ButtonInfo":
 			OS.shell_open("https://media.licdn.com/dms/image/v2/C4E12AQGC77I_ni5vhQ/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1547650472214?e=2147483647&v=beta&t=0IqtSeF59nVecE6-YVnVH1Pp2hw207O-eilh6pQaAMA")
 
+# função de interação do mouse
 func mouse_interaction(button: Button, state: String) -> void:
 	match state:
 		"exited":
