@@ -32,5 +32,4 @@ func setup_level_buttons() -> void:
 
 #  função de inicar nivel
 func start_level(level_number: int) -> void:
-	print("Iniciando nível: ", level_number)
 	get_tree().change_scene_to_file("res://levels/level" + str(level_number) + ".tscn")
