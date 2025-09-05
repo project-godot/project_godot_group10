@@ -1,5 +1,5 @@
 class_name LevelManager
-extends RefCounted
+extends Node
 
 # setando que apenas 1 nivel é desbloqueado
 var unlocked_levels: int = 1
