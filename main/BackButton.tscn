@@ -18,5 +18,6 @@ theme_override_font_sizes/font_size = 30
 text = "Volta"
 flat = true
 script = ExtResource("2_pw7mm")
+scene_path = "res://main/LevelSelect.tscn"
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

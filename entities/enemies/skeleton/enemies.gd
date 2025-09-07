@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-# Estados do inimigo
 enum State { PATROL, CHASE, ATTACK }
 
 @onready var animated_sprite = $AnimatedSprite2D
@@ -9,32 +8,29 @@ enum State { PATROL, CHASE, ATTACK }
 @onready var ledge_check = $LedgeCheck
 @onready var attack_timer = $AttackTimer
 
-# Propriedades do inimigo
 const SPEED = 50.0
 const ATTACK_RANGE = 40.0
-var direction_x = 1 # 1 para a direita, -1 para a esquerda
+const PATROL_DISTANCE = 50.0 
+var direction_x = 1 
 var player_node = null
 var current_state = State.PATROL
-
-# Variável de controle para o ataque
+var start_position: Vector2 
+var left_limit: float  
+var right_limit: float  
 var attack_can_start = true
 
 func _ready():
-	# Conecta os sinais das áreas de detecção
+	start_position = position
+	left_limit = start_position.x - PATROL_DISTANCE
+	right_limit = start_position.x + PATROL_DISTANCE
+	
 	detection_area.body_entered.connect(_on_detection_area_body_entered)
 	detection_area.body_exited.connect(_on_detection_area_body_exited)
 
-	# Conecta o sinal do timer para permitir um novo ataque
-	attack_timer.timeout.connect(func():
-		attack_can_start = true
-	)
-
 func _physics_process(delta):
-	# Lógica de gravidade
 	if not is_on_floor():
 		velocity.y += 980 * delta
 	
-	# Lógica de estados
 	match current_state:
 		State.PATROL:
 			patrol_state(delta)
@@ -45,21 +41,20 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-# --- Estados do Inimigo ---
-
 func patrol_state(_delta):
-	# Virar se estiver perto de cair
+	if position.x <= left_limit:
+		direction_x = 1
+	elif position.x >= right_limit:
+		direction_x = -1
+	
 	if is_on_floor() and not ledge_check.is_colliding():
 		direction_x *= -1
 			
-	# Animação de caminhada
 	animated_sprite.flip_h = direction_x < 0
 	animated_sprite.play("walk")
-	
 	velocity.x = direction_x * SPEED
 
 func chase_state(_delta):
-	# Transição para o estado de ataque
 	if player_node:
 		var distance_to_player = position.distance_to(player_node.position)
 		if distance_to_player < ATTACK_RANGE and attack_can_start:
@@ -67,13 +62,17 @@ func chase_state(_delta):
 			attack_can_start = false
 			return
 		
-		# Move em direção ao jogador
-		direction_x = sign(player_node.position.x - position.x)
-		animated_sprite.flip_h = direction_x < 0
-		velocity.x = direction_x * SPEED
-		animated_sprite.play("walk")
+		var target_direction = sign(player_node.position.x - position.x)
+		
+		if player_node.position.x >= left_limit and player_node.position.x <= right_limit:
+			direction_x = target_direction
+			animated_sprite.flip_h = direction_x < 0
+			velocity.x = direction_x * SPEED
+			animated_sprite.play("walk")
+		else:
+			current_state = State.PATROL
+			animated_sprite.play("idle")
 	else:
-		# Volta à patrulha se o jogador não for mais detectado
 		current_state = State.PATROL
 		animated_sprite.play("idle")
 
@@ -82,8 +81,6 @@ func attack_state(_delta):
 	animated_sprite.play("attack")
 	attack_timer.start()
 	current_state = State.CHASE
-
-# --- Funções de Detecção ---
 
 func _on_detection_area_body_entered(body):
 	if body.is_in_group("player"):

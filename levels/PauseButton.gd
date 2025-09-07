@@ -1,19 +1,21 @@
-extends Button
+extends CanvasLayer
+
+@onready var button = $Button
 
 func _ready() -> void:
-	for button in get_tree().get_nodes_in_group("button"):
-		button.mouse_exited.connect(mouse_interaction.bind(button, "exited"))
-		button.mouse_entered.connect(mouse_interaction.bind(button, "entered"))
+	button.mouse_exited.connect(_on_mouse_exited)
+	button.mouse_entered.connect(_on_mouse_entered)
+	button.pressed.connect(_on_pressed)
 
-# função de abrir a pop up de Pause Menu
+# função abrir o menu de pause
 func _on_pressed():
-	get_tree().change_scene_to_file("res://levels/PauseMenu.tscn")
-	
+	get_tree().paused = true
+	var pause_menu = preload("res://levels/PauseMenu.tscn").instantiate()
+	get_tree().current_scene.add_child(pause_menu)
 
 # função de interação do mouse
-func mouse_interaction(button: Button, state: String) -> void:
-	match state:
-		"exited":
-			button.modulate.a = 1.0
-		"entered":
-			button.modulate.a = 0.5
+func _on_mouse_exited():
+	button.modulate.a = 1.0
+
+func _on_mouse_entered():
+	button.modulate.a = 0.5

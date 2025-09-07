@@ -3,16 +3,18 @@
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_tdek3"]
 [ext_resource type="Script" uid="uid://c6ynb37gblje7" path="res://levels/PauseButton.gd" id="2_u0q8m"]
 
-[node name="PauseButton" type="Button"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 28.0
-offset_bottom = 28.0
-focus_mode = 0
-theme_override_fonts/font = ExtResource("1_tdek3")
-theme_override_font_sizes/font_size = 30
-text = "PAUSE"
-flat = true
+[node name="PauseButton" type="CanvasLayer"]
 script = ExtResource("2_u0q8m")
 
-[connection signal="pressed" from="." to="." method="_on_pressed"]
+[node name="Button" type="Button" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 120.0
+offset_bottom = 50.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("1_tdek3")
+theme_override_font_sizes/font_size = 20
+text = "PAUSE"
+flat = true
+
+[connection signal="pressed" from="Button" to="." method="_on_pressed"]
