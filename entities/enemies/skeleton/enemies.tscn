@@ -1,12 +1,12 @@
 [gd_scene load_steps=67 format=3 uid="uid://brwre3tdq32m0"]
 
-[ext_resource type="Script" uid="uid://bn82wv2of6sl6" path="res://scripts/enemies.gd" id="1_1motl"]
-[ext_resource type="Texture2D" uid="uid://b0yoj67pljqgj" path="res://sprites/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Attack1.png" id="2_1motl"]
-[ext_resource type="Texture2D" uid="uid://bdfy8veki3204" path="res://sprites/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Attack2.png" id="3_81whm"]
-[ext_resource type="Texture2D" uid="uid://ci074ahnff508" path="res://sprites/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Die.png" id="4_id1sm"]
-[ext_resource type="Texture2D" uid="uid://ykpxdr4uvysu" path="res://sprites/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Hurt.png" id="5_f5kih"]
-[ext_resource type="Texture2D" uid="uid://civ88x0l81tf3" path="res://sprites/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Idle.png" id="5_nhfgd"]
-[ext_resource type="Texture2D" uid="uid://5e6lrce3d7yo" path="res://sprites/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Walk.png" id="7_c85bl"]
+[ext_resource type="Script" uid="uid://bn82wv2of6sl6" path="res://entities/enemies/skeleton/enemies.gd" id="1_1motl"]
+[ext_resource type="Texture2D" uid="uid://b0yoj67pljqgj" path="res://assets/sprites/skeleton/Skeleton_01_White_Attack1.png" id="2_1motl"]
+[ext_resource type="Texture2D" uid="uid://bdfy8veki3204" path="res://assets/sprites/skeleton/Skeleton_01_White_Attack2.png" id="3_81whm"]
+[ext_resource type="Texture2D" uid="uid://ci074ahnff508" path="res://assets/sprites/skeleton/Skeleton_01_White_Die.png" id="4_id1sm"]
+[ext_resource type="Texture2D" uid="uid://ykpxdr4uvysu" path="res://assets/sprites/skeleton/Skeleton_01_White_Hurt.png" id="5_f5kih"]
+[ext_resource type="Texture2D" uid="uid://civ88x0l81tf3" path="res://assets/sprites/skeleton/Skeleton_01_White_Idle.png" id="5_nhfgd"]
+[ext_resource type="Texture2D" uid="uid://5e6lrce3d7yo" path="res://assets/sprites/skeleton/Skeleton_01_White_Walk.png" id="7_c85bl"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k0ue2"]
 radius = 11.0
@@ -431,7 +431,7 @@ radius = 111.072
 [sub_resource type="CircleShape2D" id="CircleShape2D_81whm"]
 radius = 28.0713
 
-[node name="Enemies" type="CharacterBody2D" groups=["player"]]
+[node name="Enemies" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_1motl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -441,7 +441,6 @@ shape = SubResource("CapsuleShape2D_k0ue2")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_11o65")
 animation = &"attack"
-frame = 18
 frame_progress = 1.0
 
 [node name="DetectionArea" type="Area2D" parent="."]

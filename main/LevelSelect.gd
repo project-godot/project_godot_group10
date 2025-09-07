@@ -7,7 +7,8 @@ extends Control
 var level_manager: LevelManager
 
 func _ready() -> void:
-	level_manager = LevelManager.new()
+	# Usa o LevelManager global em vez de criar uma nova instância
+	level_manager = ManagerLevel
 	setup_level_buttons()
 
 # definir se nivel está bloqueado/desbloqueado

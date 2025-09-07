@@ -1,9 +1,8 @@
-[gd_scene load_steps=82 format=3 uid="uid://ddo8h76do7fvg"]
+[gd_scene load_steps=71 format=3 uid="uid://ddo8h76do7fvg"]
 
 [ext_resource type="Script" uid="uid://c8oqq1mt4u7xs" path="res://entities/Player/player.gd" id="1_merdl"]
 [ext_resource type="Texture2D" uid="uid://c6qhkm17pqajk" path="res://assets/skins/default/ATTACK 1.png" id="2_x08pd"]
 [ext_resource type="Texture2D" uid="uid://hkpxvbbho25j" path="res://assets/skins/default/ATTACK 2.png" id="3_dchgp"]
-[ext_resource type="Texture2D" uid="uid://c5fkrtqrdgeph" path="res://assets/skins/default/ATTACK 3.png" id="4_kdgjc"]
 [ext_resource type="Texture2D" uid="uid://t0t0udmqd5xx" path="res://assets/skins/default/DEATH.png" id="5_q0i8f"]
 [ext_resource type="Texture2D" uid="uid://4d2pgyyp2qh6" path="res://assets/skins/default/DEFEND.png" id="6_0i614"]
 [ext_resource type="Texture2D" uid="uid://coguxb243hgqr" path="res://assets/skins/default/HURT.png" id="7_oprnr"]
@@ -42,46 +41,6 @@ region = Rect2(480, 0, 96, 84)
 [sub_resource type="AtlasTexture" id="AtlasTexture_7db53"]
 atlas = ExtResource("3_dchgp")
 region = Rect2(0, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_plaij"]
-atlas = ExtResource("3_dchgp")
-region = Rect2(96, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ib8tg"]
-atlas = ExtResource("3_dchgp")
-region = Rect2(192, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rcwxb"]
-atlas = ExtResource("3_dchgp")
-region = Rect2(288, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d2i2q"]
-atlas = ExtResource("3_dchgp")
-region = Rect2(384, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mdqif"]
-atlas = ExtResource("4_kdgjc")
-region = Rect2(0, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_egchw"]
-atlas = ExtResource("4_kdgjc")
-region = Rect2(96, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ykqge"]
-atlas = ExtResource("4_kdgjc")
-region = Rect2(192, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sn2x3"]
-atlas = ExtResource("4_kdgjc")
-region = Rect2(288, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_y10x8"]
-atlas = ExtResource("4_kdgjc")
-region = Rect2(384, 0, 96, 84)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1sc42"]
-atlas = ExtResource("4_kdgjc")
-region = Rect2(480, 0, 96, 84)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0t50q"]
 atlas = ExtResource("5_q0i8f")
@@ -306,36 +265,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7db53")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_plaij")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ib8tg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rcwxb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d2i2q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mdqif")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_egchw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ykqge")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sn2x3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_y10x8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1sc42")
 }],
 "loop": false,
 "name": &"attack",
@@ -541,7 +470,9 @@ shape = SubResource("CapsuleShape2D_b0kkn")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_b4d0x")
-animation = &"jump"
+animation = &"attack"
+frame = 6
+frame_progress = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(11, -2)
@@ -558,5 +489,5 @@ shape = SubResource("CircleShape2D_x08pd")
 debug_color = Color(0.867464, 0.00054407, 0.856709, 0.42)
 
 [node name="AttackTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 0.5
 one_shot = true

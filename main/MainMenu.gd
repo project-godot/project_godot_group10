@@ -1,7 +1,9 @@
 extends Control
 
 func _ready() -> void:
-	for button in get_tree().get_nodes_in_group("button"):
+	# Conecta os botões do menu principal
+	var buttons = get_tree().get_nodes_in_group("button")
+	for button in buttons:
 		button.pressed.connect(on_button_pressed.bind(button))
 		button.mouse_exited.connect(mouse_interaction.bind(button, "exited"))
 		button.mouse_entered.connect(mouse_interaction.bind(button, "entered"))

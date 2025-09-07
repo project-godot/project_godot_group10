@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=4 uid="uid://hi7yq8qpvneb"]
+[gd_scene load_steps=15 format=4 uid="uid://hi7yq8qpvneb"]
 
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="1_k42x3"]
+[ext_resource type="Script" uid="uid://drw61dfdcygo" path="res://levels/Level1.gd" id="1_level_script"]
 [ext_resource type="TileSet" uid="uid://cfx05y1f4gsyc" path="res://assets/tiles/terrain.tres" id="2_tnu0t"]
 [ext_resource type="Texture2D" uid="uid://b1ditokvcbgdr" path="res://assets/sprites/backGround/level1/1.png" id="4_hdk64"]
 [ext_resource type="Texture2D" uid="uid://brd1vepsn50c0" path="res://assets/sprites/backGround/level1/2.png" id="5_tnu0t"]
@@ -11,11 +12,13 @@
 [ext_resource type="PackedScene" uid="uid://keb0kkiwdugd" path="res://assets/items/coin.tscn" id="10_el8er"]
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="11_yydhl"]
 [ext_resource type="PackedScene" uid="uid://brwre3tdq32m0" path="res://entities/enemies/skeleton/enemies.tscn" id="13_rey0q"]
+[ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_score"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvy1k"]
 size = Vector2(15, 910)
 
 [node name="The forest" type="Node2D"]
+script = ExtResource("1_level_script")
 
 [node name="coins" type="Node2D" parent="."]
 
@@ -109,3 +112,5 @@ tile_map_data = PackedByteArray("AAAEABAAAgAAAAAAAAA=")
 tile_set = ExtResource("9_qfova")
 
 [node name="PauseButton" parent="." instance=ExtResource("11_yydhl")]
+
+[node name="ScoreDisplay" parent="." instance=ExtResource("14_score")]

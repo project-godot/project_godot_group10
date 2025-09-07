@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://pv7flms16j6d"]
+
+[ext_resource type="Script" uid="uid://cw1oqk8o0nyw3" path="res://levels/ScoreDisplay.gd" id="1_score_script"]
+[ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="2_font"]
+
+[node name="ScoreDisplay" type="CanvasLayer"]
+script = ExtResource("1_score_script")
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -90.0
+offset_right = 90.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "Score: 0"
+vertical_alignment = 1

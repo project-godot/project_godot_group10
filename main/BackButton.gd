@@ -3,21 +3,17 @@ extends Button
 @export var scene_path: String
 
 func _ready() -> void:
-	for button in get_tree().get_nodes_in_group("button"):
-		button.mouse_exited.connect(mouse_interaction.bind(button, "exited"))
-		button.mouse_entered.connect(mouse_interaction.bind(button, "entered"))
+	mouse_exited.connect(_on_mouse_exited)
+	mouse_entered.connect(_on_mouse_entered)
+	pressed.connect(_on_pressed)
 
-# função de clicar e ir para a tela anterior
 func _on_pressed():
 	if not scene_path.is_empty():
 		get_tree().change_scene_to_file(scene_path)
-	else:
-		print("Caminho da cena não definido no Inspector do botão!")
 
 # função de interação do mouse
-func mouse_interaction(button: Button, state: String) -> void:
-	match state:
-		"exited":
-			button.modulate.a = 1.0
-		"entered":
-			button.modulate.a = 0.5
+func _on_mouse_exited():
+	modulate.a = 1.0
+
+func _on_mouse_entered():
+	modulate.a = 0.5
