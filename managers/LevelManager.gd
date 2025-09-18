@@ -1,7 +1,7 @@
 class_name LevelManager
 extends Node
 
-var unlocked_levels: int = 1
+var unlocked_levels: int = 3
 
 func get_max_unlocked_level() -> int:
 	return unlocked_levels

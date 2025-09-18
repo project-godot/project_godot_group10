@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var attack_timer = $AttackTimer
 
 var is_attacking = false
-const SPEED = 200.0
+const SPEED = 900.0
 const JUMP_VELOCITY = -400.0
 const GRAVITY = 980.0
 const JUMP_BUFFER_TIME = 0.1
