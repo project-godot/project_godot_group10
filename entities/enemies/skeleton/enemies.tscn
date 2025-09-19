@@ -336,7 +336,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_62xpn")
 }],
-"loop": true,
+"loop": false,
 "name": &"die",
 "speed": 10.0
 }, {
@@ -356,7 +356,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wt4gb")
 }],
-"loop": true,
+"loop": false,
 "name": &"hurt",
 "speed": 10.0
 }, {
@@ -385,7 +385,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vphtj")
 }],
-"loop": true,
+"loop": false,
 "name": &"idle",
 "speed": 10.0
 }, {
@@ -420,7 +420,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oi1kh")
 }],
-"loop": true,
+"loop": false,
 "name": &"walk",
 "speed": 10.0
 }]
@@ -440,8 +440,7 @@ shape = SubResource("CapsuleShape2D_k0ue2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_11o65")
-animation = &"attack"
-frame_progress = 1.0
+animation = &"walk"
 
 [node name="DetectionArea" type="Area2D" parent="."]
 
@@ -458,7 +457,7 @@ shape = SubResource("CircleShape2D_81whm")
 debug_color = Color(4.13924e-06, 0.563705, 0.872391, 0.42)
 
 [node name="LedgeCheck" type="RayCast2D" parent="."]
-position = Vector2(12, 1)
+position = Vector2(17, -2)
 target_position = Vector2(0, 38)
 
 [node name="AttackTimer" type="Timer" parent="."]

@@ -457,7 +457,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x08pd"]
-radius = 20.025
+radius = 21.0238
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(1.5, 1.5)
@@ -471,9 +471,7 @@ shape = SubResource("CapsuleShape2D_b0kkn")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_b4d0x")
-animation = &"attack"
-frame = 6
-frame_progress = 1.0
+animation = &"death"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(11, -2)
