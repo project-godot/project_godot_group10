@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=4 uid="uid://dbwkj5l4tuvm2"]
+[gd_scene load_steps=112 format=4 uid="uid://dbwkj5l4tuvm2"]
 
 [ext_resource type="Texture2D" uid="uid://bk0yoj8o2s2cs" path="res://assets/sprites/backGround/level3/bg.png" id="1_lxyii"]
 [ext_resource type="Texture2D" uid="uid://caqbeqkxhx6it" path="res://assets/sprites/backGround/level3/myst.png" id="2_rak4e"]
@@ -57,6 +57,7 @@
 [ext_resource type="Texture2D" uid="uid://wsbxhg81arwy" path="res://assets/sprites/terrain/level3/lava/lava_tile8.png" id="55_jfcl3"]
 [ext_resource type="Texture2D" uid="uid://cdgqbe5o0xsf3" path="res://assets/sprites/terrain/level3/lava/lava_tile9.png" id="56_pcrs2"]
 [ext_resource type="Texture2D" uid="uid://dp3qk1gv1yirj" path="res://assets/sprites/terrain/level3/lava/lava_tile10.png" id="57_ybuo5"]
+[ext_resource type="PackedScene" uid="uid://brwre3tdq32m0" path="res://entities/enemies/skeleton/enemies.tscn" id="58_uidrn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lxyii"]
 size = Vector2(20, 655)
@@ -596,7 +597,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 7680, 540)
 
 [node name="Player" parent="." instance=ExtResource("7_rhrgi")]
-position = Vector2(88, 48)
+position = Vector2(38, 573)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -612,3 +613,12 @@ position = Vector2(-15, 12)
 tile_map_data = PackedByteArray("AAAAACcAHAAAAAAAAAAAAAkAAAAAAAAAAAABAAkAAQAAAAAAAAACAAkAAQAAAAAAAAADAAkAAQAAAAAAAAAEAAkAAQAAAAAAAAAFAAkADAAAAAAAAAAFAAgAAAAAAAAAAAAGAAgAAQAAAAAAAAAHAAgAAQAAAAAAAAAGAAkABAAAAAAAAAAHAAkABAAAAAAAAAAIAAgAAgAAAAAAAAAIAAkABQAAAAAAAAALAAgAAAAAAAAAAAAMAAgAAQAAAAAAAAANAAgAAQAAAAAAAAAOAAgAAQAAAAAAAAALAAkAAwAAAAAAAAAOAAkABAAAAAAAAAAMAAkABAAAAAAAAAANAAkABAAAAAAAAAAQAAgAAgAAAAAAAAAPAAgAAQAAAAAAAAAQAAkABQAAAAAAAAAPAAkABAAAAAAAAAASAAcAHAAAAAAAAAATAAcAGgAAAAAAAAAUAAcAEQAAAAAAAAAUAAgAIwAAAAAAAAAVAAcAGgAAAAAAAAAWAAcAGgAAAAAAAAAUAAYAGAAAAAAAAAAVAAYAHQAAAAAAAAAWAAYAGgAAAAAAAAAXAAYAGQAAAAAAAAAXAAcAFgAAAAAAAAAYAAcAGgAAAAAAAAAZAAcAGgAAAAAAAAAaAAcAGgAAAAAAAAAbAAcAEQAAAAAAAAAbAAYAHwAAAAAAAAAbAAgAIgAAAAAAAAAbAAkAIgAAAAAAAAAcAAcAHgAAAAAAAAAbAAoAIwAAAAAAAAAfAAkAAAAAAAAAAAAdAAgAGwAAAAAAAAAgAAkAAQAAAAAAAAAhAAkAAQAAAAAAAAAiAAkAAQAAAAAAAAAjAAkAAQAAAAAAAAAkAAkAAQAAAAAAAAAmAAgAAAAAAAAAAAAmAAkAAwAAAAAAAAAnAAgAAQAAAAAAAAAoAAgAAQAAAAAAAAAnAAkABAAAAAAAAAAoAAkABAAAAAAAAAA=")
 tile_set = SubResource("TileSet_p76xp")
 rendering_quadrant_size = 64
+
+[node name="Enemies" parent="." instance=ExtResource("58_uidrn")]
+position = Vector2(884, 506)
+
+[node name="Enemies2" parent="." instance=ExtResource("58_uidrn")]
+position = Vector2(1630, 441)
+
+[node name="Enemies3" parent="." instance=ExtResource("58_uidrn")]
+position = Vector2(424, 507)
