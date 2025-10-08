@@ -72,3 +72,11 @@ func _open_pause_menu():
 	get_tree().paused = true
 	var pause_menu = preload("res://levels/PauseMenu.tscn").instantiate()
 	get_tree().current_scene.add_child(pause_menu)
+
+func take_damage(damage: int):
+	print("Jogador recebeu ", damage, " de dano!")
+	# Aqui você pode implementar seu sistema de vida
+	# Por exemplo:
+	# health -= damage
+	# if health <= 0:
+	#     die()
