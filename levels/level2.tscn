@@ -136,6 +136,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 7424, 793)
 
 [node name="Player" parent="." instance=ExtResource("11_hfi3b")]
+position = Vector2(131, 356)
 
 [node name="Terrain2" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_hq01p")
