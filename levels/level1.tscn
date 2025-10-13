@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="1_k42x3"]
 [ext_resource type="Script" uid="uid://drw61dfdcygo" path="res://levels/Level1.gd" id="1_level_script"]
 [ext_resource type="TileSet" uid="uid://cfx05y1f4gsyc" path="res://assets/tiles/terrain.tres" id="2_tnu0t"]
-[ext_resource type="PackedScene" uid="uid://brwre3tdq32m0" path="res://entities/enemies/skeleton/enemies.tscn" id="3_yydhl"]
+[ext_resource type="PackedScene" uid="uid://brwre3tdq32m0" path="res://entities/enemies/skeleton/skeleton.tscn" id="3_yydhl"]
 [ext_resource type="Texture2D" uid="uid://b1ditokvcbgdr" path="res://assets/sprites/backGround/level1/1.png" id="4_hdk64"]
 [ext_resource type="Texture2D" uid="uid://brd1vepsn50c0" path="res://assets/sprites/backGround/level1/2.png" id="5_tnu0t"]
 [ext_resource type="Texture2D" uid="uid://baanme7oiqtlc" path="res://assets/sprites/backGround/level1/3.png" id="6_0gphp"]
