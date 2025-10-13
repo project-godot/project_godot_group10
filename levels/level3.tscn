@@ -1,4 +1,4 @@
-[gd_scene load_steps=277 format=4 uid="uid://dbwkj5l4tuvm2"]
+[gd_scene load_steps=279 format=4 uid="uid://dbwkj5l4tuvm2"]
 
 [ext_resource type="Texture2D" uid="uid://bk0yoj8o2s2cs" path="res://assets/sprites/backGround/level3/bg.png" id="1_lxyii"]
 [ext_resource type="Texture2D" uid="uid://caqbeqkxhx6it" path="res://assets/sprites/backGround/level3/myst.png" id="2_rak4e"]
@@ -138,6 +138,8 @@
 [ext_resource type="Texture2D" uid="uid://d06betilk2alp" path="res://assets/sprites/decoration/level3/trap5.png" id="99_e4o30"]
 [ext_resource type="Texture2D" uid="uid://bxmqgragb7mbt" path="res://assets/sprites/decoration/level3/trap6.png" id="100_u0w1i"]
 [ext_resource type="PackedScene" uid="uid://d3koiecsrm2wp" path="res://entities/enemies/necromancer/necromancer.tscn" id="138_v1val"]
+[ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="139_jwnsp"]
+[ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="140_jwnsp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lxyii"]
 size = Vector2(20, 655)
@@ -1793,13 +1795,13 @@ tile_set = SubResource("TileSet_p76xp")
 rendering_quadrant_size = 64
 
 [node name="Skeleton1" parent="." instance=ExtResource("58_uidrn")]
-position = Vector2(884, 506)
+position = Vector2(886, 498)
 
 [node name="Skeleton2" parent="." instance=ExtResource("58_uidrn")]
-position = Vector2(1630, 441)
+position = Vector2(1627, 435)
 
 [node name="Skeleton3" parent="." instance=ExtResource("58_uidrn")]
-position = Vector2(424, 507)
+position = Vector2(424, 502)
 
 [node name="Torch" type="AnimatedSprite2D" parent="."]
 position = Vector2(287, 573)
@@ -1822,4 +1824,8 @@ z_index = 1
 position = Vector2(4960, 291)
 
 [node name="necromancer" parent="." instance=ExtResource("138_v1val")]
-position = Vector2(4820, 385)
+position = Vector2(4824, 376)
+
+[node name="ScoreDisplay" parent="." instance=ExtResource("139_jwnsp")]
+
+[node name="PauseButton" parent="." instance=ExtResource("140_jwnsp")]

@@ -440,12 +440,14 @@ shape = SubResource("CapsuleShape2D_k0ue2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_11o65")
-animation = &"attack"
+animation = &"walk"
+frame = 9
+frame_progress = 1.0
 
 [node name="DetectionArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-position = Vector2(-4, 9)
+position = Vector2(-3, 9)
 shape = SubResource("CircleShape2D_1motl")
 debug_color = Color(0.987604, 0, 0.311214, 0.42)
 
