@@ -9,8 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://5e6lrce3d7yo" path="res://assets/sprites/skeleton/Skeleton_01_White_Walk.png" id="7_c85bl"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k0ue2"]
-radius = 11.0
-height = 44.0
+radius = 20.0
+height = 92.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vlg0m"]
 atlas = ExtResource("2_1motl")
@@ -429,9 +429,9 @@ animations = [{
 radius = 111.072
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_81whm"]
-radius = 28.0713
+radius = 314.006
 
-[node name="Enemies" type="CharacterBody2D" groups=["enemies"]]
+[node name="skeleton" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_1motl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -440,7 +440,7 @@ shape = SubResource("CapsuleShape2D_k0ue2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_11o65")
-animation = &"walk"
+animation = &"attack"
 
 [node name="DetectionArea" type="Area2D" parent="."]
 
