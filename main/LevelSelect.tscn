@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://tvopkw2op6hj"]
+[gd_scene load_steps=5 format=3 uid="uid://tvopkw2op6hj"]
 
 [ext_resource type="Script" uid="uid://r0kwag4jl4lk" path="res://main/LevelSelect.gd" id="1_23mlb"]
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_r3wop"]
 [ext_resource type="PackedScene" uid="uid://ceas8yhy2k6d" path="res://main/BackButton.tscn" id="2_jr1f4"]
+[ext_resource type="Texture2D" uid="uid://dayu6qag78j12" path="res://assets/images/ajustada.jpg" id="2_nj440"]
 
 [node name="LevelSelect" type="Control"]
 layout_mode = 3
@@ -13,14 +14,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_23mlb")
 
-[node name="BackGroundColor" type="ColorRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.139447, 0.231082, 0.268781, 1)
+texture = ExtResource("2_nj440")
+expand_mode = 1
 
 [node name="LabelLevelSelect" type="Label" parent="."]
 layout_mode = 1

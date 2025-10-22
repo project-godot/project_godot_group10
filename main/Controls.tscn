@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://rp6acgwrggiw"]
+[gd_scene load_steps=4 format=3 uid="uid://rp6acgwrggiw"]
 
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_8f2ha"]
+[ext_resource type="Texture2D" uid="uid://dayu6qag78j12" path="res://assets/images/ajustada.jpg" id="1_sctdc"]
 [ext_resource type="PackedScene" uid="uid://ceas8yhy2k6d" path="res://main/BackButton.tscn" id="2_3j33n"]
 
 [node name="Controls" type="Control"]
@@ -11,14 +12,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BackGroundColor" type="ColorRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.139447, 0.231082, 0.268781, 1)
+texture = ExtResource("1_sctdc")
+expand_mode = 1
 
 [node name="VContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 300)

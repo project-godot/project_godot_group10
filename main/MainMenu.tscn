@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_e0qxd"]
 [ext_resource type="Script" uid="uid://bpaatyrf5gryf" path="res://main/MainMenu.gd" id="1_xnj2o"]
-[ext_resource type="Texture2D" uid="uid://dgomgr1hndemk" path="res://assets/images/ak.png" id="2_id64e"]
+[ext_resource type="Texture2D" uid="uid://dayu6qag78j12" path="res://assets/images/ajustada.jpg" id="2_xnj2o"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -13,14 +13,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xnj2o")
 
-[node name="BackGroundColor" type="ColorRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.139447, 0.231082, 0.268781, 1)
+texture = ExtResource("2_xnj2o")
+expand_mode = 1
 
 [node name="ContainerInfo" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -45,7 +46,7 @@ theme_override_font_sizes/font_size = 25
 text = "Feito pelo"
 
 [node name="ButtonInfo" type="Button" parent="ContainerInfo" groups=["button"]]
-modulate = Color(0, 0.592157, 1, 1)
+modulate = Color(0, 0.74902, 1, 1)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("1_e0qxd")
@@ -120,10 +121,3 @@ theme_override_fonts/font = ExtResource("1_e0qxd")
 theme_override_font_sizes/font_size = 35
 text = "Sair"
 flat = true
-
-[node name="ak2" type="Sprite2D" parent="."]
-auto_translate_mode = 2
-position = Vector2(278, 115)
-rotation = -0.698132
-scale = Vector2(0.71, 0.71)
-texture = ExtResource("2_id64e")
