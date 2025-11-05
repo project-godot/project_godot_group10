@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://hi7yq8qpvneb"]
+[gd_scene load_steps=14 format=4 uid="uid://hi7yq8qpvneb"]
 
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="1_k42x3"]
 [ext_resource type="Script" uid="uid://drw61dfdcygo" path="res://levels/Level1.gd" id="1_level_script"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b0620b8p1h5ib" path="res://assets/sprites/backGround/level1/5.png" id="8_0gphp"]
 [ext_resource type="PackedScene" uid="uid://brwre3tdq32m0" path="res://entities/enemies/skeleton/enemies.tscn" id="11_bekh1"]
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="11_yydhl"]
+[ext_resource type="PackedScene" uid="uid://cuycp8qkuudn1" path="res://assets/items/moving_platform.tscn" id="12_bekh1"]
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_score"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvy1k"]
@@ -105,9 +106,17 @@ position = Vector2(1161, 488)
 position = Vector2(1820, 213)
 
 [node name="skeleton4" parent="." instance=ExtResource("11_bekh1")]
-position = Vector2(2323, 452)
 position = Vector2(50, 540)
 
-[node name="skeleton" parent="." instance=ExtResource("11_bekh1")]
+[node name="skeleton5" parent="." instance=ExtResource("11_bekh1")]
 position = Vector2(267, 526)
 scale = Vector2(1.5, 1.5)
+
+[node name="moving_platform" parent="." instance=ExtResource("12_bekh1")]
+position = Vector2(2671.9998, 497.99997)
+scale = Vector2(2.01543, 2.01543)
+move_horizontal = false
+
+[node name="moving_platform" parent="moving_platform" instance=ExtResource("12_bekh1")]
+position = Vector2(31.755135, 1.514197e-05)
+move_horizontal = false
