@@ -20,8 +20,14 @@ const MAX_HEALTH = 5
 var health = MAX_HEALTH
 var is_dead = false
 var is_invincible = false
-const INVINCIBILITY_TIME = 1.5
+const INVINCIBILITY_TIME = 0.6
 var invincibility_timer = 0.0
+var is_hurt = false
+
+# Janela do ataque (para sincronizar o acerto com a espada)
+const ATTACK_WINDUP = 0.1
+const ATTACK_ACTIVE = 0.18
+const ATTACK_OFFSET_X = 20.0
 
 # Sistema de respawn
 var spawn_position: Vector2
@@ -42,6 +48,9 @@ func _ready():
 	
 	# Definir spawn inicial
 	spawn_position = global_position
+
+	# Desabilitar checagem de overlap do ataque fora da janela ativa
+	attack_area.monitoring = false
 	
 	# Notificar GameManager sobre a vida inicial
 	GameManager.player_health = health
@@ -81,6 +90,8 @@ func _physics_process(delta):
 
 	if is_attacking:
 		animated_sprite.play("attack")
+	elif is_hurt:
+		animated_sprite.play("hurt")
 	elif not is_on_floor():
 		if velocity.x > 0:
 			animated_sprite.flip_h = false
@@ -113,8 +124,8 @@ func _unhandled_input(event):
 		attacked_enemies.clear()  # Limpar lista de inimigos atacados
 		animated_sprite.play("attack")
 		attack_timer.start()
-		# Verificar inimigos na área de ataque
-		_check_attack_area()
+		# Programar janela de acerto com windup + active
+		_start_attack_window()
 	
 	if event.is_action_pressed("ui_cancel"):
 		_open_pause_menu()
@@ -122,6 +133,7 @@ func _unhandled_input(event):
 func _on_attack_timer_timeout():
 	is_attacking = false
 	attacked_enemies.clear()
+	attack_area.monitoring = false
 
 func _check_attack_area():
 	# Verificar inimigos na área de ataque
@@ -131,6 +143,27 @@ func _check_attack_area():
 			if body.has_method("take_damage"):
 				body.take_damage(1)
 				attacked_enemies.append(body)  # Marcar como atacado
+
+func _start_attack_window():
+	# Posicionar hitbox da espada na frente do player
+	if animated_sprite.flip_h:
+		attack_area.position.x = -abs(ATTACK_OFFSET_X)
+	else:
+		attack_area.position.x = abs(ATTACK_OFFSET_X)
+
+	# Esperar o windup antes de ativar o hitbox
+	var windup_timer = get_tree().create_timer(ATTACK_WINDUP)
+	windup_timer.timeout.connect(func():
+		attack_area.monitoring = true
+		# Checar imediatamente quem já está sobreposto
+		_check_attack_area()
+
+		# Ativar por tempo limitado (active frames)
+		var active_timer = get_tree().create_timer(ATTACK_ACTIVE)
+		active_timer.timeout.connect(func():
+			attack_area.monitoring = false
+		)
+	)
 
 func _on_attack_area_body_entered(body):
 	# Verificar durante o ataque
@@ -162,8 +195,11 @@ func take_damage(damage: int):
 	_start_invincibility_effect()
 	
 	# Animação de dano
+	is_hurt = true
 	animated_sprite.play("hurt")
 	await get_tree().create_timer(0.3).timeout
+	if not is_dead:
+		is_hurt = false
 	
 	# Notificar mudança de vida
 	health_changed.emit(health)

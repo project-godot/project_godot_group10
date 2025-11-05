@@ -144,7 +144,7 @@
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="142_akp7a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lxyii"]
-size = Vector2(20, 655)
+size = Vector2(24, 655)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qq1kx"]
 texture = ExtResource("44_qhq7i")
@@ -1784,7 +1784,7 @@ region_rect = Rect2(0, 0, 7680, 540)
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-10, 325.5)
+position = Vector2(-8, 325.5)
 shape = SubResource("RectangleShape2D_lxyii")
 
 [node name="Decoration3" type="TileMapLayer" parent="."]
@@ -1800,15 +1800,15 @@ tile_set = SubResource("TileSet_p76xp")
 rendering_quadrant_size = 64
 
 [node name="Skeleton1" parent="." instance=ExtResource("58_uidrn")]
-position = Vector2(884, 506)
+position = Vector2(853, 491)
 scale = Vector2(1.5, 1.5)
 
 [node name="Skeleton2" parent="." instance=ExtResource("58_uidrn")]
-position = Vector2(1630, 441)
+position = Vector2(1632, 434)
 scale = Vector2(1.5, 1.5)
 
 [node name="Skeleton3" parent="." instance=ExtResource("58_uidrn")]
-position = Vector2(424, 507)
+position = Vector2(429, 491)
 scale = Vector2(1.5, 1.5)
 
 [node name="Torch" type="AnimatedSprite2D" parent="."]

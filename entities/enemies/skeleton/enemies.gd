@@ -34,6 +34,14 @@ var attack_cooldown_timer = 0.0
 var last_attack_time = 0.0
 const ATTACK_COOLDOWN = 1.0
 var player_last_position_y = 0.0
+var hurt_lock_timer: float = 0.0
+var has_damaged_this_attack: bool = false
+const ATTACK_LUNGE_TIME = 0.15
+const ATTACK_LUNGE_MULT = 1.6
+const ATTACK_DRIFT_MULT = 0.2
+var attack_elapsed: float = 0.0
+const ATTACK_WINDUP = 0.12
+const ATTACK_ACTIVE = 0.18
 
 func _ready():
 	start_position = position
@@ -48,11 +56,26 @@ func _ready():
 	# ⬇️ Conectar animações
 	animated_sprite.animation_finished.connect(_on_animation_finished)
 
+	# Garantir raycast de beirada ativo
+	ledge_check.enabled = true
+
+	# Desabilitar hitbox de ataque fora da janela ativa
+	attack_area.monitoring = false
+
 	call_deferred("_connect_to_player")
 
 
 func _physics_process(delta):
 	if current_state == State.DEAD:
+		return
+
+	# Travar comportamento enquanto leva dano para não sobrescrever animação de hurt
+	if levando_hit:
+		hurt_lock_timer -= delta
+		if hurt_lock_timer <= 0.0:
+			levando_hit = false
+		velocity.x = 0
+		move_and_slide()
 		return
 
 	if not is_on_floor():
@@ -61,7 +84,8 @@ func _physics_process(delta):
 	if attack_cooldown_timer > 0:
 		attack_cooldown_timer -= delta
 
-	if current_state == State.PATROL:
+	# Reaquisição manual do player (ambos os estados)
+	if player_node == null:
 		check_for_player_manually()
 
 	match current_state:
@@ -76,6 +100,8 @@ func _physics_process(delta):
 
 
 func patrol_state(_delta):
+	# Manter o raycast de beirada à frente da direção atual
+	ledge_check.position.x = 17 * direction_x
 	if position.x <= left_limit:
 		direction_x = 1
 	elif position.x >= right_limit:
@@ -91,7 +117,7 @@ func patrol_state(_delta):
 
 func chase_state(_delta):
 	if player_node and is_instance_valid(player_node):
-		var dist = position.distance_to(player_node.position)
+		var dist = global_position.distance_to(player_node.global_position)
 
 		if dist > 300:
 			current_state = State.PATROL
@@ -100,11 +126,15 @@ func chase_state(_delta):
 		if dist < ATTACK_RANGE and not is_attacking and attack_cooldown_timer <= 0:
 			current_state = State.ATTACK
 			is_attacking = true
+			has_damaged_this_attack = false
+			attack_elapsed = 0.0
 			attack_cooldown_timer = ATTACK_COOLDOWN
 			attack_timer.start()
+			_start_attack_window()
 			return
 
-		direction_x = sign(player_node.position.x - position.x)
+		direction_x = sign(player_node.global_position.x - global_position.x)
+		ledge_check.position.x = 17 * direction_x
 		animated_sprite.flip_h = direction_x < 0
 		velocity.x = direction_x * SPEED
 		animated_sprite.play("walk")
@@ -113,7 +143,19 @@ func chase_state(_delta):
 
 
 func attack_state(_delta):
-	velocity.x = 0
+	# Recalcular direção em relação ao player
+	if player_node and is_instance_valid(player_node):
+		direction_x = sign(player_node.global_position.x - global_position.x)
+		ledge_check.position.x = 17 * direction_x
+		animated_sprite.flip_h = direction_x < 0
+
+	# Aplicar movimento durante o ataque (lunge curto + drift leve)
+	attack_elapsed += _delta
+	if attack_elapsed <= ATTACK_LUNGE_TIME:
+		velocity.x = direction_x * (SPEED * ATTACK_LUNGE_MULT)
+	else:
+		velocity.x = direction_x * (SPEED * ATTACK_DRIFT_MULT)
+
 	animated_sprite.play("attack")
 
 
@@ -121,9 +163,10 @@ func _on_attack_area_body_entered(body):
 	if current_state == State.DEAD:
 		return
 
-	if body.is_in_group("player") and is_attacking:
+	if body.is_in_group("player") and is_attacking and not has_damaged_this_attack:
 		if body.has_method("take_damage"):
 			body.take_damage(ATTACK_DAMAGE)
+			has_damaged_this_attack = true
 
 
 func _on_detection_area_body_entered(body):
@@ -141,7 +184,11 @@ func _on_detection_area_body_exited(body):
 
 func _on_attack_timer_timeout():
 	is_attacking = false
+	has_damaged_this_attack = false
 	current_state = State.CHASE if player_node != null else State.PATROL
+
+	# Encerrar janela de ataque caso ainda ativa
+	attack_area.monitoring = false
 
 
 func take_damage(damage: int):
@@ -153,6 +200,8 @@ func take_damage(damage: int):
 	if health <= 0:
 		die()
 	else:
+		levando_hit = true
+		hurt_lock_timer = 0.25
 		animated_sprite.play("hurt")
 
 
@@ -181,9 +230,29 @@ func check_for_player_manually():
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		var player = players[0]
-		if position.distance_to(player.position) < 150:
+		if global_position.distance_to(player.global_position) < 220:
 			player_node = player
 			current_state = State.CHASE
+
+func _start_attack_window():
+	# Ativar hit apenas durante a janela ativa, após windup
+	var windup_timer = get_tree().create_timer(ATTACK_WINDUP)
+	windup_timer.timeout.connect(func():
+		attack_area.monitoring = true
+		# Checagem imediata para casos já sobrepostos
+		if not has_damaged_this_attack and is_attacking:
+			var bodies = attack_area.get_overlapping_bodies()
+			for b in bodies:
+				if b.is_in_group("player") and b.has_method("take_damage"):
+					b.take_damage(ATTACK_DAMAGE)
+					has_damaged_this_attack = true
+					break
+		# Tempo ativo
+		var active_timer = get_tree().create_timer(ATTACK_ACTIVE)
+		active_timer.timeout.connect(func():
+			attack_area.monitoring = false
+		)
+	)
 
 
 func _connect_to_player():
