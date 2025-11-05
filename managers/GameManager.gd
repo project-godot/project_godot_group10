@@ -2,7 +2,7 @@ extends Node
 
 var coins_collected: int = 0
 var total_coins: int = 0
-var player_health: int = 100
+var player_health: int = 5
 var current_level: int = 1
 
 signal coin_collected(amount: int)

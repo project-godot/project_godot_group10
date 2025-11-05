@@ -9,8 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://5e6lrce3d7yo" path="res://assets/sprites/skeleton/Skeleton_01_White_Walk.png" id="7_c85bl"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k0ue2"]
-radius = 20.0
-height = 92.0
+radius = 13.0
+height = 44.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vlg0m"]
 atlas = ExtResource("2_1motl")

@@ -472,7 +472,7 @@ shape = SubResource("CapsuleShape2D_b0kkn")
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_b4d0x")
 animation = &"walk"
-frame_progress = 0.23964337
+frame_progress = 0.239643
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(11, -2)
