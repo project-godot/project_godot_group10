@@ -1,6 +1,6 @@
 [gd_scene load_steps=345 format=3 uid="uid://d3koiecsrm2wp"]
 
-[ext_resource type="Script" uid="uid://bn82wv2of6sl6" path="res://entities/enemies/skeleton/enemies.gd" id="1_gkfhs"]
+[ext_resource type="Script" uid="uid://bn82wv2of6sl6" path="res://entities/enemies/skeleton/skeleton.gd" id="1_gkfhs"]
 [ext_resource type="Texture2D" uid="uid://bdkpw5sd0eih6" path="res://assets/sprites/necromancer/Necromancer/Attack/spr_NecromancerAttackWithoutEffect_strip47.png" id="2_4rm43"]
 [ext_resource type="Texture2D" uid="uid://dqinan1o12fp7" path="res://assets/sprites/necromancer/Necromancer/Death/spr_NecromancerDeath_strip52.png" id="3_8ii5t"]
 [ext_resource type="Texture2D" uid="uid://dwrwfp8sqnhhc" path="res://assets/sprites/necromancer/Necromancer/Attack/spr_NecromancerAttackEffect_strip47.png" id="3_l74pl"]
@@ -2379,6 +2379,7 @@ animations = [{
 script = ExtResource("1_gkfhs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-3, 10)
 shape = SubResource("CapsuleShape2D_k0ue2")
 

@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6jhwygpyj6m5"]
+
+[ext_resource type="Texture2D" uid="uid://botvsqur7epeb" path="res://assets/sprites/chest/treasure-chest - Copia.png" id="1_g3qx7"]
+[ext_resource type="Script" uid="uid://u5qwnm5r6cf8" path="res://assets/sprites/chest/bau.gd" id="1_t7gt3"]
+[ext_resource type="Texture2D" uid="uid://bfb6kp3l357mv" path="res://assets/sprites/chest/treasure-chest.png" id="2_t7gt3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_70crg"]
+size = Vector2(30.5, 29)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wp5e5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_g3qx7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_t7gt3")
+}],
+"loop": false,
+"name": &"open",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wp5e5"]
+size = Vector2(23, 19.5)
+
+[node name="Bau" type="StaticBody2D"]
+script = ExtResource("1_t7gt3")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.75, 6.5)
+shape = SubResource("RectangleShape2D_70crg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wp5e5")
+animation = &"open"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 10.75)
+shape = SubResource("RectangleShape2D_wp5e5")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

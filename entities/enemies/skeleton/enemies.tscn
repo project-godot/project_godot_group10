@@ -1,6 +1,6 @@
 [gd_scene load_steps=67 format=3 uid="uid://brwre3tdq32m0"]
 
-[ext_resource type="Script" uid="uid://bn82wv2of6sl6" path="res://entities/enemies/skeleton/enemies.gd" id="1_1motl"]
+[ext_resource type="Script" uid="uid://bn82wv2of6sl6" path="res://entities/enemies/skeleton/skeleton.gd" id="1_1motl"]
 [ext_resource type="Texture2D" uid="uid://b0yoj67pljqgj" path="res://assets/sprites/skeleton/Skeleton_01_White_Attack1.png" id="2_1motl"]
 [ext_resource type="Texture2D" uid="uid://bdfy8veki3204" path="res://assets/sprites/skeleton/Skeleton_01_White_Attack2.png" id="3_81whm"]
 [ext_resource type="Texture2D" uid="uid://ci074ahnff508" path="res://assets/sprites/skeleton/Skeleton_01_White_Die.png" id="4_id1sm"]
@@ -10,7 +10,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k0ue2"]
 radius = 20.0
-height = 92.0
+height = 46.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vlg0m"]
 atlas = ExtResource("2_1motl")
@@ -429,7 +429,7 @@ animations = [{
 radius = 111.072
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_81whm"]
-radius = 314.006
+radius = 28.0179
 
 [node name="skeleton" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_1motl")
@@ -440,7 +440,7 @@ shape = SubResource("CapsuleShape2D_k0ue2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_11o65")
-animation = &"attack"
+animation = &"idle"
 
 [node name="DetectionArea" type="Area2D" parent="."]
 
