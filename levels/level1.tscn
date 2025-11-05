@@ -106,3 +106,8 @@ position = Vector2(1820, 213)
 
 [node name="skeleton4" parent="." instance=ExtResource("11_bekh1")]
 position = Vector2(2323, 452)
+position = Vector2(50, 540)
+
+[node name="skeleton" parent="." instance=ExtResource("11_bekh1")]
+position = Vector2(267, 526)
+scale = Vector2(1.5, 1.5)

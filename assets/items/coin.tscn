@@ -1,8 +1,8 @@
 [gd_scene load_steps=28 format=3 uid="uid://keb0kkiwdugd"]
 
-[ext_resource type="Texture2D" uid="uid://ce1efprvnm8wg" path="res://sprites/coins/coin3_16x16.png" id="1_1lg1i"]
-[ext_resource type="Script" uid="uid://cpxuo71r213bg" path="res://scripts/coin.gd" id="1_6dw85"]
-[ext_resource type="Texture2D" uid="uid://bxmb8pmnay7qf" path="res://sprites/coins/pick_up_effect.png" id="2_qr5ih"]
+[ext_resource type="Texture2D" uid="uid://ce1efprvnm8wg" path="res://assets/sprites/coin/coin3_16x16.png" id="1_1lg1i"]
+[ext_resource type="Script" uid="uid://cpxuo71r213bg" path="res://assets/items/coin.gd" id="1_6dw85"]
+[ext_resource type="Texture2D" uid="uid://bxmb8pmnay7qf" path="res://assets/sprites/coin/pick_up_effect.png" id="2_qr5ih"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3kmme"]
 atlas = ExtResource("2_qr5ih")
@@ -187,6 +187,9 @@ autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_l24d8")
+
+[node name="GroundCheck" type="RayCast2D" parent="."]
+target_position = Vector2(0, 10)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

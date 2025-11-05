@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://rdgor8ojw5"]
+[gd_scene load_steps=16 format=3 uid="uid://rdgor8ojw5"]
 
 [ext_resource type="Texture2D" uid="uid://cf5f8xk77qkga" path="res://assets/sprites/backGround/level2/Layer_0011_0.png" id="1_hq01p"]
+[ext_resource type="Script" uid="uid://bvcwoiue40v25" path="res://levels/Level2.gd" id="1_level2_script"]
 [ext_resource type="Texture2D" uid="uid://bpgamphtwcfj0" path="res://assets/sprites/backGround/level2/Layer_0010_1.png" id="2_fjysh"]
 [ext_resource type="Texture2D" uid="uid://bgxwelc3x1l7b" path="res://assets/sprites/backGround/level2/Layer_0009_2.png" id="3_bcewn"]
 [ext_resource type="Texture2D" uid="uid://d01opfcaxgy46" path="res://assets/sprites/backGround/level2/Layer_0008_3.png" id="4_6mfmt"]
@@ -11,10 +12,13 @@
 [ext_resource type="Texture2D" uid="uid://bi7a17rs7byij" path="res://assets/sprites/backGround/level2/Layer_0001_8.png" id="9_sg85d"]
 [ext_resource type="Texture2D" uid="uid://dl5wt33twq45n" path="res://assets/sprites/backGround/level2/Layer_0000_9.png" id="10_s0tuf"]
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="11_hfi3b"]
+[ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="13_6mfmt"]
+[ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_qegch"]
 
 [sub_resource type="TileSet" id="TileSet_hq01p"]
 
 [node name="level2" type="Node2D"]
+script = ExtResource("1_level2_script")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -140,3 +144,7 @@ position = Vector2(131, 356)
 
 [node name="Terrain2" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_hq01p")
+
+[node name="PauseButton" parent="." instance=ExtResource("13_6mfmt")]
+
+[node name="ScoreDisplay" parent="." instance=ExtResource("14_qegch")]
