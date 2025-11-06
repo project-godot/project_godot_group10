@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://game_over_menu_123"]
+[gd_scene load_steps=3 format=3 uid="uid://c1shbiol8kcwt"]
 
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_5gvo0"]
-[ext_resource type="Script" path="res://levels/GameOverMenu.gd" id="1_gameover"]
+[ext_resource type="Script" uid="uid://sb5h84a2ucme" path="res://levels/GameOverMenu.gd" id="1_gameover"]
 
 [node name="GameOverMenu" type="CanvasLayer"]
 process_mode = 2
@@ -54,7 +54,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_5gvo0")
 theme_override_font_sizes/font_size = 24
-text = "Você perdeu todas as vidas!"
+text = "Voce perdeu todas as vidas!"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer"]
@@ -71,4 +71,3 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_5gvo0")
 theme_override_font_sizes/font_size = 32
 text = "Voltar ao Menu"
-
