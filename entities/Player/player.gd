@@ -8,6 +8,7 @@ extends CharacterBody2D
 @export var limite_y_morte: float = 1000.0
 
 var is_attacking = false
+var is_defending = false
 var attacked_enemies = []  # Lista de inimigos já atacados neste ataque
 const SPEED = 200.0
 const JUMP_VELOCITY = -490.0
@@ -56,6 +57,27 @@ func _ready():
 	GameManager.player_health = health
 	health_changed.emit(health)
 
+func _unhandled_input(event):
+	if is_dead:
+		return
+		
+	if event.is_action_pressed("jump"):
+		if is_on_floor():
+			velocity.y = JUMP_VELOCITY
+		else:
+			jump_buffer_timer = JUMP_BUFFER_TIME
+	
+	if event.is_action_pressed("attack") and not is_attacking and not is_defending:
+		is_attacking = true
+		attacked_enemies.clear()  # Limpar lista de inimigos atacados
+		animated_sprite.play("attack")
+		attack_timer.start()
+		# Programar janela de acerto com windup + active
+		_start_attack_window()
+	
+	if event.is_action_pressed("ui_cancel"):
+		_open_pause_menu()
+
 func _physics_process(delta):
 	if is_dead:
 		return
@@ -82,14 +104,26 @@ func _physics_process(delta):
 			velocity.y = JUMP_VELOCITY
 			jump_buffer_timer = 0.0
 	
+	# Verificar defesa continuamente (não apenas no evento)
+	var was_defending = is_defending
+	is_defending = Input.is_action_pressed("defend")
+	
+	# Player pode andar enquanto defende (mas mais lento)
 	var direction = Input.get_axis("left", "right")
 	if direction:
-		velocity.x = direction * SPEED
+		if is_defending:
+			# Andar mais devagar enquanto defende
+			velocity.x = direction * (SPEED * 0.5)
+		else:
+			velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	
+	# Prioridade de animações: attack > defend > hurt > jump > run/walk > idle
 	if is_attacking:
 		animated_sprite.play("attack")
+	elif is_defending:
+		animated_sprite.play("defend")
 	elif is_hurt:
 		animated_sprite.play("hurt")
 	elif not is_on_floor():
@@ -108,27 +142,6 @@ func _physics_process(delta):
 		animated_sprite.play("idle")
 			
 	move_and_slide()
-
-func _unhandled_input(event):
-	if is_dead:
-		return
-		
-	if event.is_action_pressed("jump"):
-		if is_on_floor():
-			velocity.y = JUMP_VELOCITY
-		else:
-			jump_buffer_timer = JUMP_BUFFER_TIME
-	
-	if event.is_action_pressed("attack") and not is_attacking:
-		is_attacking = true
-		attacked_enemies.clear()  # Limpar lista de inimigos atacados
-		animated_sprite.play("attack")
-		attack_timer.start()
-		# Programar janela de acerto com windup + active
-		_start_attack_window()
-	
-	if event.is_action_pressed("ui_cancel"):
-		_open_pause_menu()
 
 func _on_attack_timer_timeout():
 	is_attacking = false
@@ -192,6 +205,12 @@ func _open_pause_menu():
 
 func take_damage(damage: int):
 	if not can_take_damage or is_invincible or is_dead:
+		return
+	
+	# Se estiver defendendo, reduzir dano ou bloquear completamente
+	if is_defending:
+		# Defender bloqueia 100% do dano, mas pode ter um custo de stamina no futuro
+		print("Dano bloqueado com escudo!")
 		return
 	
 	health -= damage

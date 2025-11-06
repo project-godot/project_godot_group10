@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://rdgor8ojw5"]
+[gd_scene load_steps=20 format=3 uid="uid://rdgor8ojw5"]
 
 [ext_resource type="Texture2D" uid="uid://cf5f8xk77qkga" path="res://assets/sprites/backGround/level2/Layer_0011_0.png" id="1_hq01p"]
 [ext_resource type="Script" uid="uid://bvcwoiue40v25" path="res://levels/Level2.gd" id="1_level2_script"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="13_6mfmt"]
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_qegch"]
 [ext_resource type="PackedScene" uid="uid://p2f7ydl0vfkv" path="res://entities/enemies/soldier/soldier.tscn" id="15_qegch"]
+[ext_resource type="PackedScene" uid="uid://divo4245u3fpv" path="res://entities/enemies/samurai/samurai.tscn" id="16_jai45"]
 
 [sub_resource type="TileSet" id="TileSet_hq01p"]
 
@@ -170,4 +171,7 @@ position = Vector2(-11.5, 226)
 shape = SubResource("RectangleShape2D_6mfmt")
 
 [node name="soldier" parent="." instance=ExtResource("15_qegch")]
-position = Vector2(458, 479)
+position = Vector2(994, 430)
+
+[node name="samurai" parent="." instance=ExtResource("16_jai45")]
+position = Vector2(451, 475)

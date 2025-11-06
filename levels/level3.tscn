@@ -1812,6 +1812,18 @@ scale = Vector2(1.5, 1.5)
 position = Vector2(429, 491)
 scale = Vector2(1.5, 1.5)
 
+[node name="Skeleton5" parent="." instance=ExtResource("58_uidrn")]
+position = Vector2(2154, 563)
+scale = Vector2(1.5, 1.5)
+
+[node name="Skeleton7" parent="." instance=ExtResource("58_uidrn")]
+position = Vector2(3291, 553)
+scale = Vector2(1.5, 1.5)
+
+[node name="Skeleton8" parent="." instance=ExtResource("58_uidrn")]
+position = Vector2(3778, 563)
+scale = Vector2(1.5, 1.5)
+
 [node name="Torch" type="AnimatedSprite2D" parent="."]
 position = Vector2(287, 573)
 sprite_frames = SubResource("SpriteFrames_afky8")
@@ -1830,7 +1842,7 @@ speed_scale = 0.7
 
 [node name="Player" parent="." instance=ExtResource("7_rhrgi")]
 z_index = 1
-position = Vector2(108, 557)
+position = Vector2(3660, 530)
 
 [node name="PauseButton" parent="." instance=ExtResource("141_dyrt0")]
 
@@ -1841,3 +1853,15 @@ position = Vector2(5095, 381)
 
 [node name="bau" parent="." instance=ExtResource("143_4lsjf")]
 position = Vector2(194, 580)
+
+[node name="bau2" parent="." instance=ExtResource("143_4lsjf")]
+position = Vector2(1400, 580)
+
+[node name="bau3" parent="." instance=ExtResource("143_4lsjf")]
+position = Vector2(2800, 580)
+
+[node name="bau4" parent="." instance=ExtResource("143_4lsjf")]
+position = Vector2(4200, 580)
+
+[node name="bau5" parent="." instance=ExtResource("143_4lsjf")]
+position = Vector2(4700, 580)

@@ -392,32 +392,33 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3jli0"]
-height = 56.0
+radius = 16.0
+height = 72.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k8uu3"]
 radius = 132.034
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_10gej"]
-radius = 42.107
+radius = 89.0225
 
 [node name="soldier" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_soldier")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(1.08333, 1.475)
+scale = Vector2(1.61667, 2.125)
 sprite_frames = SubResource("SpriteFrames_ow0lv")
 animation = &"idle"
 frame_progress = 0.769171
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-5, 31)
+position = Vector2(-8, 49)
 shape = SubResource("CapsuleShape2D_3jli0")
 
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-position = Vector2(-5, 31)
+position = Vector2(-9, 59)
 shape = SubResource("CircleShape2D_k8uu3")
 debug_color = Color(0.975525, 0, 0.418754, 0.42)
 
@@ -425,12 +426,12 @@ debug_color = Color(0.975525, 0, 0.418754, 0.42)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(-5, 31)
+position = Vector2(-10, 60)
 shape = SubResource("CircleShape2D_10gej")
 debug_color = Color(4.88527e-06, 0.647057, 0.221361, 0.42)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(17, -9)
+position = Vector2(12, 42)
 target_position = Vector2(0, 38)
 
 [node name="Timer" type="Timer" parent="."]
