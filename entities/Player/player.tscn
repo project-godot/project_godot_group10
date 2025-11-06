@@ -469,10 +469,9 @@ position = Vector2(1, 3)
 shape = SubResource("CapsuleShape2D_b0kkn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 1
+z_index = 4
 sprite_frames = SubResource("SpriteFrames_b4d0x")
-animation = &"walk"
-frame_progress = 0.239643
+animation = &"defend"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(11, -2)

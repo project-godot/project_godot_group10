@@ -88,6 +88,7 @@ func _physics_process(delta):
 	# Reaquisição manual do player
 	if player_node == null:
 		check_for_player_manually()
+	
 
 	match current_state:
 		State.PATROL:
@@ -339,3 +340,4 @@ func _on_player_left_screen():
 func _on_animation_finished(anim_name):
 	if anim_name == "death":
 		queue_free()
+
