@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://rdgor8ojw5"]
+[gd_scene load_steps=19 format=3 uid="uid://rdgor8ojw5"]
 
 [ext_resource type="Texture2D" uid="uid://cf5f8xk77qkga" path="res://assets/sprites/backGround/level2/Layer_0011_0.png" id="1_hq01p"]
 [ext_resource type="Script" uid="uid://bvcwoiue40v25" path="res://levels/Level2.gd" id="1_level2_script"]
@@ -14,8 +14,16 @@
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="11_hfi3b"]
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="13_6mfmt"]
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_qegch"]
+[ext_resource type="PackedScene" uid="uid://p2f7ydl0vfkv" path="res://entities/enemies/soldier/soldier.tscn" id="15_qegch"]
 
 [sub_resource type="TileSet" id="TileSet_hq01p"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_6mfmt"]
+a = Vector2(-762, -31)
+b = Vector2(14316, -25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6mfmt"]
+size = Vector2(19, 1142)
 
 [node name="level2" type="Node2D"]
 script = ExtResource("1_level2_script")
@@ -148,3 +156,18 @@ tile_set = SubResource("TileSet_hq01p")
 [node name="PauseButton" parent="." instance=ExtResource("13_6mfmt")]
 
 [node name="ScoreDisplay" parent="." instance=ExtResource("14_qegch")]
+
+[node name="chão" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="chão"]
+position = Vector2(757, 573)
+shape = SubResource("SegmentShape2D_6mfmt")
+
+[node name="parede" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="parede"]
+position = Vector2(-11.5, 226)
+shape = SubResource("RectangleShape2D_6mfmt")
+
+[node name="soldier" parent="." instance=ExtResource("15_qegch")]
+position = Vector2(458, 479)
