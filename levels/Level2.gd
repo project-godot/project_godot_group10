@@ -33,4 +33,3 @@ func _on_game_over():
 	# Mostrar popup de Game Over
 	var game_over_menu = preload("res://levels/GameOverMenu.tscn").instantiate()
 	get_tree().current_scene.add_child(game_over_menu)
-
