@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://wurj4dlxwnwe"]
+
+[ext_resource type="Script" uid="uid://bj7fxaqp4nkta" path="res://assets/sprites/bau/bau.gd" id="1_s5bbs"]
+[ext_resource type="Texture2D" uid="uid://chwgon4yhgawb" path="res://assets/sprites/bau/treasure-chest - Copia.png" id="2_jd7f3"]
+[ext_resource type="Texture2D" uid="uid://du8m34e1m6n5x" path="res://assets/sprites/bau/treasure-chest.png" id="3_btade"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4s64q"]
+atlas = ExtResource("2_jd7f3")
+region = Rect2(0, 0, 41, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwtu0"]
+atlas = ExtResource("3_btade")
+region = Rect2(0, 0, 38, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_clv5b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4s64q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwtu0")
+}],
+"loop": true,
+"name": &"bau",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bfbgq"]
+size = Vector2(29, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_havqh"]
+size = Vector2(29, 28)
+
+[node name="bau" type="StaticBody2D" groups=["chests"]]
+script = ExtResource("1_s5bbs")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_clv5b")
+animation = &"bau"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -1.5)
+shape = SubResource("RectangleShape2D_bfbgq")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, 6)
+shape = SubResource("RectangleShape2D_havqh")
+debug_color = Color(0.945845, 7.9897e-06, 0.59057, 0.42)
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -136,10 +136,16 @@ func _on_attack_timer_timeout():
 	attack_area.monitoring = false
 
 func _check_attack_area():
-	# Verificar inimigos na área de ataque
+	# Verificar inimigos e baús na área de ataque
 	var overlapping_bodies = attack_area.get_overlapping_bodies()
 	for body in overlapping_bodies:
+		# Atacar inimigos
 		if body.is_in_group("enemies") and body not in attacked_enemies:
+			if body.has_method("take_damage"):
+				body.take_damage(1)
+				attacked_enemies.append(body)  # Marcar como atacado
+		# Atacar baús
+		elif body.is_in_group("chests") and body not in attacked_enemies:
 			if body.has_method("take_damage"):
 				body.take_damage(1)
 				attacked_enemies.append(body)  # Marcar como atacado
@@ -167,10 +173,17 @@ func _start_attack_window():
 
 func _on_attack_area_body_entered(body):
 	# Verificar durante o ataque
-	if is_attacking and body.is_in_group("enemies") and body not in attacked_enemies:
-		if body.has_method("take_damage"):
-			body.take_damage(1)
-			attacked_enemies.append(body)
+	if is_attacking:
+		# Atacar inimigos
+		if body.is_in_group("enemies") and body not in attacked_enemies:
+			if body.has_method("take_damage"):
+				body.take_damage(1)
+				attacked_enemies.append(body)
+		# Atacar baús
+		elif body.is_in_group("chests") and body not in attacked_enemies:
+			if body.has_method("take_damage"):
+				body.take_damage(1)
+				attacked_enemies.append(body)
 
 func _open_pause_menu():
 	get_tree().paused = true
