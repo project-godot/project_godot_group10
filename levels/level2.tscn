@@ -171,7 +171,7 @@ position = Vector2(-11.5, 226)
 shape = SubResource("RectangleShape2D_6mfmt")
 
 [node name="nightmare" parent="." instance=ExtResource("15_qegch")]
-position = Vector2(996, 469)
+position = Vector2(1544, 469)
 
 [node name="minotaur" parent="." instance=ExtResource("17_jj0ry")]
-position = Vector2(1594, 439)
+position = Vector2(631, 441)

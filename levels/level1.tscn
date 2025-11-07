@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://hi7yq8qpvneb"]
+[gd_scene load_steps=16 format=4 uid="uid://hi7yq8qpvneb"]
 
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="1_k42x3"]
 [ext_resource type="Script" uid="uid://drw61dfdcygo" path="res://levels/Level1.gd" id="1_level_script"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="11_yydhl"]
 [ext_resource type="PackedScene" uid="uid://fl1ces0ea554" path="res://assets/items/moving_platform.tscn" id="13_8bcou"]
 [ext_resource type="PackedScene" uid="uid://wurj4dlxwnwe" path="res://assets/sprites/bau/bau.tscn" id="13_f7u7y"]
+[ext_resource type="PackedScene" uid="uid://b03ddgjrt6331" path="res://entities/enemies/bigskeleton/bigskeleton.tscn" id="14_f7u7y"]
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_score"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvy1k"]
@@ -112,3 +113,27 @@ position = Vector2(2133, 102)
 
 [node name="skeleton" parent="." instance=ExtResource("11_bekh1")]
 position = Vector2(718, 397)
+
+[node name="bigskeleton" parent="." instance=ExtResource("14_f7u7y")]
+position = Vector2(1567, 330)
+
+[node name="bigskeleton2" parent="." instance=ExtResource("14_f7u7y")]
+position = Vector2(1829, 216)
+
+[node name="skeleton2" parent="." instance=ExtResource("11_bekh1")]
+position = Vector2(304, 542)
+
+[node name="skeleton3" parent="." instance=ExtResource("11_bekh1")]
+position = Vector2(1473, 540)
+
+[node name="skeleton4" parent="." instance=ExtResource("11_bekh1")]
+position = Vector2(1143, 478)
+
+[node name="bigskeleton3" parent="." instance=ExtResource("14_f7u7y")]
+position = Vector2(2442, 456)
+
+[node name="bigskeleton4" parent="." instance=ExtResource("14_f7u7y")]
+position = Vector2(1876, 550)
+
+[node name="skeleton5" parent="." instance=ExtResource("11_bekh1")]
+position = Vector2(2196, 444)
