@@ -388,3 +388,6 @@ debug_color = Color(0.308763, 0.6269, 0, 0.42)
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(10, -21)
