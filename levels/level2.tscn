@@ -14,8 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="11_hfi3b"]
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="13_6mfmt"]
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_qegch"]
-[ext_resource type="PackedScene" uid="uid://p2f7ydl0vfkv" path="res://entities/enemies/soldier/soldier.tscn" id="15_qegch"]
-[ext_resource type="PackedScene" uid="uid://divo4245u3fpv" path="res://entities/enemies/samurai/samurai.tscn" id="16_jai45"]
+[ext_resource type="PackedScene" uid="uid://bty48b67q7jdy" path="res://entities/enemies/nightmare/nightmare.tscn" id="15_qegch"]
+[ext_resource type="PackedScene" uid="uid://b03ddgjrt6331" path="res://entities/enemies/bigskeleton/bigskeleton.tscn" id="16_jai45"]
 
 [sub_resource type="TileSet" id="TileSet_hq01p"]
 
@@ -149,7 +149,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 7424, 793)
 
 [node name="Player" parent="." instance=ExtResource("11_hfi3b")]
-position = Vector2(131, 356)
+position = Vector2(47, 489)
 
 [node name="Terrain2" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_hq01p")
@@ -170,8 +170,8 @@ shape = SubResource("SegmentShape2D_6mfmt")
 position = Vector2(-11.5, 226)
 shape = SubResource("RectangleShape2D_6mfmt")
 
-[node name="soldier" parent="." instance=ExtResource("15_qegch")]
-position = Vector2(994, 430)
+[node name="nightmare" parent="." instance=ExtResource("15_qegch")]
+position = Vector2(1724, 456)
 
-[node name="samurai" parent="." instance=ExtResource("16_jai45")]
-position = Vector2(451, 475)
+[node name="bigskeleton" parent="." instance=ExtResource("16_jai45")]
+position = Vector2(347, 494)

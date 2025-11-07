@@ -319,9 +319,9 @@ radius = 53.2353
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4pyo2")
-animation = &"idle"
+animation = &"hurt"
 autoplay = "idle"
-frame_progress = 0.17225
+frame_progress = 0.799625
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-30, 32)
