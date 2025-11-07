@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://fl1ces0ea554"]
+
+[ext_resource type="Script" uid="uid://djp67xasahv5p" path="res://assets/Scripts/moving_platform.gd" id="1_8c8a5"]
+[ext_resource type="Texture2D" uid="uid://bsghnaniv5cs3" path="res://assets/items/Blocks (16 x 16).png" id="2_w4652"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wajuu"]
+size = Vector2(32, 16)
+
+[node name="moving_platform" type="Node2D"]
+script = ExtResource("1_8c8a5")
+
+[node name="platform" type="AnimatableBody2D" parent="."]
+
+[node name="Blocks(16X16)" type="Sprite2D" parent="platform"]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_w4652")
+region_enabled = true
+region_rect = Rect2(96, 64, 32, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform"]
+light_mask = 2
+scale = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_wajuu")
