@@ -12,7 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://bqrc1n2bx4rtj" path="res://assets/skins/default/WALK.png" id="11_1n8aq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b0kkn"]
-height = 32.0
+radius = 12.6667
+height = 38.6667
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_28s6d"]
 atlas = ExtResource("2_x08pd")
@@ -457,7 +458,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x08pd"]
-radius = 21.0238
+radius = 56.1941
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(1.5, 1.5)
@@ -465,13 +466,16 @@ collision_layer = 2
 script = ExtResource("1_merdl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 3)
+position = Vector2(-0.666667, 6)
 shape = SubResource("CapsuleShape2D_b0kkn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 4
+scale = Vector2(1.125, 1.26984)
 sprite_frames = SubResource("SpriteFrames_b4d0x")
-animation = &"defend"
+animation = &"attack"
+frame = 6
+frame_progress = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(11, -2)
@@ -483,7 +487,7 @@ position_smoothing_enabled = true
 [node name="Attack" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
-position = Vector2(1, 3)
+position = Vector2(0, 6)
 shape = SubResource("CircleShape2D_x08pd")
 debug_color = Color(0.867464, 0.00054407, 0.856709, 0.42)
 
