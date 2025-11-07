@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="13_6mfmt"]
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_qegch"]
 [ext_resource type="PackedScene" uid="uid://bty48b67q7jdy" path="res://entities/enemies/nightmare/nightmare.tscn" id="15_qegch"]
-[ext_resource type="PackedScene" uid="uid://b03ddgjrt6331" path="res://entities/enemies/bigskeleton/bigskeleton.tscn" id="16_jai45"]
+[ext_resource type="PackedScene" uid="uid://d2r6m4e8f017h" path="res://entities/enemies/minotaur/minotaur.tscn" id="17_jj0ry"]
 
 [sub_resource type="TileSet" id="TileSet_hq01p"]
 
@@ -171,7 +171,7 @@ position = Vector2(-11.5, 226)
 shape = SubResource("RectangleShape2D_6mfmt")
 
 [node name="nightmare" parent="." instance=ExtResource("15_qegch")]
-position = Vector2(1724, 456)
+position = Vector2(996, 469)
 
-[node name="bigskeleton" parent="." instance=ExtResource("16_jai45")]
-position = Vector2(347, 494)
+[node name="minotaur" parent="." instance=ExtResource("17_jj0ry")]
+position = Vector2(1594, 439)
