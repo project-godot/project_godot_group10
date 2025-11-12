@@ -11,5 +11,5 @@ offset_left = 19.0
 offset_top = 64.0
 offset_right = 119.0
 offset_bottom = 104.0
-scale = Vector2(2, 2)
+scale = Vector2(1.2, 1.2)
 theme_override_constants/separation = 2

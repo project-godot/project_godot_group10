@@ -212,7 +212,7 @@ func _on_attack_area_body_entered(body):
 			var current_time = Time.get_ticks_msec() / 1000.0
 			# Verificar cooldown entre hits (reduzido para garantir que ambos os hits funcionem)
 			if current_time - last_hit_time >= HIT_COOLDOWN:
-				body.take_damage(ATTACK_DAMAGE)
+				body.take_damage(0.5)  # Half a heart damage
 				last_hit_time = current_time
 				# Também fazer checagem imediata para garantir que o hit foi aplicado
 				call_deferred("_check_overlapping_bodies_immediate")
@@ -272,13 +272,17 @@ func die():
 	# Desabilitar áreas de detecção e ataque
 	detection_area.monitoring = false
 	attack_area.monitoring = false
+	
+	# Drop coins immediately
+	_drop_coins()
+	
+	# Play death animation and disappear quickly
 	animated_sprite.play("death")
-	var death_timer = get_tree().create_timer(1.3)
+	var death_timer = get_tree().create_timer(0.3)
 	death_timer.timeout.connect(_on_death_complete)
 
 
 func _on_death_complete():
-	_drop_coins()
 	queue_free()
 
 
@@ -287,7 +291,20 @@ func _drop_coins():
 	for i in range(COIN_DROP_COUNT):
 		var coin = coin_scene.instantiate()
 		get_tree().current_scene.add_child(coin)
-		coin.global_position = global_position + Vector2(randf_range(-20, 20), randf_range(-20, 20))
+		
+		# Better coin distribution - circular pattern with random spread
+		var angle = (i * 2.0 * PI / COIN_DROP_COUNT) + randf_range(-0.3, 0.3)
+		var radius = randf_range(15, 35)
+		var offset_x = cos(angle) * radius
+		var offset_y = sin(angle) * radius - 10  # Slight upward bias
+		
+		coin.global_position = global_position + Vector2(offset_x, offset_y)
+		
+		# Add initial velocity to spread coins out
+		if coin.has_method("_apply_initial_velocity"):
+			var vel_x = cos(angle) * randf_range(50, 150)
+			var vel_y = sin(angle) * randf_range(50, 150) - 50  # Upward bias
+			coin._apply_initial_velocity(Vector2(vel_x, vel_y))
 
 
 func check_for_player_manually():

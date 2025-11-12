@@ -19,6 +19,7 @@
 size = Vector2(15, 910)
 
 [node name="The forest" type="Node2D"]
+position = Vector2(2, 0)
 script = ExtResource("1_level_script")
 
 [node name="Terrain" type="TileMapLayer" parent="."]

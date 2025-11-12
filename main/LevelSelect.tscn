@@ -55,7 +55,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 70
 theme_override_constants/v_separation = 40
-columns = 5
+columns = 3
 
 [node name="ButtonLevel1" type="Button" parent="GridContainerlevels"]
 layout_mode = 2
@@ -71,91 +71,6 @@ text = "Level 2"
 layout_mode = 2
 focus_mode = 0
 text = "Level 3"
-
-[node name="ButtonLevel4" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 4"
-
-[node name="ButtonLevel5" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 5"
-
-[node name="ButtonLevel6" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 6"
-
-[node name="ButtonLevel7" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 7"
-
-[node name="ButtonLevel8" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 8"
-
-[node name="ButtonLevel9" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 9"
-
-[node name="ButtonLevel10" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 10"
-
-[node name="ButtonLevel11" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 11"
-
-[node name="ButtonLevel12" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 12"
-
-[node name="ButtonLevel13" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 13"
-
-[node name="ButtonLevel14" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 14"
-
-[node name="ButtonLevel15" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 15"
-
-[node name="ButtonLevel16" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 16"
-
-[node name="ButtonLevel17" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 17"
-
-[node name="ButtonLevel18" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 18"
-
-[node name="ButtonLevel19" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 19"
-
-[node name="ButtonLevel20" type="Button" parent="GridContainerlevels"]
-layout_mode = 2
-focus_mode = 0
-text = "Level 20"
 
 [node name="BackButton" parent="." instance=ExtResource("2_jr1f4")]
 layout_mode = 1

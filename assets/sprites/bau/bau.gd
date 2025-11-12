@@ -47,29 +47,41 @@ func open_bau():
 	if collision:
 		collision.set_deferred("disabled", true)
 	
-	# Se tiver animação "open", usar, senão apenas dropar itens
+	# Drop items immediately
+	drop_itens()
+	
+	# Se tiver animação "open", usar, senão desaparecer imediatamente
 	if animation and animation.sprite_frames.has_animation("open"):
 		animation.play("open")
-		call_deferred("drop_itens")
-		timer.start(2.0)
+		# Disappear quickly after opening
+		timer.start(0.3)
 	else:
-		# Se não tiver animação, dropar itens imediatamente
-		drop_itens()
-		timer.start(1.0)
+		# Se não tiver animação, desaparecer imediatamente
+		timer.start(0.2)
 	
 	
 func drop_itens():
 	var coin_scene = preload("res://assets/items/coin.tscn")
 	
-	# Dropar múltiplas moedas
+	# Dropar múltiplas moedas com melhor distribuição
 	for i in range(coin_drop_count):
 		var moeda = coin_scene.instantiate()
 		# Adicionar na cena atual (não no parent)
 		get_tree().current_scene.add_child(moeda)
-		# Posicionar moedas em uma área espalhada
-		var offset_x = randf_range(-30, 30)
-		var offset_y = randf_range(-20, 10)
+		
+		# Better coin distribution - circular pattern with random spread
+		var angle = (i * 2.0 * PI / coin_drop_count) + randf_range(-0.3, 0.3)
+		var radius = randf_range(20, 40)
+		var offset_x = cos(angle) * radius
+		var offset_y = sin(angle) * radius - 10  # Slight upward bias
+		
 		moeda.global_position = global_position + Vector2(offset_x, offset_y)
+		
+		# Add initial velocity to spread coins out
+		if moeda.has_method("_apply_initial_velocity"):
+			var vel_x = cos(angle) * randf_range(50, 150)
+			var vel_y = sin(angle) * randf_range(50, 150) - 50  # Upward bias
+			moeda._apply_initial_velocity(Vector2(vel_x, vel_y))
 	
 	
 func _on_timer_timeout() -> void:

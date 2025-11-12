@@ -1,12 +1,15 @@
 extends Control
 
-@onready var full_heart = $FullHeart
-@onready var empty_heart = $EmptyHeart
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func set_empty():
-	full_heart.visible = false
-	empty_heart.visible = true
+	if animated_sprite:
+		animated_sprite.play("empty")
+
+func set_half():
+	if animated_sprite:
+		animated_sprite.play("half")
 
 func set_full():
-	full_heart.visible = true
-	empty_heart.visible = false
+	if animated_sprite:
+		animated_sprite.play("full")
