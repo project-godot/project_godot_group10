@@ -6,13 +6,16 @@ enum State { PATROL, CHASE, ATTACK, DEAD }
 @onready var detection_area: Area2D = $DetectionArea
 @onready var attack_area: Area2D = $AttackArea
 @onready var attack_timer: Timer = $Timer
+@onready var healthbar = $CanvasLayer/Healthbar
 
 const SPEED = 70.0
-const ATTACK_RANGE = 60.0
+const ATTACK_RANGE = 100.0
 const PATROL_DISTANCE = 100.0
-const MAX_HEALTH = 6
+const MAX_HEALTH = 20
 const ATTACK_DAMAGE = 1
 const COIN_DROP_COUNT = 10
+const DETECTION_RANGE = 500.0
+const DETECTION_VERTICAL_TOLERANCE = 200.0
 
 var is_dead: bool = false
 var levando_hit: bool = false
@@ -43,7 +46,10 @@ func _ready():
 	current_state = State.PATROL
 	direction_x = 1
 
-	# Conectar sinais (usando Callable para garantir compatibilidade)
+	if healthbar:
+		healthbar.init_health(MAX_HEALTH)
+		healthbar.health = health
+
 	if detection_area:
 		detection_area.connect("body_entered", Callable(self, "_on_detection_area_body_entered"))
 		detection_area.connect("body_exited", Callable(self, "_on_detection_area_body_exited"))
@@ -52,20 +58,16 @@ func _ready():
 	if attack_timer:
 		attack_timer.connect("timeout", Callable(self, "_on_attack_timer_timeout"))
 
-	# Conectar animações
 	if animated_sprite:
 		animated_sprite.connect("animation_finished", Callable(self, "_on_animation_finished"))
 
-	# Desabilitar hitbox de ataque inicialmente
 	if attack_area:
 		attack_area.monitoring = false
 
-	# Garantir que a DetectionArea está habilitada
 	if detection_area:
 		detection_area.monitoring = true
 		detection_area.monitorable = true
 
-	# Verificar corpos já sobrepostos e conectar ao player (se existir)
 	call_deferred("_check_initial_overlap")
 	call_deferred("_connect_to_player")
 	call_deferred("_start_patrol")
@@ -94,7 +96,6 @@ func _physics_process(delta):
 	if current_state == State.DEAD:
 		return
 
-	# Travar comportamento enquanto leva dano
 	if levando_hit:
 		hurt_lock_timer -= delta
 		if hurt_lock_timer <= 0.0:
@@ -109,7 +110,6 @@ func _physics_process(delta):
 	if attack_cooldown_timer > 0:
 		attack_cooldown_timer -= delta
 
-	# Reaquisição manual do player - sempre verificar para pegar player no chão
 	check_for_player_manually()
 
 	match current_state:
@@ -124,8 +124,6 @@ func _physics_process(delta):
 
 
 func patrol_state(_delta):
-	check_for_player_manually()
-
 	if player_node != null and is_instance_valid(player_node):
 		current_state = State.CHASE
 		return
@@ -146,23 +144,19 @@ func patrol_state(_delta):
 
 
 func chase_state(_delta):
-	# Garantir player válido
 	if not player_node or not is_instance_valid(player_node):
-		check_for_player_manually()
-		if not player_node or not is_instance_valid(player_node):
-			current_state = State.PATROL
-			return
+		current_state = State.PATROL
+		return
 
-	# Calcular distância
-	var dist = global_position.distance_to(player_node.global_position)
+	var minotaur_center = global_position + Vector2(0, 20)
+	var player_center = player_node.global_position
+	var dist = minotaur_center.distance_to(player_center)
 
-	# Se o player sair do range, voltar para patrulha
-	if dist > 400:
+	if dist > DETECTION_RANGE:
 		current_state = State.PATROL
 		player_node = null
 		return
 
-	# Iniciar ataque se possível
 	if dist < ATTACK_RANGE and not is_attacking and attack_cooldown_timer <= 0:
 		current_state = State.ATTACK
 		is_attacking = true
@@ -180,8 +174,7 @@ func chase_state(_delta):
 		_start_attack_window()
 		return
 
-	# Perseguir
-	var player_dir = sign(player_node.global_position.x - global_position.x)
+	var player_dir = sign(player_center.x - minotaur_center.x)
 	if player_dir != 0:
 		direction_x = player_dir
 
@@ -193,27 +186,26 @@ func chase_state(_delta):
 
 
 func attack_state(_delta):
-	# Atualizar direção em relação ao player
 	if player_node and is_instance_valid(player_node):
-		var player_dir = sign(player_node.global_position.x - global_position.x)
+		var minotaur_center = global_position + Vector2(0, 20)
+		var player_center = player_node.global_position
+		var player_dir = sign(player_center.x - minotaur_center.x)
 		if player_dir != 0:
 			direction_x = player_dir
 
 		if animated_sprite:
 			animated_sprite.flip_h = direction_x > 0
 
-		# Atualizar posição do AttackArea para ficar à frente
 		if attack_area:
-			attack_area.position.x = 100 if direction_x > 0 else -100
+			attack_area.position.x = 125 if direction_x > 0 else -125
+			attack_area.position.y = 0
 
-	# Movimento durante o ataque
 	attack_elapsed += _delta
 	if attack_elapsed <= ATTACK_LUNGE_TIME:
 		velocity.x = direction_x * (SPEED * ATTACK_LUNGE_MULT)
 	else:
 		velocity.x = direction_x * (SPEED * ATTACK_DRIFT_MULT)
 
-	# Garantir animação de ataque
 	if animated_sprite and animated_sprite.animation != "attack":
 		animated_sprite.play("attack")
 
@@ -225,9 +217,8 @@ func _on_attack_area_body_entered(body):
 		return
 	if body.is_in_group("player") and is_attacking and not has_damaged_this_attack:
 		if body.has_method("take_damage"):
-			body.take_damage(ATTACK_DAMAGE)
+			body.take_damage(0.5)
 			has_damaged_this_attack = true
-			print("Minotaur acertou o player!")
 
 
 func _check_overlapping_bodies_in_attack_area():
@@ -235,13 +226,11 @@ func _check_overlapping_bodies_in_attack_area():
 		return
 
 	var bodies = attack_area.get_overlapping_bodies()
-	print("AttackArea overlapping bodies: ", bodies.size())
 	for body in bodies:
 		if body and body.is_in_group("player"):
 			if body.has_method("take_damage"):
-				body.take_damage(ATTACK_DAMAGE)
+				body.take_damage(0.5)
 				has_damaged_this_attack = true
-				print("Minotaur acertou o player (overlap check)! Player pos: ", body.global_position, " Minotaur pos: ", global_position)
 				return
 
 
@@ -252,23 +241,19 @@ func _on_detection_area_body_entered(body):
 		player_node = body
 		if current_state != State.DEAD:
 			current_state = State.CHASE
-			print("Minotaur detectou player via DetectionArea!")
 
 
 func _on_detection_area_body_exited(body):
 	if body == player_node:
-		player_node = null
-		current_state = State.PATROL
-		is_attacking = false
+		pass
 
 
 func _on_attack_timer_timeout():
-	# Terminar o ataque e voltar para perseguição
 	is_attacking = false
 	has_damaged_this_attack = false
 	if attack_area:
 		attack_area.monitoring = false
-		attack_area.position.x = 0
+		attack_area.position = Vector2.ZERO
 
 	if player_node != null and is_instance_valid(player_node):
 		current_state = State.CHASE
@@ -281,18 +266,19 @@ func take_damage(damage: int):
 		return
 
 	health -= damage
+	healthbar.health = health
 
 	if health <= 0:
 		die()
 	else:
 		levando_hit = true
 		hurt_lock_timer = 0.25
-		# Interromper ataque se estiver atacando
+
 		if is_attacking:
 			is_attacking = false
 			if attack_area:
 				attack_area.monitoring = false
-				attack_area.position.x = 0
+				attack_area.position = Vector2.ZERO
 
 
 func die():
@@ -303,14 +289,16 @@ func die():
 		detection_area.monitoring = false
 	if attack_area:
 		attack_area.monitoring = false
+
+	_drop_coins()
+
 	if animated_sprite:
 		animated_sprite.play("idle")
-	var death_timer = get_tree().create_timer(1.1)
+	var death_timer = get_tree().create_timer(0.2)
 	death_timer.timeout.connect(Callable(self, "_on_death_complete"))
 
 
 func _on_death_complete():
-	_drop_coins()
 	queue_free()
 
 
@@ -319,69 +307,93 @@ func _drop_coins():
 	for i in range(COIN_DROP_COUNT):
 		var coin = coin_scene.instantiate()
 		get_tree().current_scene.add_child(coin)
-		coin.global_position = global_position + Vector2(randf_range(-20, 20), randf_range(-20, 20))
+
+		var angle = (i * 2.0 * PI / COIN_DROP_COUNT) + randf_range(-0.3, 0.3)
+		var radius = randf_range(15, 35)
+		var offset_x = cos(angle) * radius
+		var offset_y = sin(angle) * radius - 10
+		
+		coin.global_position = global_position + Vector2(offset_x, offset_y)
+		
+		if coin.has_method("_apply_initial_velocity"):
+			var vel_x = cos(angle) * randf_range(50, 150)
+			var vel_y = sin(angle) * randf_range(50, 150) - 50
+			coin._apply_initial_velocity(Vector2(vel_x, vel_y))
 
 
 func check_for_player_manually():
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() == 0:
+		if current_state == State.CHASE or current_state == State.ATTACK:
+			player_node = null
+			if current_state != State.ATTACK:
+				current_state = State.PATROL
 		return
 
 	var player = players[0]
 	if not is_instance_valid(player):
 		return
 
-	# Distâncias separadas
-	var horizontal_dist = abs(global_position.x - player.global_position.x)
-	var vertical_dist = player.global_position.y - global_position.y  # positivo se player está abaixo
+	var minotaur_center = global_position + Vector2(0, 20)
+	var player_center = player.global_position
+	
+	var horizontal_dist = abs(minotaur_center.x - player_center.x)
+	var vertical_dist = abs(minotaur_center.y - player_center.y)
+	var total_dist = minotaur_center.distance_to(player_center)
 
-	# Verificar se o player está à frente do minotaur
-	var player_dir = sign(player.global_position.x - global_position.x)
-	var is_in_front = (player_dir == direction_x) or (horizontal_dist < 50)
+	if total_dist > DETECTION_RANGE:
+		if player_node == player and (current_state == State.CHASE or current_state == State.ATTACK):
+			player_node = null
+			if current_state != State.ATTACK:
+				current_state = State.PATROL
+		return
 
-	# Detecção melhorada: range horizontal grande e tolerância vertical
-	if horizontal_dist < 500 and vertical_dist >= -80 and vertical_dist < 80 and is_in_front:
+	if vertical_dist > DETECTION_VERTICAL_TOLERANCE:
+		return
+
+	var player_dir = sign(player_center.x - minotaur_center.x)
+	var is_in_front = false
+	
+	if player_dir == direction_x:
+		is_in_front = true
+	elif horizontal_dist < 120:
+		is_in_front = true
+	elif current_state == State.PATROL:
+		is_in_front = true
+
+	if is_in_front:
 		player_node = player
 		if current_state == State.PATROL:
 			current_state = State.CHASE
-			print("Minotaur detectou player manualmente! Dist: ", horizontal_dist, " Vertical: ", vertical_dist, " Direção: ", player_dir)
 
 
 func _start_attack_window() -> void:
-	# Posicionar AttackArea à frente do minotaur baseado na direção
 	if attack_area:
-		attack_area.position.x = 100 if direction_x > 0 else -100
+		attack_area.position.x = 125 if direction_x > 0 else -125
+		attack_area.position.y = 0
 
-	# Windup -> ativar hitbox por ATTACK_ACTIVE -> desativar
-	# Usando await para gerenciar timers de forma clara
-	# Windup
 	await get_tree().create_timer(ATTACK_WINDUP).timeout
 
-	# Antes de ativar, verificar se ainda está em ataque
 	if not is_attacking or current_state != State.ATTACK:
-		# se não estiver atacando mais, resetar
 		if attack_area:
 			attack_area.monitoring = false
-			attack_area.position.x = 0
+			attack_area.position = Vector2.ZERO
 		return
 
 	if attack_area:
 		attack_area.monitoring = true
 
-	# Checagens imediatas para sobreposições
 	call_deferred("_check_overlapping_bodies_in_attack_area")
 	await get_tree().create_timer(0.01).timeout
 	call_deferred("_check_overlapping_bodies_in_attack_area")
 	await get_tree().create_timer(0.02).timeout
 	call_deferred("_check_overlapping_bodies_in_attack_area")
 
-	# Tempo ativo da janela de dano
 	await get_tree().create_timer(ATTACK_ACTIVE).timeout
 
-	# Desativar hitbox
 	if attack_area:
 		attack_area.monitoring = false
-		attack_area.position.x = 0
+		attack_area.position = Vector2.ZERO
 
 
 func _connect_to_player():
@@ -391,7 +403,6 @@ func _connect_to_player():
 		if player and player.has_signal("player_left_screen"):
 			player.connect("player_left_screen", Callable(self, "_on_player_left_screen"))
 	else:
-		# tentar novamente depois de 0.5s
 		await get_tree().create_timer(0.5).timeout
 		_connect_to_player()
 

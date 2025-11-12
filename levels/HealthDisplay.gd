@@ -2,7 +2,7 @@ extends CanvasLayer
 
 @onready var health_container = $HealthContainer
 
-const MAX_HEALTH = 5
+const MAX_HEALTH = 10  # 5 full hearts (each heart = 2 health points)
 # Ajuste: Carregando a sua cena da espada
 var life_icon_scene = preload("res://levels/sword.tscn") 
 var player_connected = false
@@ -41,19 +41,28 @@ func _connect_to_player():
 			GameManager.player_health_changed.connect(_on_health_changed)
 		_on_health_changed(GameManager.player_health)
 
-func _on_health_changed(new_health: int):
+func _on_health_changed(new_health: float):
 	# Limpar ícones existentes
 	for child in health_container.get_children():
 		child.queue_free()
 	
-	# Criar ícones de vida (espadas)
-	for i in range(MAX_HEALTH):
-		# Ajuste: Renomeado de 'heart' para 'icon'
+	# Sistema de corações: cada coração representa 2 pontos de vida
+	# Calcular quantos corações completos e meios são necessários
+	var total_hearts = int(MAX_HEALTH / 2.0)  # Número total de corações (5 hearts)
+	var full_hearts = int(new_health / 2.0)  # Corações completos (divisão inteira)
+	var has_half = (new_health - (full_hearts * 2.0)) >= 1.0  # Se tem meio coração
+	
+	# Criar corações
+	for i in range(total_hearts):
 		var icon = life_icon_scene.instantiate() 
 		health_container.add_child(icon)
 		
-		# Se a vida é menor que o índice, mostrar ícone "vazio"
-		if i >= new_health:
-			icon.set_empty() # Esta função DEVE existir no script da sua espada
+		if i < full_hearts:
+			# Coração completo
+			icon.set_full()
+		elif i == full_hearts and has_half:
+			# Meio coração
+			icon.set_half()
 		else:
-			icon.set_full() # Esta função DEVE existir no script da sua espada
+			# Coração vazio
+			icon.set_empty()

@@ -17,8 +17,8 @@ const JUMP_BUFFER_TIME = 0.1
 var jump_buffer_timer = 0.0
 
 # Sistema de vida
-const MAX_HEALTH = 5
-var health = MAX_HEALTH
+const MAX_HEALTH = 10  # 5 full hearts (each heart = 2 health points)
+var health: float = MAX_HEALTH
 var is_dead = false
 var is_invincible = false
 const INVINCIBILITY_TIME = 0.6
@@ -35,7 +35,7 @@ var spawn_position: Vector2
 var can_take_damage = true
 var is_falling_off = false  # Flag para evitar múltiplas detecções de queda
 
-signal health_changed(new_health: int)
+signal health_changed(new_health: float)
 signal player_died
 signal player_respawned
 signal player_left_screen  # Sinal quando o player sai da tela
@@ -203,7 +203,7 @@ func _open_pause_menu():
 	var pause_menu = preload("res://levels/PauseMenu.tscn").instantiate()
 	get_tree().current_scene.add_child(pause_menu)
 
-func take_damage(damage: int):
+func take_damage(damage: float = 0.5):
 	if not can_take_damage or is_invincible or is_dead:
 		return
 	
@@ -214,7 +214,7 @@ func take_damage(damage: int):
 		return
 	
 	health -= damage
-	health = max(0, health)
+	health = max(0.0, health)
 	
 	print("Jogador recebeu ", damage, " de dano! Vida restante: ", health)
 	
@@ -315,9 +315,10 @@ func _check_fell_off_map():
 		# Emitir sinal apenas quando o player REALMENTE cai (não quando respawna)
 		player_left_screen.emit()
 		
-		# Reduzir vida do GameManager
+		# Reduzir vida do GameManager (meio coração)
 		if GameManager.player_health > 0:
-			GameManager.player_health -= 1
+			GameManager.player_health -= 0.5
+			health = GameManager.player_health
 			health_changed.emit(GameManager.player_health)
 		
 		# Se ainda tem vidas globais, respawnar

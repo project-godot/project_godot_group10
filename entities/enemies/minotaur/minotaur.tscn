@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=3 uid="uid://d2r6m4e8f017h"]
+[gd_scene load_steps=95 format=3 uid="uid://d2r6m4e8f017h"]
 
 [ext_resource type="Texture2D" uid="uid://dmho71aavlgpq" path="res://assets/sprites/minotaur/atk_1_1.png" id="1_60p7c"]
 [ext_resource type="Script" uid="uid://wr7dup177p0" path="res://entities/enemies/minotaur/minotaur.gd" id="1_minotaur_script"]
@@ -45,6 +45,7 @@
 [ext_resource type="Texture2D" uid="uid://o8j31ubcvsd6" path="res://assets/sprites/minotaur/walk_10.png" id="42_ax37u"]
 [ext_resource type="Texture2D" uid="uid://dhmo7g0f8n406" path="res://assets/sprites/minotaur/walk_11.png" id="43_gexyx"]
 [ext_resource type="Texture2D" uid="uid://moorongfo1xe" path="res://assets/sprites/minotaur/walk_12.png" id="44_bjamq"]
+[ext_resource type="PackedScene" uid="uid://cppmapkcgh0jg" path="res://entities/enemies/minotaur/healthbar.tscn" id="46_627ne"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mv6rw"]
 atlas = ExtResource("1_60p7c")
@@ -373,34 +374,33 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x4me3"]
-radius = 31.0
-height = 122.0
+radius = 20.0
+height = 110.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_prel5"]
 radius = 300.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_attack"]
-size = Vector2(200, 100)
+size = Vector2(250, 150)
 
 [node name="minotaur" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_minotaur_script")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 1)
-scale = Vector2(0.993056, 1.375)
+position = Vector2(-12, 29)
+scale = Vector2(0.8, 1.3)
 sprite_frames = SubResource("SpriteFrames_rp0yu")
 animation = &"idle"
 frame_progress = 0.523904
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 31)
+position = Vector2(-17, 57)
 shape = SubResource("CapsuleShape2D_x4me3")
 
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-position = Vector2(0, 50)
 shape = SubResource("CircleShape2D_prel5")
 debug_color = Color(0.986034, 0, 0.327747, 0.42)
 
@@ -408,9 +408,34 @@ debug_color = Color(0.986034, 0, 0.327747, 0.42)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(0, 50)
 shape = SubResource("RectangleShape2D_attack")
 debug_color = Color(0.24429, 0.63617, 5.77569e-07, 0.42)
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Healthbar" parent="CanvasLayer" instance=ExtResource("46_627ne")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -604.0
+offset_right = 210.0
+offset_bottom = -586.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -18.0
+offset_top = 12.0
+offset_right = 69.0
+offset_bottom = 61.0
+grow_horizontal = 2
+text = "MINOTAUR"

@@ -14,8 +14,10 @@ func _ready() -> void:
 # definir se nivel está bloqueado/desbloqueado
 func setup_level_buttons() -> void:
 	var buttons = grid_containerlevels.get_children()
+	const MAX_LEVELS = 3
 	
-	for i in range(buttons.size()):
+	# Processar apenas os primeiros 3 botões
+	for i in range(min(buttons.size(), MAX_LEVELS)):
 		var button = buttons[i]
 		var level_num = i + 1
 		
@@ -30,6 +32,10 @@ func setup_level_buttons() -> void:
 			button.text = "Nível " + str(level_num) + " 🔒"
 			button.modulate = Color.GRAY
 			button.disabled = true
+	
+	# Esconder botões extras se existirem
+	for i in range(MAX_LEVELS, buttons.size()):
+		buttons[i].visible = false
 
 #  função de inicar nivel
 func start_level(level_number: int) -> void:

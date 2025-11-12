@@ -12,6 +12,11 @@ func _ready():
 	body_entered.connect(_on_body_entered)
 	if ground_check:
 		ground_check.enabled = true
+		ground_check.collision_mask = 1  # Ensure it detects ground layer
+	
+	# Garantir que a moeda sempre começa caindo
+	is_falling = true
+	velocity.y = 0  # Start with no vertical velocity, gravity will take over
 
 func _apply_initial_velocity(initial_vel: Vector2):
 	# Para Area2D, aplicamos a velocidade diretamente
@@ -22,36 +27,47 @@ func _physics_process(delta):
 	if collected:
 		return
 	
-	# Aplicar gravidade
-	if is_falling:
-		velocity.y += gravity_force * delta
+	# Sempre aplicar gravidade se não estiver no chão
+	if ground_check:
+		ground_check.force_raycast_update()
+		var is_on_ground = ground_check.is_colliding()
 		
-		# Limitar velocidade de queda
+		if not is_on_ground:
+			# Não está no chão, aplicar gravidade
+			is_falling = true
+			velocity.y += gravity_force * delta
+			
+			# Limitar velocidade de queda
+			if velocity.y > 500:
+				velocity.y = 500
+			
+			# Aplicar movimento
+			position += velocity * delta
+			
+			# Reduzir velocidade horizontal gradualmente (atrito)
+			velocity.x = lerp(velocity.x, 0.0, 2.0 * delta)
+		else:
+			# Está no chão, parar a queda
+			if is_falling:
+				velocity.y = 0
+				is_falling = false
+				# Ajustar posição para ficar exatamente em cima do chão
+				var collision_point = ground_check.get_collision_point()
+				global_position.y = collision_point.y - 5  # 5 pixels acima do ponto de colisão
+			
+			# Ainda pode ter movimento horizontal residual
+			if abs(velocity.x) > 0.1:
+				position.x += velocity.x * delta
+				velocity.x = lerp(velocity.x, 0.0, 5.0 * delta)
+			else:
+				velocity.x = 0
+	else:
+		# Se não tem ground_check, aplicar gravidade básica
+		velocity.y += gravity_force * delta
 		if velocity.y > 500:
 			velocity.y = 500
-		
-		# Atualizar o RayCast antes de verificar colisão
-		if ground_check:
-			ground_check.force_raycast_update()
-		
-		# Verificar colisão com o chão ANTES de mover
-		if ground_check and ground_check.is_colliding():
-			# Se está colidindo com o chão, parar a queda
-			velocity.y = 0
-			is_falling = false
-			# Ajustar posição para ficar exatamente em cima do chão
-			var collision_point = ground_check.get_collision_point()
-			global_position.y = collision_point.y - 5  # 5 pixels acima do ponto de colisão
-		else:
-			# Aplicar movimento apenas se não estiver colidindo
-			position += velocity * delta
-		
-		# Reduzir velocidade horizontal gradualmente (atrito)
+		position += velocity * delta
 		velocity.x = lerp(velocity.x, 0.0, 2.0 * delta)
-		
-		# Quando a velocidade for muito baixa e não estiver caindo, parar a física
-		if abs(velocity.x) < 5 and velocity.y <= 0:
-			is_falling = false
 
 func _on_body_entered(body: Node2D):
 	if collected:
