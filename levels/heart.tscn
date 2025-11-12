@@ -1,18 +1,18 @@
 [gd_scene load_steps=7 format=3 uid="uid://ssey8j87t7ok"]
 
-[ext_resource type="Script" uid="uid://brck02wmeb4sy" path="res://levels/sword.gd" id="1_ui1qa"]
-[ext_resource type="Texture2D" uid="uid://cjmucn6x8xtmu" path="res://assets/sprites/heart/Pixel Heart Sprite Sheet 32x32.png" id="2_heart"]
+[ext_resource type="Script" uid="uid://brck02wmeb4sy" path="res://levels/heart.gd" id="1_fvllb"]
+[ext_resource type="Texture2D" uid="uid://cjmucn6x8xtmu" path="res://assets/sprites/heart/Pixel Heart Sprite Sheet 32x32.png" id="2_xejk4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_empty"]
-atlas = ExtResource("2_heart")
+atlas = ExtResource("2_xejk4")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_full"]
-atlas = ExtResource("2_heart")
+atlas = ExtResource("2_xejk4")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_half"]
-atlas = ExtResource("2_heart")
+atlas = ExtResource("2_xejk4")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_heart"]
@@ -48,7 +48,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 32.0
 offset_bottom = 32.0
-script = ExtResource("1_ui1qa")
+script = ExtResource("1_fvllb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_heart")

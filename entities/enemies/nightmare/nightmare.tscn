@@ -420,11 +420,11 @@ animations = [{
 radius = 24.0
 height = 66.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_detection"]
-size = Vector2(300, 250)
+[sub_resource type="CircleShape2D" id="CircleShape2D_jwrgh"]
+radius = 172.073
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_40jda"]
-radius = 104.043
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jy7uy"]
+size = Vector2(115, 63)
 
 [node name="nightmare" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_script")
@@ -443,14 +443,16 @@ shape = SubResource("CapsuleShape2D_a68qf")
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-shape = SubResource("RectangleShape2D_detection")
+position = Vector2(3, 29)
+shape = SubResource("CircleShape2D_jwrgh")
 debug_color = Color(0.974502, 0, 0.426311, 0.42)
 
 [node name="AttackArea" type="Area2D" parent="."]
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-shape = SubResource("CircleShape2D_40jda")
+position = Vector2(5, 33)
+shape = SubResource("RectangleShape2D_jy7uy")
 debug_color = Color(0, 0.648291, 0.185565, 0.42)
 
 [node name="Timer" type="Timer" parent="."]

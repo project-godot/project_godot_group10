@@ -189,6 +189,11 @@ func attack_state(_delta):
 	if player_node and is_instance_valid(player_node):
 		direction_x = sign(player_node.global_position.x - global_position.x)
 		animated_sprite.flip_h = direction_x < 0
+		
+		# Atualizar posição da área de ataque baseada na direção
+		if attack_area:
+			attack_area.position.x = 80 if direction_x > 0 else -80
+			attack_area.position.y = 0
 
 	# Aplicar movimento durante o ataque
 	attack_elapsed += _delta
@@ -212,7 +217,7 @@ func _on_attack_area_body_entered(body):
 			var current_time = Time.get_ticks_msec() / 1000.0
 			# Verificar cooldown entre hits (reduzido para garantir que ambos os hits funcionem)
 			if current_time - last_hit_time >= HIT_COOLDOWN:
-				body.take_damage(0.5)  # Half a heart damage
+				body.take_damage(1.0)  # Half a heart damage (1 health point)
 				last_hit_time = current_time
 				# Também fazer checagem imediata para garantir que o hit foi aplicado
 				call_deferred("_check_overlapping_bodies_immediate")
@@ -329,103 +334,102 @@ func check_for_player_manually():
 
 
 func _start_attack_window():
+	# Posicionar área de ataque baseada na direção inicial
+	if attack_area and player_node and is_instance_valid(player_node):
+		var player_dir = sign(player_node.global_position.x - global_position.x)
+		attack_area.position.x = 80 if player_dir > 0 else -80
+		attack_area.position.y = 0
+	
 	# Primeiro hit - quando a espada vai para frente
-	var windup_timer_1 = get_tree().create_timer(ATTACK_WINDUP_1)
-	windup_timer_1.timeout.connect(func():
-		if not is_attacking or current_state != State.ATTACK:
-			return
-		
+	await get_tree().create_timer(ATTACK_WINDUP_1).timeout
+	
+	if not is_attacking or current_state != State.ATTACK:
+		return
+	
+	if attack_area:
 		attack_area.monitoring = true
-		current_hit_window = 1  # Marcar que estamos no primeiro hit
-		
-		# Checagem imediata para o primeiro hit
-		call_deferred("_check_overlapping_bodies_immediate")
-		
-		# Também fazer checagem após um pequeno delay como backup
-		var immediate_check_timer = get_tree().create_timer(0.02)
-		immediate_check_timer.timeout.connect(func():
-			if is_attacking and attack_area.monitoring:
-				_check_overlapping_bodies_immediate()
-		)
-		
-		# Checagem periódica durante a janela do primeiro hit
-		var check_interval = 0.03  # Verificar a cada 30ms
-		var checks_count = int(ATTACK_ACTIVE_1 / check_interval)
-		for i in range(checks_count):
-			var check_timer = get_tree().create_timer(ATTACK_WINDUP_1 + (i * check_interval))
-			check_timer.timeout.connect(func():
-				if is_attacking and attack_area.monitoring:
-					_check_overlapping_bodies_immediate()
-			)
-		
-		# Desativar após a janela do primeiro hit
-		var active_timer_1 = get_tree().create_timer(ATTACK_WINDUP_1 + ATTACK_ACTIVE_1)
-		active_timer_1.timeout.connect(func():
-			if is_attacking:
-				attack_area.monitoring = false
-		)
-	)
+		# Atualizar posição caso a direção tenha mudado
+		if player_node and is_instance_valid(player_node):
+			var player_dir = sign(player_node.global_position.x - global_position.x)
+			attack_area.position.x = 80 if player_dir > 0 else -80
+			attack_area.position.y = 0
+	
+	current_hit_window = 1  # Marcar que estamos no primeiro hit
+	
+	# Checagem imediata para o primeiro hit
+	_check_overlapping_bodies_immediate()
+	call_deferred("_check_overlapping_bodies_immediate")
+	
+	# Checagem periódica durante a janela do primeiro hit
+	var check_interval = 0.02  # Verificar a cada 20ms
+	var checks_count = int(ATTACK_ACTIVE_1 / check_interval)
+	for i in range(checks_count):
+		await get_tree().create_timer(check_interval).timeout
+		if is_attacking and attack_area and attack_area.monitoring:
+			_check_overlapping_bodies_immediate()
+	
+	# Desativar após a janela do primeiro hit
+	if attack_area:
+		attack_area.monitoring = false
 	
 	# Segundo hit - quando a espada volta
-	var windup_timer_2 = get_tree().create_timer(ATTACK_WINDUP_2)
-	windup_timer_2.timeout.connect(func():
-		if not is_attacking or current_state != State.ATTACK:
-			return
-		
+	await get_tree().create_timer(ATTACK_WINDUP_2 - ATTACK_WINDUP_1 - ATTACK_ACTIVE_1).timeout
+	
+	if not is_attacking or current_state != State.ATTACK:
+		return
+	
+	if attack_area:
 		attack_area.monitoring = true
-		current_hit_window = 2  # Marcar que estamos no segundo hit
-		# Resetar last_hit_time para permitir o segundo hit (garantir que não seja bloqueado pelo cooldown)
-		last_hit_time = Time.get_ticks_msec() / 1000.0 - HIT_COOLDOWN - 0.1
-		
-		# Checagem imediata para o segundo hit
-		call_deferred("_check_overlapping_bodies_immediate")
-		
-		# Também fazer checagem após um pequeno delay como backup
-		var immediate_check_timer_2 = get_tree().create_timer(0.02)
-		immediate_check_timer_2.timeout.connect(func():
-			if is_attacking and attack_area.monitoring:
-				_check_overlapping_bodies_immediate()
-		)
-		
-		# Checagem periódica durante a janela do segundo hit
-		var check_interval_2 = 0.03  # Verificar a cada 30ms
-		var checks_count_2 = int(ATTACK_ACTIVE_2 / check_interval_2)
-		for i in range(checks_count_2):
-			var check_timer_2 = get_tree().create_timer(ATTACK_WINDUP_2 + (i * check_interval_2))
-			check_timer_2.timeout.connect(func():
-				if is_attacking and attack_area.monitoring:
-					_check_overlapping_bodies_immediate()
-			)
-		
-		# Desativar após a janela do segundo hit
-		var active_timer_2 = get_tree().create_timer(ATTACK_WINDUP_2 + ATTACK_ACTIVE_2)
-		active_timer_2.timeout.connect(func():
-			if is_attacking:
-				attack_area.monitoring = false
-		)
-	)
+		# Atualizar posição caso a direção tenha mudado
+		if player_node and is_instance_valid(player_node):
+			var player_dir = sign(player_node.global_position.x - global_position.x)
+			attack_area.position.x = 80 if player_dir > 0 else -80
+			attack_area.position.y = 0
+	
+	current_hit_window = 2  # Marcar que estamos no segundo hit
+	# Resetar last_hit_time para permitir o segundo hit
+	last_hit_time = Time.get_ticks_msec() / 1000.0 - HIT_COOLDOWN - 0.1
+	
+	# Checagem imediata para o segundo hit
+	_check_overlapping_bodies_immediate()
+	call_deferred("_check_overlapping_bodies_immediate")
+	
+	# Checagem periódica durante a janela do segundo hit
+	var check_interval_2 = 0.02  # Verificar a cada 20ms
+	var checks_count_2 = int(ATTACK_ACTIVE_2 / check_interval_2)
+	for i in range(checks_count_2):
+		await get_tree().create_timer(check_interval_2).timeout
+		if is_attacking and attack_area and attack_area.monitoring:
+			_check_overlapping_bodies_immediate()
+	
+	# Desativar após a janela do segundo hit
+	if attack_area:
+		attack_area.monitoring = false
 
 func _check_overlapping_bodies_immediate():
 	# Checagem de corpos já sobrepostos quando o hitbox é ativado
-	if is_attacking and attack_area.monitoring:
-		var current_time = Time.get_ticks_msec() / 1000.0
-		var bodies = attack_area.get_overlapping_bodies()
-		for b in bodies:
-			if b.is_in_group("player") and b.has_method("take_damage"):
-				# Verificar cooldown entre hits
-				# Para o segundo hit, garantir que pode aplicar mesmo se o primeiro hit foi recente
-				var can_apply_hit = false
-				if current_hit_window == 2:
-					# Segundo hit sempre pode aplicar (cooldown já foi resetado)
-					can_apply_hit = true
-				else:
-					# Primeiro hit verifica cooldown normal
-					can_apply_hit = (current_time - last_hit_time >= HIT_COOLDOWN)
-				
-				if can_apply_hit:
-					b.take_damage(ATTACK_DAMAGE)
-					last_hit_time = current_time
-				break
+	if not is_attacking or not attack_area or not attack_area.monitoring:
+		return
+		
+	var current_time = Time.get_ticks_msec() / 1000.0
+	var bodies = attack_area.get_overlapping_bodies()
+	for b in bodies:
+		if b and b.is_in_group("player") and b.has_method("take_damage"):
+			# Verificar cooldown entre hits
+			# Para o segundo hit, garantir que pode aplicar mesmo se o primeiro hit foi recente
+			var can_apply_hit = false
+			if current_hit_window == 2:
+				# Segundo hit sempre pode aplicar (cooldown já foi resetado)
+				can_apply_hit = true
+			else:
+				# Primeiro hit verifica cooldown normal
+				can_apply_hit = (current_time - last_hit_time >= HIT_COOLDOWN)
+			
+			if can_apply_hit:
+				b.take_damage(1.0)  # Half a heart damage (1 health point)
+				last_hit_time = current_time
+				print("Bigskeleton hit player in window ", current_hit_window)
+			break
 
 
 func _connect_to_player():

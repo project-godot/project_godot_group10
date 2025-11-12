@@ -65,9 +65,11 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_5gvo0")
 theme_override_font_sizes/font_size = 32
 text = "Reiniciar Fase"
+flat = true
 
 [node name="MenuButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_5gvo0")
 theme_override_font_sizes/font_size = 32
 text = "Voltar ao Menu"
+flat = true

@@ -47,67 +47,67 @@
 [ext_resource type="Texture2D" uid="uid://moorongfo1xe" path="res://assets/sprites/minotaur/walk_12.png" id="44_bjamq"]
 [ext_resource type="PackedScene" uid="uid://cppmapkcgh0jg" path="res://entities/enemies/minotaur/healthbar.tscn" id="46_627ne"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mv6rw"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_627ne"]
 atlas = ExtResource("1_60p7c")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7hyus"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cl7gm"]
 atlas = ExtResource("2_j50mg")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lecxn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6v5f3"]
 atlas = ExtResource("3_627ne")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sgyfm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_q0jh4"]
 atlas = ExtResource("4_cl7gm")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kokbx"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fyr71"]
 atlas = ExtResource("5_6v5f3")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_leg7t"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bnhd"]
 atlas = ExtResource("6_q0jh4")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nogha"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_eche6"]
 atlas = ExtResource("7_fyr71")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2w4ja"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y3df"]
 atlas = ExtResource("8_2bnhd")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lmgt6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ld67"]
 atlas = ExtResource("9_eche6")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7s66x"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_io4wn"]
 atlas = ExtResource("10_0y3df")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xeixn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vup0q"]
 atlas = ExtResource("11_0ld67")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_haj12"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3os18"]
 atlas = ExtResource("12_io4wn")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nwyxk"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ono6b"]
 atlas = ExtResource("13_vup0q")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cj6aa"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6h08c"]
 atlas = ExtResource("14_3os18")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0y4mr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hba0k"]
 atlas = ExtResource("15_ono6b")
 region = Rect2(0, 0, 288, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uknak"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6y3d"]
 atlas = ExtResource("16_6h08c")
 region = Rect2(0, 0, 288, 160)
 
@@ -227,52 +227,52 @@ region = Rect2(0, 0, 288, 160)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mv6rw")
+"texture": SubResource("AtlasTexture_627ne")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7hyus")
+"texture": SubResource("AtlasTexture_cl7gm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lecxn")
+"texture": SubResource("AtlasTexture_6v5f3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sgyfm")
+"texture": SubResource("AtlasTexture_q0jh4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kokbx")
+"texture": SubResource("AtlasTexture_fyr71")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_leg7t")
+"texture": SubResource("AtlasTexture_2bnhd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nogha")
+"texture": SubResource("AtlasTexture_eche6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2w4ja")
+"texture": SubResource("AtlasTexture_0y3df")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lmgt6")
+"texture": SubResource("AtlasTexture_0ld67")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7s66x")
+"texture": SubResource("AtlasTexture_io4wn")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xeixn")
+"texture": SubResource("AtlasTexture_vup0q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_haj12")
+"texture": SubResource("AtlasTexture_3os18")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nwyxk")
+"texture": SubResource("AtlasTexture_ono6b")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cj6aa")
+"texture": SubResource("AtlasTexture_6h08c")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0y4mr")
+"texture": SubResource("AtlasTexture_hba0k")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uknak")
+"texture": SubResource("AtlasTexture_n6y3d")
 }],
 "loop": true,
 "name": &"attack",
@@ -381,7 +381,7 @@ height = 110.0
 radius = 300.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_attack"]
-size = Vector2(250, 150)
+size = Vector2(218, 132)
 
 [node name="minotaur" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_minotaur_script")
@@ -390,8 +390,8 @@ script = ExtResource("1_minotaur_script")
 position = Vector2(-12, 29)
 scale = Vector2(0.8, 1.3)
 sprite_frames = SubResource("SpriteFrames_rp0yu")
-animation = &"idle"
-frame_progress = 0.523904
+animation = &"attack"
+frame_progress = 0.408117
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-17, 57)
@@ -408,6 +408,7 @@ debug_color = Color(0.986034, 0, 0.327747, 0.42)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2(-11, 51)
 shape = SubResource("RectangleShape2D_attack")
 debug_color = Color(0.24429, 0.63617, 5.77569e-07, 0.42)
 

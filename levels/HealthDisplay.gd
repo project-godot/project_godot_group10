@@ -4,7 +4,7 @@ extends CanvasLayer
 
 const MAX_HEALTH = 10  # 5 full hearts (each heart = 2 health points)
 # Ajuste: Carregando a sua cena da espada
-var life_icon_scene = preload("res://levels/sword.tscn") 
+var life_icon_scene = preload("res://levels/heart.tscn") 
 var player_connected = false
 
 func _ready():
@@ -50,7 +50,9 @@ func _on_health_changed(new_health: float):
 	# Calcular quantos corações completos e meios são necessários
 	var total_hearts = int(MAX_HEALTH / 2.0)  # Número total de corações (5 hearts)
 	var full_hearts = int(new_health / 2.0)  # Corações completos (divisão inteira)
-	var has_half = (new_health - (full_hearts * 2.0)) >= 1.0  # Se tem meio coração
+	var remainder = new_health - (full_hearts * 2.0)  # Resto após corações completos
+	# Se tem meio coração: remainder >= 1.0 (já que meio coração = 1.0 health point)
+	var has_half = remainder >= 1.0 and remainder < 2.0
 	
 	# Criar corações
 	for i in range(total_hearts):

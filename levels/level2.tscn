@@ -23,7 +23,7 @@ a = Vector2(-762, -31)
 b = Vector2(14316, -25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mfmt"]
-size = Vector2(19, 1142)
+size = Vector2(26, 1142)
 
 [node name="level2" type="Node2D"]
 script = ExtResource("1_level2_script")
@@ -166,7 +166,7 @@ shape = SubResource("SegmentShape2D_6mfmt")
 [node name="parede" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="parede"]
-position = Vector2(-11.5, 226)
+position = Vector2(-8, 226)
 shape = SubResource("RectangleShape2D_6mfmt")
 
 [node name="minotaur" parent="." instance=ExtResource("17_jj0ry")]

@@ -30,6 +30,8 @@ var is_attacking = false
 var attack_cooldown_timer = 0.0
 var hurt_lock_timer: float = 0.0
 var has_damaged_this_attack: bool = false
+var attack_swing_count: int = 0  # Track which swing we're on (0 = first/forward, 1 = second/backward)
+var last_attack_frame: int = -1  # Track last frame to detect frame changes
 const ATTACK_LUNGE_TIME = 0.15
 const ATTACK_LUNGE_MULT = 1.5
 const ATTACK_DRIFT_MULT = 0.2
@@ -162,6 +164,7 @@ func chase_state(_delta):
 		is_attacking = true
 		has_damaged_this_attack = false
 		attack_elapsed = 0.0
+		attack_swing_count = 0
 		attack_cooldown_timer = ATTACK_COOLDOWN
 
 		var attack_duration = 1.6
@@ -197,8 +200,68 @@ func attack_state(_delta):
 			animated_sprite.flip_h = direction_x > 0
 
 		if attack_area:
-			attack_area.position.x = 125 if direction_x > 0 else -125
+			# Position attack area based on which swing we're on
+			# First swing (forward): in front, second swing (backward): behind
+			if attack_swing_count == 0:
+				attack_area.position.x = 125 if direction_x > 0 else -125
+			else:
+				attack_area.position.x = -125 if direction_x > 0 else 125
 			attack_area.position.y = 0
+
+	# Track animation frame to detect when we're in each attack
+	if animated_sprite and animated_sprite.animation == "attack":
+		var current_frame = animated_sprite.frame
+		var sprite_frames = animated_sprite.sprite_frames
+		if sprite_frames:
+			var frame_count = sprite_frames.get_frame_count("attack")
+			if frame_count > 0:
+				# Split animation in half: first half = first attack, second half = second attack
+				var mid_frame = int(frame_count / 2)
+				
+				# Determine which attack we're currently in
+				var new_swing_count = 0 if current_frame < mid_frame else 1
+				
+				# If we've moved into a new attack section, reset damage flag and update position
+				if new_swing_count != attack_swing_count:
+					attack_swing_count = new_swing_count
+					has_damaged_this_attack = false  # Reset damage flag for new attack
+					if attack_area:
+						if attack_swing_count == 0:
+							# First attack: position in front
+							attack_area.position.x = 125 if direction_x > 0 else -125
+						else:
+							# Second attack: position behind
+							attack_area.position.x = -125 if direction_x > 0 else 125
+						attack_area.position.y = 0
+				
+				# Enable attack area during active frames of each attack
+				# Active frames: middle portion of each half (30% to 70% of each half)
+				var is_in_damage_frame = false
+				if attack_swing_count == 0:
+					# First attack active frames
+					var first_half_start = 0
+					var first_half_end = mid_frame
+					var active_start = int(first_half_start + (first_half_end - first_half_start) * 0.3)
+					var active_end = int(first_half_start + (first_half_end - first_half_start) * 0.7)
+					is_in_damage_frame = (current_frame >= active_start and current_frame < active_end)
+				else:
+					# Second attack active frames
+					var second_half_start = mid_frame
+					var second_half_end = frame_count
+					var active_start = int(second_half_start + (second_half_end - second_half_start) * 0.3)
+					var active_end = int(second_half_start + (second_half_end - second_half_start) * 0.7)
+					is_in_damage_frame = (current_frame >= active_start and current_frame < active_end)
+				
+				# Enable/disable attack area monitoring based on damage frames
+				if attack_area:
+					if is_in_damage_frame:
+						if not attack_area.monitoring:
+							attack_area.monitoring = true
+						# Continuously check for overlapping bodies during damage frames
+						call_deferred("_check_overlapping_bodies_in_attack_area")
+					else:
+						if attack_area.monitoring:
+							attack_area.monitoring = false
 
 	attack_elapsed += _delta
 	if attack_elapsed <= ATTACK_LUNGE_TIME:
@@ -217,20 +280,25 @@ func _on_attack_area_body_entered(body):
 		return
 	if body.is_in_group("player") and is_attacking and not has_damaged_this_attack:
 		if body.has_method("take_damage"):
-			body.take_damage(0.5)
+			body.take_damage(1.0)  # Half a heart damage (1 health point)
 			has_damaged_this_attack = true
 
 
 func _check_overlapping_bodies_in_attack_area():
-	if not is_attacking or not attack_area or not attack_area.monitoring or has_damaged_this_attack:
+	if not is_attacking or not attack_area or not attack_area.monitoring:
+		return
+	
+	# Don't check if we've already damaged this attack swing
+	if has_damaged_this_attack:
 		return
 
 	var bodies = attack_area.get_overlapping_bodies()
 	for body in bodies:
 		if body and body.is_in_group("player"):
 			if body.has_method("take_damage"):
-				body.take_damage(0.5)
+				body.take_damage(1.0)  # Half a heart damage (1 health point)
 				has_damaged_this_attack = true
+				print("Minotaur attack ", attack_swing_count + 1, " hit player!")
 				return
 
 
@@ -251,6 +319,7 @@ func _on_detection_area_body_exited(body):
 func _on_attack_timer_timeout():
 	is_attacking = false
 	has_damaged_this_attack = false
+	attack_swing_count = 0
 	if attack_area:
 		attack_area.monitoring = false
 		attack_area.position = Vector2.ZERO
@@ -368,32 +437,13 @@ func check_for_player_manually():
 
 
 func _start_attack_window() -> void:
+	# Initialize attack - frame-based detection in attack_state() will handle damage windows
+	attack_swing_count = 0
+	has_damaged_this_attack = false
 	if attack_area:
 		attack_area.position.x = 125 if direction_x > 0 else -125
 		attack_area.position.y = 0
-
-	await get_tree().create_timer(ATTACK_WINDUP).timeout
-
-	if not is_attacking or current_state != State.ATTACK:
-		if attack_area:
-			attack_area.monitoring = false
-			attack_area.position = Vector2.ZERO
-		return
-
-	if attack_area:
-		attack_area.monitoring = true
-
-	call_deferred("_check_overlapping_bodies_in_attack_area")
-	await get_tree().create_timer(0.01).timeout
-	call_deferred("_check_overlapping_bodies_in_attack_area")
-	await get_tree().create_timer(0.02).timeout
-	call_deferred("_check_overlapping_bodies_in_attack_area")
-
-	await get_tree().create_timer(ATTACK_ACTIVE).timeout
-
-	if attack_area:
-		attack_area.monitoring = false
-		attack_area.position = Vector2.ZERO
+		attack_area.monitoring = false  # Will be enabled by frame detection
 
 
 func _connect_to_player():

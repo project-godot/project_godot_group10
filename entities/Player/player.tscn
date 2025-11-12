@@ -457,8 +457,8 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_x08pd"]
-radius = 56.1941
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cm1li"]
+size = Vector2(53.3333, 38)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(1.5, 1.5)
@@ -487,8 +487,8 @@ position_smoothing_enabled = true
 [node name="Attack" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
-position = Vector2(0, 6)
-shape = SubResource("CircleShape2D_x08pd")
+position = Vector2(6.35783e-07, 5)
+shape = SubResource("RectangleShape2D_cm1li")
 debug_color = Color(0.867464, 0.00054407, 0.856709, 0.42)
 
 [node name="AttackTimer" type="Timer" parent="."]
