@@ -32,8 +32,8 @@ const ATTACK_LUNGE_MULT = 1.5
 const ATTACK_DRIFT_MULT = 0.2
 var attack_elapsed: float = 0.0
 const ATTACK_COOLDOWN = 0.4
-const ATTACK_WINDUP = 0.7  # Aumentado para ativar quando a espada realmente bate (após ~58% da animação de 1.2s)
-const ATTACK_ACTIVE = 0.1  # Janela muito curta de dano - apenas quando a espada está batendo
+const ATTACK_WINDUP = 0.6  # Aumentado para ativar quando a espada realmente acerta visualmente
+const ATTACK_ACTIVE = 0.15  # Janela de dano - apenas quando o ataque está conectando
 
 func _ready():
 	start_position = position
@@ -182,6 +182,11 @@ func attack_state(_delta):
 	if player_node and is_instance_valid(player_node):
 		direction_x = sign(player_node.global_position.x - global_position.x)
 		animated_sprite.flip_h = direction_x < 0
+		
+		# Atualizar posição da área de ataque baseada na direção
+		if attack_area:
+			attack_area.position.x = 60 if direction_x > 0 else -60
+			attack_area.position.y = 0
 
 	# Aplicar movimento durante o ataque
 	attack_elapsed += _delta
@@ -201,7 +206,7 @@ func _on_attack_area_body_entered(body):
 
 	if body.is_in_group("player") and is_attacking and not has_damaged_this_attack:
 		if body.has_method("take_damage"):
-			body.take_damage(0.5)  # Half a heart damage
+			body.take_damage(1.0)  # Half a heart damage (1 health point)
 			has_damaged_this_attack = true
 
 
@@ -316,31 +321,53 @@ func check_for_player_manually():
 
 
 func _start_attack_window():
+	# Posicionar área de ataque baseada na direção
+	if attack_area and player_node and is_instance_valid(player_node):
+		var player_dir = sign(player_node.global_position.x - global_position.x)
+		attack_area.position.x = 60 if player_dir > 0 else -60
+		attack_area.position.y = 0
+	
 	# Ativar hit apenas durante a janela ativa, após windup
-	# O windup garante que o hitbox só é ativado quando a espada está realmente batendo
-	var windup_timer = get_tree().create_timer(ATTACK_WINDUP)
-	windup_timer.timeout.connect(func():
-		# Verificar se ainda está atacando antes de ativar o hitbox
-		if not is_attacking or current_state != State.ATTACK:
-			return
-		
+	await get_tree().create_timer(ATTACK_WINDUP).timeout
+	
+	# Verificar se ainda está atacando antes de ativar o hitbox
+	if not is_attacking or current_state != State.ATTACK:
+		return
+	
+	if attack_area:
 		attack_area.monitoring = true
+		# Atualizar posição caso a direção tenha mudado
+		if player_node and is_instance_valid(player_node):
+			var player_dir = sign(player_node.global_position.x - global_position.x)
+			attack_area.position.x = 60 if player_dir > 0 else -60
+			attack_area.position.y = 0
 		
 		# Checagem imediata para casos já sobrepostos
 		if not has_damaged_this_attack:
 			var bodies = attack_area.get_overlapping_bodies()
 			for b in bodies:
-				if b.is_in_group("player") and b.has_method("take_damage"):
-					b.take_damage(ATTACK_DAMAGE)
+				if b and b.is_in_group("player") and b.has_method("take_damage"):
+					b.take_damage(1.0)  # Half a heart damage (1 health point)
 					has_damaged_this_attack = true
 					break
 		
-		# Tempo ativo - janela de dano
-		var active_timer = get_tree().create_timer(ATTACK_ACTIVE)
-		active_timer.timeout.connect(func():
-			attack_area.monitoring = false
-		)
-	)
+		# Checagem periódica durante a janela ativa
+		var check_interval = 0.02  # Verificar a cada 20ms
+		var checks_count = int(ATTACK_ACTIVE / check_interval)
+		for i in range(checks_count):
+			await get_tree().create_timer(check_interval).timeout
+			if is_attacking and attack_area and attack_area.monitoring and not has_damaged_this_attack:
+				var bodies = attack_area.get_overlapping_bodies()
+				for b in bodies:
+					if b and b.is_in_group("player") and b.has_method("take_damage"):
+						b.take_damage(1.0)  # Half a heart damage (1 health point)
+						has_damaged_this_attack = true
+						break
+				if has_damaged_this_attack:
+					break
+		
+		# Desativar após a janela de dano
+		attack_area.monitoring = false
 
 
 func _connect_to_player():

@@ -362,8 +362,8 @@ script = ExtResource("1_script")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.875, 1.875)
 sprite_frames = SubResource("SpriteFrames_lgp5s")
-animation = &"idle"
-frame_progress = 0.854862
+animation = &"attack"
+frame_progress = 0.331943
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-4, 2)
@@ -390,4 +390,4 @@ debug_color = Color(0.308763, 0.6269, 0, 0.42)
 one_shot = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(10, -21)
+position = Vector2(14, -20)

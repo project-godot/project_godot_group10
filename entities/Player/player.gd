@@ -291,15 +291,9 @@ func die():
 	if GameManager.player_health > 0: # Assumindo que GameManager.player_health gerencia vidas totais
 		respawn()
 	else:
-		# --- ALTERAÇÃO AQUI ---
-		# Removi o GameManager.game_over.emit() daqui para evitar matar inimigos.
-		# Você deve lidar com o "Game Over" de outra forma, como:
-		# - Recarregar a cena atual: get_tree().reload_current_scene()
-		# - Ir para uma tela de Game Over: get_tree().change_scene_to_file("res://menus/GameOverScreen.tscn")
+		# Game Over - emitir sinal para que o level gerencie o menu de game over
 		print("GAME OVER - Todas as vidas perdidas!")
-		get_tree().reload_current_scene() # Exemplo: recarrega a cena atual
-		# OU: get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
-		# ----------------------
+		GameManager.game_over.emit()
 
 func respawn():
 	is_dead = false
@@ -312,9 +306,11 @@ func respawn():
 	global_position = spawn_position
 	velocity = Vector2.ZERO
 	
-	# Notificar
+	# Reiniciar a vida do player para MAX_HEALTH ao respawnar
+	health = MAX_HEALTH
+	
+	# Notificar HUD com a vida atual do player (não o contador de vidas do GameManager)
 	health_changed.emit(health)
-	GameManager.player_health = health # Certifique-se que o GameManager reflete a vida correta
 	player_respawned.emit()
 	
 	print("Player respawned! Vidas restantes: ", health)
@@ -332,11 +328,9 @@ func _check_fell_off_map():
 		# Emitir sinal apenas quando o player REALMENTE cai (não quando respawna)
 		player_left_screen.emit()
 		
-		# Reduzir vida do GameManager (meio coração)
+		# Reduzir vida do GameManager (meio coração) - isso é o contador de vidas
 		if GameManager.player_health > 0:
 			GameManager.player_health -= 0.5
-			health = GameManager.player_health
-			health_changed.emit(GameManager.player_health)
 		
 		# Se ainda tem vidas globais, respawnar
 		if GameManager.player_health > 0:
@@ -347,6 +341,9 @@ func _check_fell_off_map():
 			
 			# Reiniciar a vida interna do player para MAX_HEALTH ao respawnar
 			health = MAX_HEALTH
+			
+			# Atualizar HUD com a vida atual do player (não o contador de vidas)
+			health_changed.emit(health)
 			
 			is_invincible = true
 			can_take_damage = true

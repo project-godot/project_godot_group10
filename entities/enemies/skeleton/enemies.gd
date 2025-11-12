@@ -165,7 +165,7 @@ func _on_attack_area_body_entered(body):
 
 	if body.is_in_group("player") and is_attacking and not has_damaged_this_attack:
 		if body.has_method("take_damage"):
-			body.take_damage(0.5)  # Half a heart damage
+			body.take_damage(1.0)  # Half a heart damage (1 health point)
 			has_damaged_this_attack = true
 
 
