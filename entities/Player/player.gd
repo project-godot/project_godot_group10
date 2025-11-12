@@ -53,11 +53,16 @@ func _ready():
 	# Desabilitar checagem de overlap do ataque fora da janela ativa
 	attack_area.monitoring = false
 	
+	# Garantir estado inicial correto
+	is_attacking = false
+	is_defending = false
+	animated_sprite.play("idle")
+	
 	# Notificar GameManager sobre a vida inicial
 	GameManager.player_health = health
 	health_changed.emit(health)
 
-func _unhandled_input(event):
+func _input(event):
 	if is_dead:
 		return
 		
@@ -68,15 +73,25 @@ func _unhandled_input(event):
 			jump_buffer_timer = JUMP_BUFFER_TIME
 	
 	if event.is_action_pressed("attack") and not is_attacking and not is_defending:
-		is_attacking = true
-		attacked_enemies.clear()  # Limpar lista de inimigos atacados
-		animated_sprite.play("attack")
-		attack_timer.start()
-		# Programar janela de acerto com windup + active
-		_start_attack_window()
+		_start_attack()
 	
 	if event.is_action_pressed("ui_cancel"):
 		_open_pause_menu()
+
+func _start_attack():
+	if is_attacking or is_defending or is_dead:
+		return
+	
+	is_attacking = true
+	attacked_enemies.clear()  # Limpar lista de inimigos atacados
+	
+	# Forçar a animação a reiniciar do início
+	animated_sprite.stop()
+	animated_sprite.play("attack")
+	
+	attack_timer.start()
+	# Programar janela de acerto com windup + active
+	_start_attack_window()
 
 func _physics_process(delta):
 	if is_dead:
@@ -121,7 +136,9 @@ func _physics_process(delta):
 	
 	# Prioridade de animações: attack > defend > hurt > jump > run/walk > idle
 	if is_attacking:
-		animated_sprite.play("attack")
+		# Manter a animação de ataque rodando
+		if animated_sprite.animation != "attack":
+			animated_sprite.play("attack")
 	elif is_defending:
 		animated_sprite.play("defend")
 	elif is_hurt:
