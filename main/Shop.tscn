@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddr5h2oqsvcs3"]
+[gd_scene load_steps=6 format=3 uid="uid://ddr5h2oqsvcs3"]
 
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_ecatr"]
 [ext_resource type="Texture2D" uid="uid://dayu6qag78j12" path="res://assets/images/ajustada.jpg" id="1_mu45h"]
 [ext_resource type="PackedScene" uid="uid://ceas8yhy2k6d" path="res://main/BackButton.tscn" id="1_pdlai"]
+[ext_resource type="Script" path="res://main/Shop.gd" id="1_shop"]
+[ext_resource type="Texture2D" uid="uid://dl2hdhqk73td4" path="res://assets/sprites/Player2/char_red_2.png" id="2_player2"]
 
 [node name="Shop" type="Control"]
 layout_mode = 3
@@ -11,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_shop")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -44,3 +47,64 @@ offset_left = -102.0
 offset_right = -15.0
 offset_bottom = 57.0
 scene_path = "res://main/MainMenu.tscn"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TotalCoinsLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ecatr")
+theme_override_font_sizes/font_size = 36
+text = "Total Coins: 0"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Player2Container" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Player2Button" type="Button" parent="VBoxContainer/Player2Container"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 200)
+theme_override_fonts/font = ExtResource("1_ecatr")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="Player2Image" type="TextureRect" parent="VBoxContainer/Player2Container/Player2Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_player2")
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="pressed" from="VBoxContainer/Player2Container/Player2Button" to="." method="_on_player2_button_pressed"]
+
+[node name="PriceLabel" type="Label" parent="VBoxContainer/Player2Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ecatr")
+theme_override_font_sizes/font_size = 24
+text = "Price: 60 coins"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer/Player2Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_ecatr")
+theme_override_font_sizes/font_size = 20
+text = "Locked"
+horizontal_alignment = 1

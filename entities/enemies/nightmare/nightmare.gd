@@ -6,6 +6,7 @@ enum State { PATROL, CHASE, ATTACK, DEAD }
 @onready var detection_area = $DetectionArea
 @onready var attack_area = $AttackArea
 @onready var attack_timer = $Timer
+@onready var ledge_check = $RayCast2D if has_node("RayCast2D") else null
 
 const SPEED = 70.0
 const ATTACK_RANGE = 60.0  # Aumentado para atacar mais cedo
@@ -63,6 +64,11 @@ func _ready():
 	call_deferred("_check_initial_overlap")
 
 	call_deferred("_connect_to_player")
+	
+	# Configurar raycast se existir
+	if ledge_check:
+		ledge_check.enabled = true
+		ledge_check.target_position = Vector2(0, 38)
 	
 	# Iniciar com animação walk na patrulha (após setup)
 	call_deferred("_start_patrol")
@@ -136,6 +142,15 @@ func patrol_state(_delta):
 	elif position.x >= right_limit:
 		direction_x = -1
 
+	# Verificar se há chão à frente usando raycast ou wall detection
+	if ledge_check and ledge_check.enabled:
+		ledge_check.position.x = 17 * direction_x
+		if is_on_floor():
+			ledge_check.force_raycast_update()
+			if not ledge_check.is_colliding():
+				direction_x *= -1
+				ledge_check.position.x = 17 * direction_x
+
 	animated_sprite.flip_h = direction_x < 0
 	animated_sprite.play("walk")
 	velocity.x = direction_x * SPEED
@@ -170,6 +185,23 @@ func chase_state(_delta):
 
 		# Perseguir o player
 		direction_x = sign(player_node.global_position.x - global_position.x)
+		# Verificar se há chão à frente antes de continuar
+		if ledge_check and ledge_check.enabled:
+			ledge_check.position.x = 17 * direction_x
+			if is_on_floor():
+				ledge_check.force_raycast_update()
+				if not ledge_check.is_colliding():
+					# Não há chão à frente, não mover nessa direção
+					velocity.x = 0
+					animated_sprite.flip_h = direction_x < 0
+					animated_sprite.play("walk")
+					return
+		# Fallback: usar wall detection se não tiver raycast
+		elif is_on_wall():
+			velocity.x = 0
+			animated_sprite.flip_h = direction_x < 0
+			animated_sprite.play("walk")
+			return
 		animated_sprite.flip_h = direction_x < 0
 		velocity.x = direction_x * SPEED
 		animated_sprite.play("walk")

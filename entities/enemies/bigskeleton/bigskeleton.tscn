@@ -390,4 +390,5 @@ debug_color = Color(0.308763, 0.6269, 0, 0.42)
 one_shot = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(14, -20)
+position = Vector2(10, -15)
+target_position = Vector2(0, 44)

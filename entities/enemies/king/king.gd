@@ -7,13 +7,16 @@ enum State { PATROL, CHASE, ATTACK, DEAD }
 @onready var attack_area = $AttackArea
 @onready var ledge_check = $RayCast2D
 @onready var attack_timer = $Timer
+@onready var healthbar = $CanvasLayer/Healthbar
+@onready var king_label = $CanvasLayer/Label
 
 const SPEED = 80.0
 const ATTACK_RANGE = 40.0
 const PATROL_DISTANCE = 100.0
-const MAX_HEALTH = 5
-const ATTACK_DAMAGE = 2
+const MAX_HEALTH = 30  # Significantly more health than minotaur (20)
+const ATTACK_DAMAGE = 3  # More damage than before (was 2)
 const COIN_DROP_COUNT = 10
+const HEALTHBAR_PROXIMITY_DISTANCE = 300.0
 
 var is_dead: bool = false
 var levando_hit: bool = false
@@ -26,7 +29,7 @@ var right_limit: float
 var health = MAX_HEALTH
 var is_attacking = false
 var attack_cooldown_timer = 0.0
-const ATTACK_COOLDOWN = 0.3  # Cooldown reduzido para ataques mais rápidos
+const ATTACK_COOLDOWN = 0.1  # Extremely fast attack cooldown for difficult boss
 var hurt_lock_timer: float = 0.0
 var has_damaged_this_attack: bool = false
 var combo_hit_count: int = 0  # Contador de hits do combo
@@ -34,9 +37,9 @@ const ATTACK_LUNGE_TIME = 0.15
 const ATTACK_LUNGE_MULT = 1.6
 const ATTACK_DRIFT_MULT = 0.2
 var attack_elapsed: float = 0.0
-const ATTACK_WINDUP_GROUND = 1.2  # Tempo antes de ativar o hitbox para ground_attack (quando bate no chão)
-const ATTACK_WINDUP_COMBO_HIT1 = 0.5   # Tempo antes do primeiro hit do combo
-const ATTACK_WINDUP_COMBO_HIT2 = 1.2   # Tempo antes do segundo hit do combo
+const ATTACK_WINDUP_GROUND = 0.5  # Very fast windup for ground_attack (was 0.8)
+const ATTACK_WINDUP_COMBO_HIT1 = 0.2   # Very fast first combo hit (was 0.3)
+const ATTACK_WINDUP_COMBO_HIT2 = 0.5   # Very fast second combo hit (was 0.8)
 const ATTACK_ACTIVE = 0.2  # Tempo que o hitbox fica ativo
 var current_attack_animation: String = ""
 var last_attack_type: String = ""  # Para intercalar os ataques
@@ -59,6 +62,16 @@ func _ready():
 
 	# Desabilitar hitbox de ataque fora da janela ativa
 	attack_area.monitoring = false
+
+	# Inicializar healthbar
+	if healthbar:
+		healthbar.init_health(MAX_HEALTH)
+		healthbar.health = health
+		healthbar.visible = false  # Começar invisível
+	
+	# Inicializar label
+	if king_label:
+		king_label.visible = false  # Começar invisível
 
 	# Iniciar com animação walk na patrulha
 	animated_sprite.play("walk")
@@ -89,6 +102,8 @@ func _physics_process(delta):
 	if player_node == null:
 		check_for_player_manually()
 	
+	# Atualizar visibilidade da healthbar baseado na proximidade do player
+	_update_healthbar_visibility()
 
 	match current_state:
 		State.PATROL:
@@ -109,8 +124,12 @@ func patrol_state(_delta):
 	elif position.x >= right_limit:
 		direction_x = -1
 
-	if is_on_floor() and not ledge_check.is_colliding():
-		direction_x *= -1
+	# Verificar se há chão à frente antes de continuar
+	if is_on_floor() and ledge_check.enabled:
+		ledge_check.force_raycast_update()
+		if not ledge_check.is_colliding():
+			direction_x *= -1
+			ledge_check.position.x = 17 * direction_x
 
 	animated_sprite.flip_h = direction_x < 0
 	animated_sprite.play("walk")
@@ -159,6 +178,15 @@ func chase_state(_delta):
 		# Perseguir o player
 		direction_x = sign(player_node.global_position.x - global_position.x)
 		ledge_check.position.x = 17 * direction_x
+		# Verificar se há chão à frente antes de continuar
+		if is_on_floor() and ledge_check.enabled:
+			ledge_check.force_raycast_update()
+			if not ledge_check.is_colliding():
+				# Não há chão à frente, não mover nessa direção
+				velocity.x = 0
+				animated_sprite.flip_h = direction_x < 0
+				animated_sprite.play("walk")
+				return
 		animated_sprite.flip_h = direction_x < 0
 		velocity.x = direction_x * SPEED
 		animated_sprite.play("walk")
@@ -191,7 +219,7 @@ func _on_attack_area_body_entered(body):
 
 	if body.is_in_group("player") and is_attacking and not has_damaged_this_attack:
 		if body.has_method("take_damage"):
-			body.take_damage(1.0)  # Half a heart damage (1 health point)
+			body.take_damage(float(ATTACK_DAMAGE))  # Use ATTACK_DAMAGE constant
 			has_damaged_this_attack = true
 
 
@@ -228,12 +256,18 @@ func take_damage(damage: int):
 		return
 
 	health -= damage
+	
+	# Atualizar healthbar
+	if healthbar:
+		healthbar.health = health
 
 	if health <= 0:
 		die()
 	else:
 		levando_hit = true
 		hurt_lock_timer = 0.25
+		# Efeito visual de dano (flash vermelho)
+		_start_hurt_effect()
 
 
 func die():
@@ -357,4 +391,31 @@ func _on_player_left_screen():
 func _on_animation_finished(anim_name):
 	if anim_name == "death":
 		queue_free()
+
+func _update_healthbar_visibility():
+	if not healthbar:
+		return
+	
+	# Verificar se há player próximo
+	var players = get_tree().get_nodes_in_group("player")
+	var should_show = false
+	if players.size() > 0:
+		var player = players[0]
+		var distance = global_position.distance_to(player.global_position)
+		
+		# Mostrar healthbar se o player estiver próximo
+		if distance <= HEALTHBAR_PROXIMITY_DISTANCE:
+			should_show = true
+	
+	# Atualizar visibilidade do healthbar e label
+	healthbar.visible = should_show
+	if king_label:
+		king_label.visible = should_show
+
+func _start_hurt_effect():
+	# Efeito visual de dano - flash vermelho
+	var tween = create_tween()
+	tween.set_loops(3)
+	tween.tween_property(animated_sprite, "modulate", Color.RED, 0.05)
+	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.05)
 

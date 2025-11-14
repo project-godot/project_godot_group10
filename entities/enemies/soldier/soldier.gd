@@ -174,6 +174,15 @@ func chase_state(_delta):
 			# Manter Y consistente
 			if abs(ledge_check.position.y - (-9)) > 0.1:
 				ledge_check.position.y = -9
+			# Verificar se há chão à frente antes de continuar
+			if is_on_floor():
+				ledge_check.force_raycast_update()
+				if not ledge_check.is_colliding():
+					# Não há chão à frente, não mover nessa direção
+					velocity.x = 0
+					animated_sprite.flip_h = direction_x < 0
+					animated_sprite.play("walk")
+					return
 		animated_sprite.flip_h = direction_x < 0
 		velocity.x = direction_x * SPEED
 		animated_sprite.play("walk")
