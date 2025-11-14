@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bok411w2m6mfi" path="res://assets/sprites/king/spr_KingIdle_strip_no_bkg.png" id="4_bkjgt"]
 [ext_resource type="Texture2D" uid="uid://bpa6t25fh3vxu" path="res://assets/sprites/king/spr_KingWalk_strip_no_bkg.png" id="5_q2o13"]
 [ext_resource type="Script" uid="uid://cbkbyw3u4jgn2" path="res://entities/enemies/king/king.gd" id="6_king_script"]
+[ext_resource type="PackedScene" path="res://entities/enemies/king/healthbar.tscn" id="7_healthbar"]
+[ext_resource type="FontFile" uid="uid://1w6tphfm2ygl" path="res://assets/fonts/Maketa-Normal-FFP.ttf" id="8_font"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_83tfe"]
 atlas = ExtResource("1_np4e6")
@@ -1135,3 +1137,31 @@ debug_color = Color(0.334448, 0.622439, 0, 0.42)
 [node name="Timer" type="Timer" parent="."]
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Healthbar" parent="CanvasLayer" instance=ExtResource("7_healthbar")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -604.0
+offset_right = 210.0
+offset_bottom = -586.0
+grow_horizontal = 2
+grow_vertical = 0
+visible = false
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -18.0
+offset_top = 12.0
+offset_right = 69.0
+offset_bottom = 61.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("8_font")
+text = "King"

@@ -474,6 +474,7 @@ z_index = 4
 scale = Vector2(1.125, 1.26984)
 sprite_frames = SubResource("SpriteFrames_b4d0x")
 animation = &"idle"
+frame_progress = 0.175974
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(11, -2)

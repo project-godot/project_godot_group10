@@ -38,6 +38,15 @@ func _detect_next_level() -> String:
 		return "res://main/LevelSelect.tscn"
 	return ""
 
+func _unlock_next_level() -> void:
+	# Desbloqueia o próximo nível baseado no nível atual
+	var current_scene = get_tree().current_scene.scene_file_path
+	var current_scene_lower = current_scene.to_lower()
+	
+	# Verificar se estamos em um nível válido antes de desbloquear
+	if "level1" in current_scene_lower or "level2" in current_scene_lower or "level3" in current_scene_lower:
+		ManagerLevel.unlock_next_level()
+
 func _on_body_entered(body):
 	# Filtrar apenas CharacterBody2D (Player) e ignorar StaticBody2D (Terrain, etc)
 	if not body is CharacterBody2D:
@@ -46,6 +55,14 @@ func _on_body_entered(body):
 	# Verificar se é o Player pelo nome ou grupo
 	if body.name == "Player" or body.is_in_group("player"):
 		print("Player entrou no goal! Próximo nível: ", proximo_nivel)
+		
+		# As moedas já foram adicionadas ao total quando coletadas
+		# Apenas resetar coins_collected para o próximo nível
+		GameManager.coins_collected = 0
+		
+		# Desbloquear o próximo nível quando o player entra na caverna
+		_unlock_next_level()
+		
 		if proximo_nivel != "":
 			if transition:
 				transition._change_scene(proximo_nivel)

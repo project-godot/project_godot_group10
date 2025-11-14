@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=3 uid="uid://d2r6m4e8f017h"]
+[gd_scene load_steps=96 format=3 uid="uid://d2r6m4e8f017h"]
 
 [ext_resource type="Texture2D" uid="uid://dmho71aavlgpq" path="res://assets/sprites/minotaur/atk_1_1.png" id="1_60p7c"]
 [ext_resource type="Script" uid="uid://wr7dup177p0" path="res://entities/enemies/minotaur/minotaur.gd" id="1_minotaur_script"]
@@ -46,6 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://dhmo7g0f8n406" path="res://assets/sprites/minotaur/walk_11.png" id="43_gexyx"]
 [ext_resource type="Texture2D" uid="uid://moorongfo1xe" path="res://assets/sprites/minotaur/walk_12.png" id="44_bjamq"]
 [ext_resource type="PackedScene" uid="uid://cppmapkcgh0jg" path="res://entities/enemies/minotaur/healthbar.tscn" id="46_627ne"]
+[ext_resource type="FontFile" uid="uid://1w6tphfm2ygl" path="res://assets/fonts/Maketa-Normal-FFP.ttf" id="47_cl7gm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_627ne"]
 atlas = ExtResource("1_60p7c")
@@ -439,4 +440,5 @@ offset_top = 12.0
 offset_right = 69.0
 offset_bottom = 61.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("47_cl7gm")
 text = "MINOTAUR"

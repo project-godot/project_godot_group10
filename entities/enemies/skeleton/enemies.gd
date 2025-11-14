@@ -107,8 +107,12 @@ func patrol_state(_delta):
 	elif position.x >= right_limit:
 		direction_x = -1
 
-	if is_on_floor() and not ledge_check.is_colliding():
-		direction_x *= -1
+	# Verificar se há chão à frente antes de continuar
+	if is_on_floor() and ledge_check.enabled:
+		ledge_check.force_raycast_update()
+		if not ledge_check.is_colliding():
+			direction_x *= -1
+			ledge_check.position.x = 17 * direction_x
 
 	animated_sprite.flip_h = direction_x < 0
 	animated_sprite.play("walk")
@@ -135,6 +139,15 @@ func chase_state(_delta):
 
 		direction_x = sign(player_node.global_position.x - global_position.x)
 		ledge_check.position.x = 17 * direction_x
+		# Verificar se há chão à frente antes de continuar
+		if is_on_floor() and ledge_check.enabled:
+			ledge_check.force_raycast_update()
+			if not ledge_check.is_colliding():
+				# Não há chão à frente, não mover nessa direção
+				velocity.x = 0
+				animated_sprite.flip_h = direction_x < 0
+				animated_sprite.play("walk")
+				return
 		animated_sprite.flip_h = direction_x < 0
 		velocity.x = direction_x * SPEED
 		animated_sprite.play("walk")

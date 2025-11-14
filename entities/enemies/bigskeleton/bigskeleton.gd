@@ -177,6 +177,13 @@ func chase_state(_delta):
 
 		# Perseguir o player
 		direction_x = sign(player_node.global_position.x - global_position.x)
+		# Verificar se há parede à frente (bigskeleton não tem raycast)
+		if is_on_wall():
+			# Se houver parede, não mover
+			velocity.x = 0
+			animated_sprite.flip_h = direction_x < 0
+			animated_sprite.play("walk")
+			return
 		animated_sprite.flip_h = direction_x < 0
 		velocity.x = direction_x * SPEED
 		animated_sprite.play("walk")

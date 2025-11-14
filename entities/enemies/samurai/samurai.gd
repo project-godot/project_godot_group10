@@ -140,8 +140,17 @@ func chase_state(_delta):
 			return
 
 		direction_x = sign(player_node.global_position.x - global_position.x)
-		if ledge_check:
+		if ledge_check and ledge_check.enabled:
 			ledge_check.position.x = 17 * direction_x
+			# Verificar se há chão à frente antes de continuar
+			if is_on_floor():
+				ledge_check.force_raycast_update()
+				if not ledge_check.is_colliding():
+					# Não há chão à frente, não mover nessa direção
+					velocity.x = 0
+					animated_sprite.flip_h = direction_x < 0
+					animated_sprite.play("walk")
+					return
 		animated_sprite.flip_h = direction_x < 0
 		velocity.x = direction_x * SPEED
 		animated_sprite.play("walk")

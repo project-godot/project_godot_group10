@@ -120,13 +120,13 @@ region_rect = Rect2(0, 0, 4608, 324)
 [node name="enemys" type="Node" parent="."]
 
 [node name="skeleton" parent="enemys" instance=ExtResource("11_bekh1")]
-position = Vector2(718, 397)
+position = Vector2(716, 399)
 
 [node name="bigskeleton" parent="enemys" instance=ExtResource("14_f7u7y")]
 position = Vector2(1567, 330)
 
 [node name="bigskeleton2" parent="enemys" instance=ExtResource("14_f7u7y")]
-position = Vector2(1829, 216)
+position = Vector2(1829, 226)
 
 [node name="skeleton3" parent="enemys" instance=ExtResource("11_bekh1")]
 position = Vector2(1473, 540)
@@ -135,7 +135,7 @@ position = Vector2(1473, 540)
 position = Vector2(1143, 478)
 
 [node name="bigskeleton3" parent="enemys" instance=ExtResource("14_f7u7y")]
-position = Vector2(2442, 456)
+position = Vector2(2388, 457)
 
 [node name="bigskeleton4" parent="enemys" instance=ExtResource("14_f7u7y")]
 position = Vector2(1876, 550)
@@ -152,7 +152,7 @@ collision_layer = 2
 proximo_nivel = "res://levels/level2.tscn"
 
 [node name="Player" parent="." instance=ExtResource("1_k42x3")]
-position = Vector2(71, 523)
+position = Vector2(87, 536)
 
 [node name="transition" type="CanvasLayer" parent="."]
 script = ExtResource("16_tx362")
@@ -163,10 +163,10 @@ material = SubResource("ShaderMaterial_ls4ot")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -210.0
-offset_top = 41.0
-offset_right = -210.0
-offset_bottom = 41.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("18_l7nqg")
