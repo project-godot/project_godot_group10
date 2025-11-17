@@ -3,8 +3,8 @@
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_ecatr"]
 [ext_resource type="Texture2D" uid="uid://dayu6qag78j12" path="res://assets/images/ajustada.jpg" id="1_mu45h"]
 [ext_resource type="PackedScene" uid="uid://ceas8yhy2k6d" path="res://main/BackButton.tscn" id="1_pdlai"]
-[ext_resource type="Script" path="res://main/Shop.gd" id="1_shop"]
-[ext_resource type="Texture2D" uid="uid://dl2hdhqk73td4" path="res://assets/sprites/Player2/char_red_2.png" id="2_player2"]
+[ext_resource type="Script" uid="uid://dynt1m27qo851" path="res://main/Shop.gd" id="1_shop"]
+[ext_resource type="Texture2D" uid="uid://dm3x1fn5i48vq" path="res://entities/Player2/Captura_de_tela_2025-11-17_201443-removebg-preview.png" id="5_460qd"]
 
 [node name="Shop" type="Control"]
 layout_mode = 3
@@ -76,8 +76,8 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Player2Button" type="Button" parent="VBoxContainer/Player2Container"]
-layout_mode = 2
 custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
 theme_override_fonts/font = ExtResource("1_ecatr")
 theme_override_font_sizes/font_size = 32
 flat = true
@@ -87,13 +87,16 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -10.0
+offset_right = -2.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_player2")
+mouse_filter = 2
+texture = ExtResource("5_460qd")
 expand_mode = 1
 stretch_mode = 5
-
-[connection signal="pressed" from="VBoxContainer/Player2Container/Player2Button" to="." method="_on_player2_button_pressed"]
 
 [node name="PriceLabel" type="Label" parent="VBoxContainer/Player2Container"]
 layout_mode = 2
@@ -108,3 +111,5 @@ theme_override_fonts/font = ExtResource("1_ecatr")
 theme_override_font_sizes/font_size = 20
 text = "Locked"
 horizontal_alignment = 1
+
+[connection signal="pressed" from="VBoxContainer/Player2Container/Player2Button" to="." method="_on_player2_button_pressed"]

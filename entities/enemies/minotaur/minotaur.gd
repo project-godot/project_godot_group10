@@ -12,8 +12,8 @@ enum State { PATROL, CHASE, ATTACK, DEAD }
 const SPEED = 70.0
 const ATTACK_RANGE = 100.0
 const PATROL_DISTANCE = 100.0
-const MAX_HEALTH = 20
-const ATTACK_DAMAGE = 1
+const MAX_HEALTH = 1
+const ATTACK_DAMAGE = 2
 const COIN_DROP_COUNT = 10
 const DETECTION_RANGE = 500.0
 const DETECTION_VERTICAL_TOLERANCE = 200.0
@@ -40,6 +40,7 @@ var attack_elapsed: float = 0.0
 const ATTACK_COOLDOWN = 0.4
 const ATTACK_WINDUP = 0.3
 const ATTACK_ACTIVE = 0.2
+var death_animation_finished: bool = false
 
 func _ready():
 	start_position = position
@@ -224,6 +225,8 @@ func chase_state(_delta):
 
 
 func attack_state(_delta):
+	if current_state == State.DEAD or is_dead:
+		return
 	if player_node and is_instance_valid(player_node):
 		var minotaur_center = global_position + Vector2(0, 20)
 		var player_center = player_node.global_position
@@ -320,6 +323,8 @@ func _on_attack_area_body_entered(body):
 
 
 func _check_overlapping_bodies_in_attack_area():
+	if current_state == State.DEAD or is_dead:
+		return
 	if not is_attacking or not attack_area or not attack_area.monitoring:
 		return
 	
@@ -352,6 +357,8 @@ func _on_detection_area_body_exited(body):
 
 
 func _on_attack_timer_timeout():
+	if current_state == State.DEAD or is_dead:
+		return
 	is_attacking = false
 	has_damaged_this_attack = false
 	attack_swing_count = 0
@@ -389,21 +396,61 @@ func die():
 	current_state = State.DEAD
 	is_dead = true
 	velocity = Vector2.ZERO
-	if detection_area:
-		detection_area.monitoring = false
+	
+	# Parar qualquer ataque em andamento imediatamente
+	is_attacking = false
+	if attack_timer:
+		attack_timer.stop()
 	if attack_area:
 		attack_area.monitoring = false
+		attack_area.position = Vector2.ZERO
+	if detection_area:
+		detection_area.monitoring = false
 
 	_drop_coins()
 
 	if animated_sprite:
 		animated_sprite.play("idle")
-	var death_timer = get_tree().create_timer(0.2)
-	death_timer.timeout.connect(Callable(self, "_on_death_complete"))
+		var death_timer = get_tree().create_timer(0.2)
+		death_timer.timeout.connect(Callable(self, "_on_death_complete"))
+	
+	# Após a morte, aguardar 3 segundos antes de mudar para o level3
+	var transition_timer = get_tree().create_timer(3.0)
+	transition_timer.timeout.connect(Callable(self, "_transition_to_level3"))
+	
+	# Não remover o nó imediatamente, pois a transição precisa acontecer primeiro
+	# O nó será removido automaticamente quando a cena mudar
 
 
 func _on_death_complete():
-	queue_free()
+	# Tornar o minotauro invisível ao invés de removê-lo
+	# Isso permite que o timer de transição continue funcionando
+	if animated_sprite:
+		animated_sprite.visible = false
+	# Também esconder a healthbar se existir
+	if healthbar:
+		healthbar.visible = false
+	# Desabilitar colisão
+	if $CollisionShape2D:
+		$CollisionShape2D.disabled = true
+
+
+func _transition_to_level3():
+	# Resetar moedas coletadas no nível atual
+	GameManager.coins_collected = 0
+	
+	# Desbloquear o próximo nível
+	if ManagerLevel:
+		ManagerLevel.unlock_next_level()
+	
+	# Tentar encontrar o nó transition na cena atual
+	var transition = get_tree().current_scene.get_node_or_null("transition")
+	if transition and transition.has_method("_change_scene"):
+		# Usar o transition se existir (com animação de fade)
+		transition._change_scene("res://levels/level3.tscn")
+	else:
+		# Se não houver transition, fazer a mudança de cena diretamente
+		get_tree().change_scene_to_file("res://levels/level3.tscn")
 
 
 func _drop_coins():
@@ -506,5 +553,6 @@ func _on_player_left_screen():
 
 
 func _on_animation_finished(anim_name):
-	if anim_name == "death":
-		queue_free()
+	# Marcar que a animação de morte terminou
+	if anim_name == "death" and is_dead:
+		death_animation_finished = true
