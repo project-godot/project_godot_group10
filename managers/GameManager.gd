@@ -17,6 +17,8 @@ signal game_over
 
 func _ready():
 	load_game()
+	# Sempre resetar o estado de desbloqueio do player2 ao iniciar o jogo
+	player2_unlocked = false
 
 func collect_coin(amount: int = 1):
 	coins_collected += amount
@@ -48,14 +50,14 @@ func unlock_player2():
 	if not player2_unlocked and total_coins >= 60:
 		total_coins -= 60
 		player2_unlocked = true
-		save_game()
+		save_game()  # Salva apenas as moedas, não o estado de desbloqueio
 		return true
 	return false
 
 func save_game():
 	var config = ConfigFile.new()
 	config.set_value("player", "total_coins", total_coins)
-	config.set_value("player", "player2_unlocked", player2_unlocked)
+	# Não salvar o estado de desbloqueio do player2 - sempre volta a ser comprável
 	config.save(SAVE_FILE_PATH)
 
 func load_game():
@@ -63,4 +65,5 @@ func load_game():
 	var err = config.load(SAVE_FILE_PATH)
 	if err == OK:
 		total_coins = config.get_value("player", "total_coins", 0)
-		player2_unlocked = config.get_value("player", "player2_unlocked", false)
+		# Não carregar o estado de desbloqueio - sempre começa bloqueado
+		player2_unlocked = false

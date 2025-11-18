@@ -152,25 +152,30 @@ size = Vector2(68.75, 40)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-2, 26)
 shape = SubResource("CapsuleShape2D_8pkw6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(163, -106)
 scale = Vector2(1.939, 2)
 sprite_frames = SubResource("SpriteFrames_o412f")
 animation = &"walk"
 frame_progress = 0.499413
 
 [node name="Camera2D" type="Camera2D" parent="."]
+visible = false
 limit_left = 0
 limit_top = 0
 limit_bottom = 648
 position_smoothing_enabled = true
 
 [node name="Attack" type="Area2D" parent="."]
+visible = false
 position = Vector2(-1, 6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+visible = false
 position = Vector2(-2, 23)
 shape = SubResource("RectangleShape2D_rta2t")
 debug_color = Color(0.867464, 0.00054407, 0.856709, 0.42)
