@@ -25,12 +25,14 @@ func update_shop_display():
 		player2_price_label.text = ""
 		player2_status_label.text = "✓ Unlocked"
 		player2_status_label.modulate = Color.GREEN
+		
 		# Escurecer a imagem quando desbloqueado
 		if player2_button.has_node("Player2Image"):
 			player2_button.get_node("Player2Image").modulate = Color(0.5, 0.5, 0.5, 1.0)
 	else:
 		player2_button.disabled = false
 		player2_price_label.text = "Price: " + str(PLAYER2_PRICE) + " coins"
+		
 		# Restaurar cor normal da imagem
 		if player2_button.has_node("Player2Image"):
 			player2_button.get_node("Player2Image").modulate = Color.WHITE
