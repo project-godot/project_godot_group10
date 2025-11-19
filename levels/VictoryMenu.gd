@@ -17,4 +17,3 @@ func _on_menu_pressed():
 	
 	# Remover o popup
 	queue_free()
-

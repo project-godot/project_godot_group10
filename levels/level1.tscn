@@ -166,7 +166,7 @@ position = Vector2(666, 544)
 position = Vector2(2133, 102)
 
 [node name="Player" parent="." instance=ExtResource("1_k42x3")]
-position = Vector2(2756, 485)
+position = Vector2(47, 539)
 
 [node name="transition" type="CanvasLayer" parent="."]
 script = ExtResource("16_tx362")

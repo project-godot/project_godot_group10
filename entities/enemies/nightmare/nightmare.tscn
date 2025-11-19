@@ -421,7 +421,7 @@ radius = 24.0
 height = 66.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwrgh"]
-radius = 172.073
+radius = 65.192
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jy7uy"]
 size = Vector2(115, 63)
@@ -458,3 +458,7 @@ debug_color = Color(0, 0.648291, 0.185565, 0.42)
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="LedgeCheck" type="RayCast2D" parent="."]
+position = Vector2(31, 15)
+target_position = Vector2(0, 43)

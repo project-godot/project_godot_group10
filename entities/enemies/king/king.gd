@@ -10,8 +10,8 @@ enum State { PATROL, CHASE, ATTACK, DEAD }
 @onready var healthbar = $CanvasLayer/Healthbar
 @onready var king_label = $CanvasLayer/Label
 
-const SPEED = 80.0
-const ATTACK_RANGE = 40.0
+const SPEED = 100.0
+const ATTACK_RANGE = 50.0
 const PATROL_DISTANCE = 100.0
 const MAX_HEALTH = 30  # Significantly more health than minotaur (20)
 const ATTACK_DAMAGE = 3  # More damage than before (was 2)
@@ -418,4 +418,3 @@ func _start_hurt_effect():
 	tween.set_loops(3)
 	tween.tween_property(animated_sprite, "modulate", Color.RED, 0.05)
 	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.05)
-
