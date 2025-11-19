@@ -4,6 +4,8 @@
 
 # Godot import files (cache)
 .import/
+*.import
+
 
 # Export files (gerados ao exportar o jogo)
 export.cfg
