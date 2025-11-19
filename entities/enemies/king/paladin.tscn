@@ -1,4 +1,4 @@
-[gd_scene load_steps=162 format=3 uid="uid://2kgkni04xhfq"]
+[gd_scene load_steps=164 format=3 uid="uid://2kgkni04xhfq"]
 
 [ext_resource type="Texture2D" uid="uid://cna2pghc3gk1g" path="res://assets/sprites/king/spr_King2Combo_strip_no_bkg.png" id="1_np4e6"]
 [ext_resource type="Texture2D" uid="uid://uykbqcib378h" path="res://assets/sprites/king/spr_KingDeath_strip_no_bkg.png" id="2_tgni5"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bok411w2m6mfi" path="res://assets/sprites/king/spr_KingIdle_strip_no_bkg.png" id="4_bkjgt"]
 [ext_resource type="Texture2D" uid="uid://bpa6t25fh3vxu" path="res://assets/sprites/king/spr_KingWalk_strip_no_bkg.png" id="5_q2o13"]
 [ext_resource type="Script" uid="uid://cbkbyw3u4jgn2" path="res://entities/enemies/king/king.gd" id="6_king_script"]
-[ext_resource type="PackedScene" path="res://entities/enemies/king/healthbar.tscn" id="7_healthbar"]
+[ext_resource type="PackedScene" uid="uid://bd8efkehu5ki5" path="res://entities/enemies/king/healthbar.tscn" id="7_healthbar"]
 [ext_resource type="FontFile" uid="uid://1w6tphfm2ygl" path="res://assets/fonts/Maketa-Normal-FFP.ttf" id="8_font"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_83tfe"]
@@ -1102,7 +1102,7 @@ height = 66.0
 radius = 194.041
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_13v41"]
-radius = 64.4981
+radius = 50.01
 
 [node name="king" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("6_king_script")
@@ -1135,12 +1135,14 @@ shape = SubResource("CircleShape2D_13v41")
 debug_color = Color(0.334448, 0.622439, 0, 0.42)
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 0.6
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Healthbar" parent="CanvasLayer" instance=ExtResource("7_healthbar")]
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1152,7 +1154,6 @@ offset_right = 210.0
 offset_bottom = -586.0
 grow_horizontal = 2
 grow_vertical = 0
-visible = false
 
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5

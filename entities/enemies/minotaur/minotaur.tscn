@@ -382,7 +382,7 @@ height = 110.0
 radius = 300.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_attack"]
-size = Vector2(218, 132)
+size = Vector2(408, 132)
 
 [node name="minotaur" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_minotaur_script")
@@ -409,7 +409,7 @@ debug_color = Color(0.986034, 0, 0.327747, 0.42)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(-11, 51)
+position = Vector2(5, 53)
 shape = SubResource("RectangleShape2D_attack")
 debug_color = Color(0.24429, 0.63617, 5.77569e-07, 0.42)
 

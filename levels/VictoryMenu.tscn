@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0dt7jqwtnbr"]
 
 [ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_5gvo0"]
-[ext_resource type="Script" path="res://levels/VictoryMenu.gd" id="1_victory"]
+[ext_resource type="Script" uid="uid://q27vapewpm6g" path="res://levels/VictoryMenu.gd" id="1_victory"]
 
 [node name="VictoryMenu" type="CanvasLayer"]
 process_mode = 2
@@ -66,4 +66,3 @@ theme_override_fonts/font = ExtResource("1_5gvo0")
 theme_override_font_sizes/font_size = 32
 text = "Voltar ao Menu"
 flat = true
-
