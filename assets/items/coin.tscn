@@ -1,8 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://keb0kkiwdugd"]
+[gd_scene load_steps=29 format=3 uid="uid://keb0kkiwdugd"]
 
 [ext_resource type="Texture2D" uid="uid://ce1efprvnm8wg" path="res://assets/sprites/coin/coin3_16x16.png" id="1_1lg1i"]
 [ext_resource type="Script" uid="uid://cpxuo71r213bg" path="res://assets/items/coin.gd" id="1_6dw85"]
 [ext_resource type="Texture2D" uid="uid://bxmb8pmnay7qf" path="res://assets/sprites/coin/pick_up_effect.png" id="2_qr5ih"]
+[ext_resource type="AudioStream" uid="uid://buqygq2byes6v" path="res://sounds/402767__lilmati__retro-coin-03.wav" id="4_xmm8b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3kmme"]
 atlas = ExtResource("2_qr5ih")
@@ -189,8 +190,10 @@ autoplay = "idle"
 shape = SubResource("CircleShape2D_l24d8")
 
 [node name="GroundCheck" type="RayCast2D" parent="."]
-target_position = Vector2(0, 50)
-collision_mask = 1
+
+[node name="coin_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_xmm8b")
+volume_db = -15.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

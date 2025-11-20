@@ -6,6 +6,7 @@ var gravity_force = 980.0
 var is_falling = true
 
 @onready var ground_check = $GroundCheck
+@onready var coin_sfx: AudioStreamPlayer = $coin_sfx
 
 func _ready():
 	# Conecta o sinal de body_entered
@@ -79,6 +80,10 @@ func _on_body_entered(body: Node2D):
 		# Para o movimento imediatamente
 		velocity = Vector2.ZERO
 		is_falling = false
+
+		# 🔊 TOCA O SOM DE COLETA
+		if coin_sfx:
+			coin_sfx.play()
 		
 		# Efeito visual de coleta
 		var tween = create_tween()

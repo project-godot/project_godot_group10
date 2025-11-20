@@ -1,4 +1,4 @@
-[gd_scene load_steps=280 format=4 uid="uid://dbwkj5l4tuvm2"]
+[gd_scene load_steps=279 format=4 uid="uid://dbwkj5l4tuvm2"]
 
 [ext_resource type="Script" uid="uid://gxwmlwxhnm3e" path="res://levels/Level3.gd" id="1_level3_script"]
 [ext_resource type="Texture2D" uid="uid://bk0yoj8o2s2cs" path="res://assets/sprites/backGround/level3/bg.png" id="1_lxyii"]
@@ -144,8 +144,8 @@
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="142_akp7a"]
 [ext_resource type="PackedScene" uid="uid://wurj4dlxwnwe" path="res://assets/sprites/bau/bau.tscn" id="143_4lsjf"]
 [ext_resource type="PackedScene" uid="uid://bty48b67q7jdy" path="res://entities/enemies/nightmare/nightmare.tscn" id="144_858yp"]
-[ext_resource type="PackedScene" uid="uid://keb0kkiwdugd" path="res://assets/items/coin.tscn" id="145_oepy8"]
 [ext_resource type="PackedScene" uid="uid://b03ddgjrt6331" path="res://entities/enemies/bigskeleton/bigskeleton.tscn" id="146_hd1cs"]
+[ext_resource type="AudioStream" uid="uid://c7hj7vpx1b844" path="res://sounds/219594__xanco123__dark-ambient-music-2-the-mansion.mp3" id="147_rkp54"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lxyii"]
 size = Vector2(24, 655)
@@ -1667,14 +1667,6 @@ sources/33 = SubResource("TileSetAtlasSource_g07k4")
 sources/34 = SubResource("TileSetAtlasSource_rqbo7")
 sources/35 = SubResource("TileSetAtlasSource_g22e0")
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_afky8"]
-animations = [{
-"frames": [],
-"loop": true,
-"name": &"torch",
-"speed": 6.0
-}]
-
 [node name="level3" type="Node2D"]
 script = ExtResource("1_level3_script")
 
@@ -1768,13 +1760,6 @@ tile_map_data = PackedByteArray("AAAAACcAHAAAAAAAAAAAAAkAAAAAAAAAAAABAAkAAQAAAAA
 tile_set = SubResource("TileSet_p76xp")
 rendering_quadrant_size = 64
 
-[node name="Torch" type="AnimatedSprite2D" parent="."]
-position = Vector2(287, 573)
-sprite_frames = SubResource("SpriteFrames_afky8")
-animation = &"torch"
-autoplay = "torch"
-frame_progress = 0.453952
-
 [node name="Player" parent="." instance=ExtResource("7_rhrgi")]
 z_index = 1
 position = Vector2(50, 561)
@@ -1783,53 +1768,47 @@ position = Vector2(50, 561)
 
 [node name="ScoreDisplay" parent="." instance=ExtResource("142_akp7a")]
 
-[node name="king" parent="." instance=ExtResource("142_4lsjf")]
-position = Vector2(5140, 408)
+[node name="Bgmusic3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("147_rkp54")
+volume_db = -15.0
+autoplay = true
 
-[node name="bau2" parent="." instance=ExtResource("143_4lsjf")]
-position = Vector2(3503, 134)
+[node name="enemies" type="Node" parent="."]
 
-[node name="nightmare" parent="." instance=ExtResource("144_858yp")]
-position = Vector2(3491, 531)
-
-[node name="Coin" parent="." instance=ExtResource("145_oepy8")]
-position = Vector2(3124, 270)
-
-[node name="Coin2" parent="." instance=ExtResource("145_oepy8")]
-position = Vector2(3141, 270)
-
-[node name="Coin3" parent="." instance=ExtResource("145_oepy8")]
-position = Vector2(3158, 270)
-
-[node name="Coin4" parent="." instance=ExtResource("145_oepy8")]
-position = Vector2(3176, 270)
-
-[node name="Coin5" parent="." instance=ExtResource("145_oepy8")]
-position = Vector2(3194, 270)
-
-[node name="bigskeleton" parent="." instance=ExtResource("146_hd1cs")]
+[node name="bigskeleton" parent="enemies" instance=ExtResource("146_hd1cs")]
 position = Vector2(4854, 399)
 
-[node name="bigskeleton2" parent="." instance=ExtResource("146_hd1cs")]
+[node name="bigskeleton2" parent="enemies" instance=ExtResource("146_hd1cs")]
 position = Vector2(5439, 400)
 
-[node name="skeleton" parent="." instance=ExtResource("58_uidrn")]
+[node name="skeleton" parent="enemies" instance=ExtResource("58_uidrn")]
 position = Vector2(428, 496)
 
-[node name="skeleton2" parent="." instance=ExtResource("58_uidrn")]
+[node name="skeleton2" parent="enemies" instance=ExtResource("58_uidrn")]
 position = Vector2(876, 494)
 
-[node name="skeleton3" parent="." instance=ExtResource("58_uidrn")]
+[node name="skeleton3" parent="enemies" instance=ExtResource("58_uidrn")]
 position = Vector2(1390, 366)
 
-[node name="skeleton4" parent="." instance=ExtResource("58_uidrn")]
+[node name="skeleton4" parent="enemies" instance=ExtResource("58_uidrn")]
 position = Vector2(1622, 433)
 
-[node name="bau" parent="." instance=ExtResource("143_4lsjf")]
-position = Vector2(2282, 578)
-
-[node name="nightmare2" parent="." instance=ExtResource("144_858yp")]
+[node name="nightmare2" parent="enemies" instance=ExtResource("144_858yp")]
 position = Vector2(2234, 541)
 
-[node name="nightmare3" parent="." instance=ExtResource("144_858yp")]
+[node name="nightmare3" parent="enemies" instance=ExtResource("144_858yp")]
 position = Vector2(3176, 218)
+
+[node name="king" parent="enemies" instance=ExtResource("142_4lsjf")]
+position = Vector2(5140, 408)
+
+[node name="nightmare" parent="enemies" instance=ExtResource("144_858yp")]
+position = Vector2(3491, 531)
+
+[node name="decoration" type="Node" parent="."]
+
+[node name="bau2" parent="decoration" instance=ExtResource("143_4lsjf")]
+position = Vector2(3503, 134)
+
+[node name="bau" parent="decoration" instance=ExtResource("143_4lsjf")]
+position = Vector2(2282, 578)

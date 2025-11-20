@@ -6,6 +6,7 @@ enum State { PATROL, CHASE, ATTACK, DEAD }
 @onready var detection_area = $DetectionArea
 @onready var attack_area = $AttackArea
 @onready var attack_timer = $Timer
+@onready var ledge_check = $LedgeCheck if has_node("LedgeCheck") else null
 
 const SPEED = 60.0
 const ATTACK_RANGE = 50.0
@@ -69,6 +70,11 @@ func _ready():
 
 	call_deferred("_connect_to_player")
 	
+	# Configurar raycast se existir
+	if ledge_check:
+		ledge_check.enabled = true
+		ledge_check.target_position = Vector2(0, 44)
+	
 	# Iniciar com animação walk na patrulha (após setup)
 	call_deferred("_start_patrol")
 
@@ -126,10 +132,19 @@ func patrol_state(_delta):
 	# Verificar player manualmente durante patrulha também (sempre verificar)
 	check_for_player_manually()
 	
-	# Se detectou player, mudar para CHASE imediatamente
+	# Se detectou player, mudar para CHASE apenas se estiver no chão
 	if player_node != null and is_instance_valid(player_node):
-		current_state = State.CHASE
-		return
+		# Só mudar para chase se estiver no chão
+		if is_on_floor():
+			current_state = State.CHASE
+			return
+		# Se não estiver no chão, não mudar de estado ainda - esperar até estar no chão
+		# Mas não mover horizontalmente se não estiver no chão
+		if not is_on_floor():
+			velocity.x = 0
+			animated_sprite.flip_h = direction_x < 0
+			animated_sprite.play("walk")
+			return
 	
 	# Verificar se colidiu com parede - se sim, inverter direção
 	if is_on_wall():
@@ -140,6 +155,13 @@ func patrol_state(_delta):
 		direction_x = 1
 	elif position.x >= right_limit:
 		direction_x = -1
+
+	# Não mover se não estiver no chão
+	if not is_on_floor():
+		velocity.x = 0
+		animated_sprite.flip_h = direction_x < 0
+		animated_sprite.play("walk")
+		return
 
 	animated_sprite.flip_h = direction_x < 0
 	animated_sprite.play("walk")
@@ -177,8 +199,27 @@ func chase_state(_delta):
 
 		# Perseguir o player
 		direction_x = sign(player_node.global_position.x - global_position.x)
-		# Verificar se há parede à frente (bigskeleton não tem raycast)
-		if is_on_wall():
+		
+		# IMPORTANTE: Não mover horizontalmente se não estiver no chão
+		if not is_on_floor():
+			velocity.x = 0
+			animated_sprite.flip_h = direction_x < 0
+			animated_sprite.play("walk")
+			return
+		
+		# Verificar se há chão à frente usando raycast
+		if ledge_check and ledge_check.enabled:
+			ledge_check.position.x = 17 * direction_x
+			if is_on_floor():
+				ledge_check.force_raycast_update()
+				if not ledge_check.is_colliding():
+					# Não há chão à frente, não mover nessa direção
+					velocity.x = 0
+					animated_sprite.flip_h = direction_x < 0
+					animated_sprite.play("walk")
+					return
+		# Fallback: usar wall detection se não tiver raycast
+		elif is_on_wall():
 			# Se houver parede, não mover
 			velocity.x = 0
 			animated_sprite.flip_h = direction_x < 0
@@ -201,6 +242,14 @@ func attack_state(_delta):
 		if attack_area:
 			attack_area.position.x = 80 if direction_x > 0 else -80
 			attack_area.position.y = 0
+
+	# IMPORTANTE: Não mover horizontalmente durante ataque se não estiver no chão
+	if not is_on_floor():
+		velocity.x = 0
+		# Garantir que a animação de ataque está tocando
+		if animated_sprite.animation != "attack":
+			animated_sprite.play("attack")
+		return
 
 	# Aplicar movimento durante o ataque
 	attack_elapsed += _delta
@@ -233,9 +282,12 @@ func _on_attack_area_body_entered(body):
 func _on_detection_area_body_entered(body):
 	if body.is_in_group("player"):
 		player_node = body
-		# Mudar para CHASE imediatamente quando detectar (exceto se estiver morto)
+		# Mudar para CHASE apenas se estiver no chão (exceto se estiver morto)
 		if current_state != State.DEAD:
-			current_state = State.CHASE
+			# Só mudar para chase se estiver no chão, senão esperar até estar no chão
+			if is_on_floor():
+				current_state = State.CHASE
+			# Se não estiver no chão, o patrol_state vai mudar para chase quando estiver
 
 
 func _on_detection_area_body_exited(body):
