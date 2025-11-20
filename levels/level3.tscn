@@ -1770,7 +1770,7 @@ position = Vector2(50, 561)
 
 [node name="Bgmusic3" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("147_rkp54")
-volume_db = -10.0
+volume_db = -15.0
 autoplay = true
 
 [node name="enemies" type="Node" parent="."]

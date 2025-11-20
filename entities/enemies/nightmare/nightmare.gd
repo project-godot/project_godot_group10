@@ -6,7 +6,7 @@ enum State { PATROL, CHASE, ATTACK, DEAD }
 @onready var detection_area = $DetectionArea
 @onready var attack_area = $AttackArea
 @onready var attack_timer = $Timer
-@onready var ledge_check = $RayCast2D if has_node("RayCast2D") else null
+@onready var ledge_check = $LedgeCheck if has_node("LedgeCheck") else null
 
 const SPEED = 70.0
 const ATTACK_RANGE = 60.0  # Aumentado para atacar mais cedo
@@ -185,17 +185,24 @@ func chase_state(_delta):
 
 		# Perseguir o player
 		direction_x = sign(player_node.global_position.x - global_position.x)
+		
+		# IMPORTANTE: Não mover horizontalmente se não estiver no chão
+		if not is_on_floor():
+			velocity.x = 0
+			animated_sprite.flip_h = direction_x < 0
+			animated_sprite.play("walk")
+			return
+		
 		# Verificar se há chão à frente antes de continuar
 		if ledge_check and ledge_check.enabled:
 			ledge_check.position.x = 17 * direction_x
-			if is_on_floor():
-				ledge_check.force_raycast_update()
-				if not ledge_check.is_colliding():
-					# Não há chão à frente, não mover nessa direção
-					velocity.x = 0
-					animated_sprite.flip_h = direction_x < 0
-					animated_sprite.play("walk")
-					return
+			ledge_check.force_raycast_update()
+			if not ledge_check.is_colliding():
+				# Não há chão à frente, não mover nessa direção
+				velocity.x = 0
+				animated_sprite.flip_h = direction_x < 0
+				animated_sprite.play("walk")
+				return
 		# Fallback: usar wall detection se não tiver raycast
 		elif is_on_wall():
 			velocity.x = 0
@@ -219,6 +226,14 @@ func attack_state(_delta):
 		if attack_area:
 			attack_area.position.x = 60 if direction_x > 0 else -60
 			attack_area.position.y = 0
+
+	# IMPORTANTE: Não mover horizontalmente durante ataque se não estiver no chão
+	if not is_on_floor():
+		velocity.x = 0
+		# Garantir que a animação de ataque está tocando
+		if animated_sprite.animation != "attack":
+			animated_sprite.play("attack")
+		return
 
 	# Aplicar movimento durante o ataque
 	attack_elapsed += _delta

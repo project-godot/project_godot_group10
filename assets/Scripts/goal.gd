@@ -1,6 +1,6 @@
 extends Area2D
 
-@onready var transition: CanvasLayer = $"../transition"
+var transition: CanvasLayer
 @export var proximo_nivel: String = ""
 
 func _ready():
@@ -16,6 +16,12 @@ func _ready():
 	monitoring = true
 	monitorable = true
 	
+	# Tentar encontrar o transition node - pode estar em diferentes locais dependendo da estrutura da cena
+	transition = get_tree().current_scene.get_node_or_null("menu/transition")
+	if not transition:
+		# Tentar caminho alternativo caso o transition esteja diretamente no root
+		transition = get_tree().current_scene.get_node_or_null("transition")
+	
 	# Se proximo_nivel não estiver configurado, tentar detectar automaticamente
 	if proximo_nivel == "":
 		proximo_nivel = _detect_next_level()
@@ -24,7 +30,7 @@ func _ready():
 	
 	# Debug
 	if not transition:
-		print("ERRO: Transition não encontrado!")
+		print("ERRO: Transition não encontrado! Verifique se o nó 'menu/transition' existe na cena.")
 
 func _detect_next_level() -> String:
 	# Tenta detectar o próximo nível baseado no nome da cena atual
@@ -65,8 +71,11 @@ func _on_body_entered(body):
 		
 		if proximo_nivel != "":
 			if transition:
+				print("Iniciando transição para: ", proximo_nivel)
 				transition._change_scene(proximo_nivel)
 			else:
-				print("ERRO: Transition não encontrado!")
+				print("ERRO: Transition não encontrado! Tentando mudança de cena direta...")
+				# Fallback: mudança de cena direta se o transition não for encontrado
+				get_tree().change_scene_to_file(proximo_nivel)
 		else:
 			print("Nenhum nível definido para carregar.")
