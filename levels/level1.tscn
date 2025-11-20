@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="1_k42x3"]
 [ext_resource type="Script" uid="uid://drw61dfdcygo" path="res://levels/Level1.gd" id="1_level_script"]
 [ext_resource type="TileSet" uid="uid://cfx05y1f4gsyc" path="res://assets/tiles/terrain.tres" id="2_tnu0t"]
-[ext_resource type="Texture2D" uid="uid://b1ditokvcbgdr" path="res://assets/sprites/backGround/level1/1.png" id="4_hdk64"]
-[ext_resource type="Texture2D" uid="uid://brd1vepsn50c0" path="res://assets/sprites/backGround/level1/2.png" id="5_tnu0t"]
-[ext_resource type="Texture2D" uid="uid://baanme7oiqtlc" path="res://assets/sprites/backGround/level1/3.png" id="6_0gphp"]
-[ext_resource type="Texture2D" uid="uid://dbcfg1sxl4k4p" path="res://assets/sprites/backGround/level1/4.png" id="7_qfova"]
-[ext_resource type="Texture2D" uid="uid://b0620b8p1h5ib" path="res://assets/sprites/backGround/level1/5.png" id="8_0gphp"]
+[ext_resource type="Texture2D" uid="uid://ckihgb7nal8d3" path="res://assets/sprites/backGround/level1/1.png" id="4_hdk64"]
+[ext_resource type="Texture2D" uid="uid://b0ctyo66fkyfh" path="res://assets/sprites/backGround/level1/2.png" id="5_tnu0t"]
+[ext_resource type="Texture2D" uid="uid://bvgnyyrwhc50c" path="res://assets/sprites/backGround/level1/3.png" id="6_0gphp"]
+[ext_resource type="Texture2D" uid="uid://b3l2fn43msgu8" path="res://assets/sprites/backGround/level1/4.png" id="7_qfova"]
+[ext_resource type="Texture2D" uid="uid://bevbsa6tlnht1" path="res://assets/sprites/backGround/level1/5.png" id="8_0gphp"]
 [ext_resource type="PackedScene" uid="uid://brwre3tdq32m0" path="res://entities/enemies/skeleton/enemies.tscn" id="11_bekh1"]
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="11_yydhl"]
 [ext_resource type="PackedScene" uid="uid://fl1ces0ea554" path="res://assets/items/moving_platform.tscn" id="13_8bcou"]
@@ -109,7 +109,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 4608, 324)
 
 [node name="Player" parent="." instance=ExtResource("1_k42x3")]
-position = Vector2(67, 546)
+position = Vector2(68, 547)
 
 [node name="menu" type="Node" parent="."]
 
@@ -214,6 +214,9 @@ position = Vector2(1775, 208)
 
 [node name="skeleton11" parent="enemys" instance=ExtResource("11_bekh1")]
 position = Vector2(666, 544)
+
+[node name="skeleton12" parent="enemys" instance=ExtResource("11_bekh1")]
+position = Vector2(1189, 476)
 
 [node name="Bgmusic1" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("19_l7nqg")

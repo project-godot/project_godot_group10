@@ -1,7 +1,7 @@
 [gd_scene load_steps=62 format=3 uid="uid://bty48b67q7jdy"]
 
 [ext_resource type="Script" uid="uid://cggjw3l6l2l5q" path="res://entities/enemies/nightmare/nightmare.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://chhqnvlmc1h68" path="res://assets/sprites/nightmare/NightBorne.png" id="1_uq6wr"]
+[ext_resource type="Texture2D" uid="uid://bxwmfarme67db" path="res://assets/sprites/nightmare/NightBorne.png" id="1_uq6wr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jwrgh"]
 atlas = ExtResource("1_uq6wr")
@@ -418,7 +418,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a68qf"]
 radius = 24.0
-height = 66.0
+height = 62.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwrgh"]
 radius = 65.192
@@ -427,8 +427,6 @@ radius = 65.192
 size = Vector2(115, 63)
 
 [node name="nightmare" type="CharacterBody2D" groups=["enemies"]]
-collision_layer = 1
-collision_mask = 1
 script = ExtResource("1_script")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -462,5 +460,5 @@ debug_color = Color(0, 0.648291, 0.185565, 0.42)
 one_shot = true
 
 [node name="LedgeCheck" type="RayCast2D" parent="."]
-position = Vector2(31, 15)
+position = Vector2(31, 17)
 target_position = Vector2(0, 43)
