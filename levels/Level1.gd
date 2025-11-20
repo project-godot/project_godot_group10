@@ -31,7 +31,11 @@ func _setup_player_spawn():
 func _show_welcome_dialogue():
 	var dialogue_box = dialogue_box_scene.instantiate()
 	add_child(dialogue_box)
-	dialogue_box.show_dialogue("Bem vindo!")
+	# Usar o novo sistema DLS
+	dialogue_box.show_dls_file("res://dialogues/level1_intro.dls", {
+		"nivel": 1,
+		"vidas": GameManager.player_health if GameManager.player_health > 0 else 3
+	})
 
 func _on_level_completed():
 	print("Parabéns! Você coletou todas as moedas!")
