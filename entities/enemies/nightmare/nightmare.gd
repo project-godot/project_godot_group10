@@ -28,6 +28,8 @@ var is_attacking = false
 var attack_cooldown_timer = 0.0
 var hurt_lock_timer: float = 0.0
 var has_damaged_this_attack: bool = false
+var last_direction_change_time: float = 0.0
+const DIRECTION_CHANGE_COOLDOWN = 0.1  # Prevenir mudanças muito rápidas de direção
 const ATTACK_LUNGE_TIME = 0.15
 const ATTACK_LUNGE_MULT = 1.5
 const ATTACK_DRIFT_MULT = 0.2
@@ -124,6 +126,9 @@ func _physics_process(delta):
 
 
 func patrol_state(_delta):
+	# Atualizar tempo desde última mudança de direção
+	last_direction_change_time += _delta
+	
 	# Verificar player manualmente durante patrulha também (sempre verificar)
 	check_for_player_manually()
 	
@@ -132,28 +137,34 @@ func patrol_state(_delta):
 		current_state = State.CHASE
 		return
 	
-	# Verificar se colidiu com parede - se sim, inverter direção
-	if is_on_wall():
-		direction_x *= -1
-	
-	# Verificar limites de patrulha
+	# Verificar limites de patrulha primeiro (antes de verificar obstáculos)
+	# Sempre mudar direção nos limites, independente do cooldown
 	if position.x <= left_limit:
-		direction_x = 1
+		if direction_x != 1:
+			direction_x = 1
+			last_direction_change_time = 0.0
 	elif position.x >= right_limit:
-		direction_x = -1
+		if direction_x != -1:
+			direction_x = -1
+			last_direction_change_time = 0.0
+	
+	# Aplicar movimento - sempre tentar mover durante patrulha
+	# Verificar apenas colisão com parede, sem verificar bordas
+	if is_on_floor():
+		# Verificar se colidiu com parede - se sim, inverter direção
+		if is_on_wall() and last_direction_change_time >= DIRECTION_CHANGE_COOLDOWN:
+			direction_x *= -1
+			last_direction_change_time = 0.0
+		
+		# Aplicar movimento horizontal - sempre mover durante patrulha se estiver no chão
+		velocity.x = direction_x * SPEED
+	else:
+		# Se não estiver no chão, não aplicar movimento horizontal (gravidade já está sendo aplicada)
+		velocity.x = 0
 
-	# Verificar se há chão à frente usando raycast ou wall detection
-	if ledge_check and ledge_check.enabled:
-		ledge_check.position.x = 17 * direction_x
-		if is_on_floor():
-			ledge_check.force_raycast_update()
-			if not ledge_check.is_colliding():
-				direction_x *= -1
-				ledge_check.position.x = 17 * direction_x
-
+	# Sempre atualizar animação e direção visual
 	animated_sprite.flip_h = direction_x < 0
 	animated_sprite.play("walk")
-	velocity.x = direction_x * SPEED
 
 func chase_state(_delta):
 	if player_node and is_instance_valid(player_node):
@@ -186,29 +197,18 @@ func chase_state(_delta):
 		# Perseguir o player
 		direction_x = sign(player_node.global_position.x - global_position.x)
 		
-		# IMPORTANTE: Não mover horizontalmente se não estiver no chão
+		# Só aplicar movimento horizontal se estiver no chão
 		if not is_on_floor():
 			velocity.x = 0
 			animated_sprite.flip_h = direction_x < 0
 			animated_sprite.play("walk")
 			return
 		
-		# Verificar se há chão à frente antes de continuar
-		if ledge_check and ledge_check.enabled:
-			ledge_check.position.x = 17 * direction_x
-			ledge_check.force_raycast_update()
-			if not ledge_check.is_colliding():
-				# Não há chão à frente, não mover nessa direção
-				velocity.x = 0
-				animated_sprite.flip_h = direction_x < 0
-				animated_sprite.play("walk")
-				return
-		# Fallback: usar wall detection se não tiver raycast
-		elif is_on_wall():
-			velocity.x = 0
-			animated_sprite.flip_h = direction_x < 0
-			animated_sprite.play("walk")
-			return
+		# Verificar apenas colisão com parede - sem verificar bordas
+		if is_on_wall():
+			# Tentar inverter direção se colidir com parede
+			direction_x *= -1
+		
 		animated_sprite.flip_h = direction_x < 0
 		velocity.x = direction_x * SPEED
 		animated_sprite.play("walk")

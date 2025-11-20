@@ -281,10 +281,47 @@ func die():
 	animated_sprite.play("death")
 	var death_timer = get_tree().create_timer(0.3)
 	death_timer.timeout.connect(_on_death_complete)
+	
+	# Trigger transition to level 2 after boss death (same as goal in level 1)
+	# Wait a bit for death animation to play before transitioning
+	var transition_timer = get_tree().create_timer(1.0)
+	transition_timer.timeout.connect(_trigger_boss_defeat_transition)
 
 
 func _on_death_complete():
 	queue_free()
+
+
+func _trigger_boss_defeat_transition():
+	# Same transition logic as goal.gd when entering the goal
+	var transition: CanvasLayer = get_tree().current_scene.get_node_or_null("menu/transition")
+	if not transition:
+		# Tentar caminho alternativo caso o transition esteja diretamente no root
+		transition = get_tree().current_scene.get_node_or_null("transition")
+	
+	if not transition:
+		print("ERRO: Transition não encontrado! Verifique se o nó 'menu/transition' existe na cena.")
+		return
+	
+	# Resetar moedas coletadas (mesmo que goal.gd faz)
+	GameManager.coins_collected = 0
+	
+	# Desbloquear o próximo nível
+	var current_scene = get_tree().current_scene.scene_file_path
+	var current_scene_lower = current_scene.to_lower()
+	if "level1" in current_scene_lower or "level2" in current_scene_lower or "level3" in current_scene_lower:
+		ManagerLevel.unlock_next_level()
+	
+	# Transição para level 2 (como solicitado pelo usuário)
+	var proximo_nivel = "res://levels/level2.tscn"
+	
+	print("Boss derrotado! Iniciando transição para: ", proximo_nivel)
+	if transition:
+		transition._change_scene(proximo_nivel)
+	else:
+		print("ERRO: Transition não encontrado! Tentando mudança de cena direta...")
+		# Fallback: mudança de cena direta se o transition não for encontrado
+		get_tree().change_scene_to_file(proximo_nivel)
 
 
 func _drop_coins():
