@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://rdgor8ojw5"]
+[gd_scene load_steps=20 format=3 uid="uid://rdgor8ojw5"]
 
 [ext_resource type="Texture2D" uid="uid://cf5f8xk77qkga" path="res://assets/sprites/backGround/level2/Layer_0011_0.png" id="1_hq01p"]
 [ext_resource type="Script" uid="uid://bvcwoiue40v25" path="res://levels/Level2.gd" id="1_level2_script"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://ddo8h76do7fvg" path="res://entities/Player/player.tscn" id="11_hfi3b"]
 [ext_resource type="PackedScene" uid="uid://dd7k15ax2ovkh" path="res://levels/PauseButton.tscn" id="13_6mfmt"]
 [ext_resource type="PackedScene" uid="uid://pv7flms16j6d" path="res://levels/ScoreDisplay.tscn" id="14_qegch"]
+[ext_resource type="AudioStream" uid="uid://cevac30w27ow0" path="res://sounds/573379__clementpanchout__horror-ambient-soundscape-loop.wav" id="16_jai45"]
 [ext_resource type="PackedScene" uid="uid://d2r6m4e8f017h" path="res://entities/enemies/minotaur/minotaur.tscn" id="17_jj0ry"]
 
 [sub_resource type="TileSet" id="TileSet_hq01p"]
@@ -171,3 +172,9 @@ shape = SubResource("RectangleShape2D_6mfmt")
 
 [node name="minotaur" parent="." instance=ExtResource("17_jj0ry")]
 position = Vector2(633, 442)
+
+[node name="Bgmusic2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_jai45")
+volume_db = -10.0
+pitch_scale = 0.5
+autoplay = true
