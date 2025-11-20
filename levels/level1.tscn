@@ -109,7 +109,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 4608, 324)
 
 [node name="Player" parent="." instance=ExtResource("1_k42x3")]
-position = Vector2(2359, 382)
+position = Vector2(67, 546)
 
 [node name="menu" type="Node" parent="."]
 
