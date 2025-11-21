@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://whq4xtv7pk31"]
 
-[ext_resource type="FontFile" uid="uid://q8kcnljbdb53" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_e0qxd"]
+[ext_resource type="FontFile" uid="uid://c2siixb6myipr" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_e0qxd"]
 [ext_resource type="Script" uid="uid://bpaatyrf5gryf" path="res://main/MainMenu.gd" id="1_xnj2o"]
-[ext_resource type="Texture2D" uid="uid://c6tbsntiriabq" path="res://assets/images/ajustada.jpg" id="2_xnj2o"]
+[ext_resource type="Texture2D" uid="uid://lj6tgolww00" path="res://assets/images/ajustada.jpg" id="2_xnj2o"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
