@@ -236,4 +236,3 @@ func _finish_dialogue():
 	
 	# Remover o diálogo após um pequeno delay
 	call_deferred("queue_free")
-
