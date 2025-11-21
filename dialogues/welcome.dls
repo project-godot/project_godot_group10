@@ -1,0 +1,44 @@
+# Diálogo de boas-vindas
+# Este é um exemplo de arquivo DLS
+
+Bem vindo ao jogo!
+
+Você está prestes a embarcar em uma aventura épica.
+
+[set nome "Jogador"]
+[set moedas 0]
+
+Seu nome é {nome} e você tem {moedas} moedas.
+
+[wait 0.5]
+
+Prepare-se para uma jornada incrível!
+
+==escolha_inicial==
+O que você gostaria de fazer?
+
+[choice "Explorar o mundo" -> explorar]
+[choice "Ir à loja" -> loja]
+[choice "Começar a aventura" -> iniciar]
+
+==explorar==
+Você decide explorar o mundo ao seu redor.
+
+Muitos segredos aguardam por você!
+
+[set escolha "explorar"]
+
+==loja==
+Você entra na loja local.
+
+O comerciante te recebe com um sorriso.
+
+[set escolha "loja"]
+
+==iniciar==
+Você decide começar sua aventura imediatamente!
+
+[set escolha "iniciar"]
+
+Boa sorte, {nome}!
+

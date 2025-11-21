@@ -1,0 +1,22 @@
+# Introdução do Level 1
+
+Bem vindo ao primeiro nível!
+
+[wait 1.0]
+
+Aqui você encontrará desafios e recompensas.
+
+[set nivel 1]
+[set vidas 5]
+
+Você tem {vidas} vidas restantes.
+
+Use as setas para mover e a barra de espaço para pular.
+
+[wait 1.0]
+
+Colete as moedas e derrote os inimigos!
+
+
+Boa sorte nesta jornada!
+
