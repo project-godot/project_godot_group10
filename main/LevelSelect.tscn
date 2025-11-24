@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://tvopkw2op6hj"]
 
 [ext_resource type="Script" uid="uid://r0kwag4jl4lk" path="res://main/LevelSelect.gd" id="1_23mlb"]
-[ext_resource type="FontFile" uid="uid://c2xs02gn1854n" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_r3wop"]
+[ext_resource type="FontFile" uid="uid://c83rcreccqksp" path="res://assets/fonts/Golden Varsity Outline.ttf" id="1_r3wop"]
 [ext_resource type="PackedScene" uid="uid://ceas8yhy2k6d" path="res://main/BackButton.tscn" id="2_jr1f4"]
-[ext_resource type="Texture2D" uid="uid://dayu6qag78j12" path="res://assets/images/ajustada.jpg" id="2_nj440"]
+[ext_resource type="Texture2D" uid="uid://dry2tp2lptuu1" path="res://assets/images/ajustada.jpg" id="2_nj440"]
 
 [node name="LevelSelect" type="Control"]
 layout_mode = 3
@@ -40,6 +40,14 @@ text = "Niveis"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 385.0
+offset_top = 296.0
+offset_right = 785.0
+offset_bottom = 336.0
+color = Color(0, 0, 0, 0.639216)
+
 [node name="GridContainerlevels" type="GridContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -47,10 +55,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -317.5
-offset_top = -74.0
-offset_right = 317.5
-offset_bottom = 170.0
+offset_left = -176.0
+offset_top = -24.0
+offset_right = 459.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 70
@@ -59,18 +67,27 @@ columns = 3
 
 [node name="ButtonLevel1" type="Button" parent="GridContainerlevels"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 focus_mode = 0
 text = "Level 1"
+flat = true
 
 [node name="ButtonLevel2" type="Button" parent="GridContainerlevels"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 focus_mode = 0
 text = "Level 2"
+flat = true
 
 [node name="ButtonLevel3" type="Button" parent="GridContainerlevels"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 focus_mode = 0
 text = "Level 3"
+flat = true
 
 [node name="BackButton" parent="." instance=ExtResource("2_jr1f4")]
 layout_mode = 1
